@@ -27,4 +27,11 @@ public class Profile implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "functionalite_id")
     )
     private List<Fonctionalite> functionalites;
+    @ManyToMany
+    @JoinTable(
+            name = "users_profils",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "utilistateur_id")
+    )
+    private List<Utilisateur> utilisateurs;
 }
