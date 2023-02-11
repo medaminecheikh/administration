@@ -20,5 +20,11 @@ public class Profile implements Serializable {
     private String nomProfile;
     @OneToMany(mappedBy = "profile")
     private List<Model> models;
-
+    @ManyToMany
+    @JoinTable(
+            name = "dmit_accee",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "functionalite_id")
+    )
+    private List<Fonctionalite> functionalites;
 }
