@@ -11,14 +11,15 @@ import java.util.List;
 
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class Profile implements Serializable {
-    @Id
-    private String idProfile;
-    private String nomProfile;
-    @OneToMany(mappedBy = "profile")
-    private List<Model> models;
-
+@Table(name = "zone")
+public class Zone implements Serializable {
+@Id
+    private String idZone;
+    private String nomZone;
+    private int nbrVille;
+@OneToMany
+    private List<Dregional> dregionals;
 }

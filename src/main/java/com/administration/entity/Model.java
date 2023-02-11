@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 @Entity
 @AllArgsConstructor
@@ -19,7 +18,11 @@ public class Model implements Serializable {
     private boolean consulter;
     private boolean ajouter;
     private boolean modifier;
-
+    @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
+
     private Role role;
+    @ManyToOne
+    private Profile profile;
 }

@@ -12,8 +12,8 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_table")
-public class User implements Serializable {
+@Table(name = "utilisateur")
+public class Utilisateur implements Serializable {
 @Id
     private String idUser;
     private String refContrat;
