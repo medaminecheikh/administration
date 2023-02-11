@@ -15,6 +15,7 @@ import java.io.Serializable;
 public class Model implements Serializable {
     @Id
     private String idModel;
+    private String nomModel;
     private boolean consulter;
     private boolean ajouter;
     private boolean modifier;
