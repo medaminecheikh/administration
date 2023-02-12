@@ -33,6 +33,7 @@ public class Utilisateur implements Serializable {
     private Date datePaiment;
 
     private boolean paiment;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
 

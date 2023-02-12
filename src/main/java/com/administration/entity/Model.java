@@ -22,7 +22,6 @@ public class Model implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
     @Enumerated(EnumType.STRING)
-
     private Role role;
     @ManyToOne
     private Profile profile;
