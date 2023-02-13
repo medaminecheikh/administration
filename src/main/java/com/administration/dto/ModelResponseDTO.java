@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Data
 public class ModelResponseDTO {
@@ -18,5 +19,5 @@ public class ModelResponseDTO {
     private boolean modifier;
     private Status status;
     private Role role;
-    private ProfileUpdateDTO profile;
+    private List<ProfileUpdateDTO> profiles;
 }

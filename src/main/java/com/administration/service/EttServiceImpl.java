@@ -4,8 +4,10 @@ import com.administration.dto.EttRequestDTO;
 import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
 import com.administration.entity.Ett;
+import com.administration.entity.Utilisateur;
 import com.administration.mappers.EttMapper;
 import com.administration.repo.EttRepo;
+import com.administration.repo.UtilisateurRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +18,13 @@ import java.util.stream.Collectors;
 public class EttServiceImpl implements EttService{
     EttRepo ettRepo;
     EttMapper ettMapper;
+    UtilisateurRepo utilisateurRepo;
 
-    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper) {
+    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper, UtilisateurRepo utilisateurRepo) {
         this.ettRepo = ettRepo;
         this.ettMapper = ettMapper;
+        this.utilisateurRepo = utilisateurRepo;
     }
-
-
 
     @Override
     public EttResponseDTO addEtt(EttRequestDTO ettRequestDTO) {
@@ -55,5 +57,13 @@ public class EttServiceImpl implements EttService{
         ettMapper.updateEttFromDto(dto,ett);
         ettRepo.save(ett);
 
+    }
+
+    @Override
+    public void affecterUserToEtt(String idUser, String idEtt) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        Ett ett=ettRepo.findById(idEtt).get();
+        ett.getUtilisateurs().add(utilisateur);
+        ettRepo.save(ett);
     }
 }

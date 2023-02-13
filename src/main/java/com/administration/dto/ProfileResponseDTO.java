@@ -15,7 +15,7 @@ import java.util.List;
 public class ProfileResponseDTO {
     private String idProfile;
     private String nomProfile;
-    private List<ModelUpdateDTO> models;
+    private ModelUpdateDTO model;
     private List<FoncUpdateDTO> functionalites;
     private List<Utilisateur> utilisateurs;
 }

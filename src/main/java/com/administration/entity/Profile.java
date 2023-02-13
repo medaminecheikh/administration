@@ -16,8 +16,8 @@ public class Profile implements Serializable {
     @Id
     private String idProfile;
     private String nomProfile;
-    @OneToMany(mappedBy = "profile")
-    private List<Model> models;
+    @ManyToOne
+    private Model model;
     @ManyToMany
 
     private List<Fonctionalite> functionalites;

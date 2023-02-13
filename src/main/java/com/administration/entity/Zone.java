@@ -20,6 +20,6 @@ public class Zone implements Serializable {
     private String idZone;
     private String nomZone;
     private int nbrVille;
-@OneToMany
+    @OneToMany
     private List<Dregional> dregionals;
 }

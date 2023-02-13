@@ -4,9 +4,11 @@ import com.administration.dto.ProfileRequestDTO;
 import com.administration.dto.ProfileResponseDTO;
 import com.administration.dto.ProfileUpdateDTO;
 import com.administration.entity.Fonctionalite;
+import com.administration.entity.Model;
 import com.administration.entity.Profile;
 import com.administration.mappers.ProfileMapper;
 import com.administration.repo.FoncRepo;
+import com.administration.repo.ModelRepo;
 import com.administration.repo.ProfileRepo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +26,14 @@ public class ProfileServiceImpl implements ProfileService{
     ProfileRepo profileRepo;
     ProfileMapper profileMapper;
     FoncRepo foncRepo;
+    ModelRepo modelRepo;
 
 
-    public ProfileServiceImpl(ProfileRepo profileRepo, ProfileMapper profileMapper, FoncRepo foncRepo) {
+    public ProfileServiceImpl(ProfileRepo profileRepo, ProfileMapper profileMapper, FoncRepo foncRepo, ModelRepo modelRepo) {
         this.profileRepo = profileRepo;
         this.profileMapper = profileMapper;
         this.foncRepo = foncRepo;
+        this.modelRepo = modelRepo;
     }
 
     @Override
@@ -73,6 +77,15 @@ public class ProfileServiceImpl implements ProfileService{
 
         profile.getFunctionalites().add(fonctionalite);
         profileRepo.save(profile);
+    }
+
+    @Override
+    public void affecterModelToProfile(String idModel, String idProfile) {
+        Profile profile=profileRepo.findById(idProfile).get();
+        Model model=modelRepo.findById(idModel).get();
+        profile.setModel(model);
+        profileRepo.save(profile);
+
     }
 
 }

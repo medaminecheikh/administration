@@ -50,8 +50,14 @@ public class ProfileController {
     }
 
     @ApiOperation(value = "Affecter Fonctionalite")
-    @PutMapping("/affecterFonctionaliteToFonctionaliteMission/{idFonc}/{idProfile}")
-    public void affecterFonctionaliteToFonctionaliteMission(@PathVariable String idFonc,@PathVariable String idProfile){
+    @PutMapping("/affecterFonctionaliteToProfile/{idFonc}/{idProfile}")
+    public void affecterFonctionaliteToProfile(@PathVariable String idFonc,@PathVariable String idProfile){
         profileService.affecterFoncToProfile(idFonc,idProfile);
+    }
+
+    @ApiOperation(value = "Affecter Model")
+    @PutMapping("/affecterModelToProfile/{idModel}/{idProfile}")
+    public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
+        profileService.affecterModelToProfile(idModel,idProfile);
     }
 }

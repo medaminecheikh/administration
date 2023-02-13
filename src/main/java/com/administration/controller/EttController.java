@@ -36,13 +36,16 @@ public class EttController {
         return ettService.getEtt(idEtt);
     }
 
-
-
     @ApiOperation(value = "Update Ett")
     @PutMapping("/update-ett/")
     @ResponseBody
     public void UpdateEttDTO(@RequestBody EttUpdateDTO dto) {
         ettService.updateEttDTO(dto);
+    }
+    @ApiOperation(value = "Affecter User")
+    @PutMapping("/affecterUserToEtt/{idUser}/{idEtt}")
+    public void affecterUserToEtt(@PathVariable String idUser,@PathVariable String idEtt){
+        ettService.affecterUserToEtt(idUser,idEtt);
     }
 
 }

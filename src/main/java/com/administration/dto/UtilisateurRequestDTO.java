@@ -22,7 +22,6 @@ public class UtilisateurRequestDTO {
     private String address;
     private int tel;
     private Date dateNaissance;
-    private Date dateInscrit;
     private Date datePaiment;
     private boolean paiment;
     private Status status;

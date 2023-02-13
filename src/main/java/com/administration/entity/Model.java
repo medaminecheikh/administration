@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +25,6 @@ public class Model implements Serializable {
     private Status status;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @ManyToOne
-    private Profile profile;
+    @OneToMany(mappedBy = "model")
+    private List<Profile> profiles;
 }

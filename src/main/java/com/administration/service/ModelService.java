@@ -12,4 +12,5 @@ public interface ModelService {
     ModelResponseDTO getModel(String id);
     List<ModelResponseDTO> listModels();
     void updateModelDTO(ModelUpdateDTO dto);
+
 }
