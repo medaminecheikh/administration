@@ -34,7 +34,9 @@ public class FoncServiceImpl implements FoncService{
 
     @Override
     public FoncResponseDTO getFonc(String id) {
-        return null;
+        Fonctionalite fonctionalite=foncRepo.findById(id).get();
+        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite);
+        return foncResponseDTO;
     }
 
     @Override
@@ -48,6 +50,9 @@ public class FoncServiceImpl implements FoncService{
 
     @Override
     public void updateFoncDTO(FoncUpdateDTO dto) {
+        Fonctionalite fonctionalite=foncRepo.findById(dto.getIdFonctionalite()).get();
+        foncMapper.updateFonctionaliteFromDto(dto,fonctionalite);
+        foncRepo.save(fonctionalite);
 
     }
 }

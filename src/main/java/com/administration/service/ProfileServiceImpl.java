@@ -51,7 +51,7 @@ public class ProfileServiceImpl implements ProfileService{
     @Override
     public List<ProfileResponseDTO> listProfiles() {
         List<Profile> profiles=profileRepo.findAll();
-    
+
         List<ProfileResponseDTO> profileResponseDTOList= profiles.stream()
                 .map(profile -> profileMapper.ProfileTOProfileResponseDTO(profile))
                 .collect(Collectors.toList());
