@@ -18,5 +18,5 @@ public class ModelResponseDTO {
     private boolean modifier;
     private Status status;
     private Role role;
-    private Profile profile;
+    private ProfileUpdateDTO profile;
 }

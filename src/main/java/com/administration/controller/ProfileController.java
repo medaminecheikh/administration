@@ -4,12 +4,14 @@ import com.administration.dto.ProfileRequestDTO;
 import com.administration.dto.ProfileResponseDTO;
 import com.administration.dto.ProfileUpdateDTO;
 import com.administration.service.ProfileService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Api(tags = "Profile management")
 public class ProfileController {
     
      ProfileService profileService;
@@ -47,4 +49,9 @@ public class ProfileController {
         profileService.updateProfileDTO(dto);
     }
 
+    @ApiOperation(value = "Affecter Fonctionalite")
+    @PutMapping("/affecterFonctionaliteToFonctionaliteMission/{idFonc}/{idProfile}")
+    public void affecterFonctionaliteToFonctionaliteMission(@PathVariable String idFonc,@PathVariable String idProfile){
+        profileService.affecterFoncToProfile(idFonc,idProfile);
+    }
 }

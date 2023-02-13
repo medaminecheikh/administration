@@ -1,9 +1,6 @@
 package com.administration.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class Profile implements Serializable {
     @Id
@@ -21,11 +19,7 @@ public class Profile implements Serializable {
     @OneToMany(mappedBy = "profile")
     private List<Model> models;
     @ManyToMany
-    @JoinTable(
-            name = "dmit_accee",
-            joinColumns = @JoinColumn(name = "profile_id"),
-            inverseJoinColumns = @JoinColumn(name = "functionalite_id")
-    )
+
     private List<Fonctionalite> functionalites;
     @ManyToMany
     @JoinTable(

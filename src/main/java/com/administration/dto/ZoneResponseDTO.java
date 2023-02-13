@@ -12,5 +12,5 @@ public class ZoneResponseDTO {
     private String nomZone;
     private int nbrVille;
 
-    private List<Dregional> dregionals;
+    private List<DregionalResponseDTO> dregionals;
 }

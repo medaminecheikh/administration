@@ -2,6 +2,8 @@ package com.administration.dto;
 
 import com.administration.entity.Profile;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.ManyToMany;
 import java.util.List;
@@ -10,6 +12,5 @@ import java.util.List;
 public class FoncResponseDTO {
     private String idFonctionalite;
     private String nomFonc;
-
-    private List<Profile> profiles;
+    private List<ProfileUpdateDTO> profiles;
 }

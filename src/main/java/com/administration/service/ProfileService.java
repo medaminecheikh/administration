@@ -11,4 +11,5 @@ public interface ProfileService {
     ProfileResponseDTO getProfile(String id);
     List<ProfileResponseDTO> listProfiles();
     void updateProfileDTO(ProfileUpdateDTO dto);
+    void affecterFoncToProfile(String idFonc,String idProfile);
 }

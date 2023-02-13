@@ -13,5 +13,5 @@ public class DregionalUpdateDTO {
     private String email;
     private String codePostal;
     private String chefDirection;
-    private List<Ett> etts;
+
 }
