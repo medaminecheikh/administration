@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
-public interface ModelMapper {
+public interface ModMapper {
     ModelResponseDTO ModelTOModelResponseDTO(Model model);
     Model ModelRequestDTOModel(ModelRequestDTO modelRequestDTO);
 

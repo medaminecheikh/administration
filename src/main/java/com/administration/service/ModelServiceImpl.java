@@ -3,12 +3,19 @@ package com.administration.service;
 import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;
 import com.administration.dto.ModelUpdateDTO;
+import com.administration.repo.ModelRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ModelServiceImpl implements ModelService{
+    ModelRepo modelRepo;
+
+    public ModelServiceImpl(ModelRepo modelRepo) {
+        this.modelRepo = modelRepo;
+    }
+
     @Override
     public ModelResponseDTO addModel(ModelRequestDTO RequestDTO) {
         return null;
