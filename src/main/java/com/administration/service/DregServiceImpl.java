@@ -4,8 +4,10 @@ import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;
 import com.administration.entity.Dregional;
+import com.administration.entity.Ett;
 import com.administration.mappers.DregionaleMapper;
 import com.administration.repo.DregionalRepo;
+import com.administration.repo.EttRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +19,13 @@ public class DregServiceImpl implements DregService{
 
     DregionalRepo dregionalRepo;
     DregionaleMapper dregionaleMapper;
+    EttRepo ettRepo;
 
-    public DregServiceImpl(DregionalRepo dregionalRepo, DregionaleMapper dregionaleMapper) {
+    public DregServiceImpl(DregionalRepo dregionalRepo, DregionaleMapper dregionaleMapper, EttRepo ettRepo) {
         this.dregionalRepo = dregionalRepo;
         this.dregionaleMapper = dregionaleMapper;
+        this.ettRepo = ettRepo;
     }
-
 
     @Override
     public DregionalResponseDTO addDreg(DregionalRequestDTO dregionalRequestDTO) {
@@ -56,5 +59,13 @@ public class DregServiceImpl implements DregService{
         dregionaleMapper.updateDregionaleFromDto(dto,dregional);
         dregionalRepo.save(dregional);
 
+    }
+
+    @Override
+    public void affecterEttToDreg(String idEtt, String idDreg) {
+        Ett ett=ettRepo.findById(idEtt).get();
+        Dregional dregional=dregionalRepo.findById(idDreg).get();
+        dregional.getEtts().add(ett);
+        dregionalRepo.save(dregional);
     }
 }

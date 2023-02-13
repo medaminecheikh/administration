@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService{
@@ -41,12 +42,17 @@ public class UtilisateurServiceImpl implements UtilisateurService{
 
     @Override
     public List<UtilisateurResponseDTO> listUtilisateurs() {
-        
-        return null;
+        List<Utilisateur> utilisateurs=utilisateurRepo.findAll();
+        List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs.stream()
+                .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
+                .collect(Collectors.toList());
+        return utilisateurResponseDTOList;
     }
 
     @Override
     public void updateUtilisateurDTO(UtilisateurUpdateDTO dto) {
-
+            Utilisateur utilisateur=utilisateurRepo.findById(dto.getIdUser()).get();
+            userMapper.updateUtilisateurFromDto(dto,utilisateur);
+            utilisateurRepo.save(utilisateur);
     }
 }

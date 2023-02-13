@@ -37,13 +37,17 @@ public class Zone {
         return zoneService.getZone(idZone);
     }
 
-
-
     @ApiOperation(value = "Update Zone")
     @PutMapping("/update-zone/")
     @ResponseBody
     public void UpdateZoneDTO(@RequestBody ZoneUpdateDTO dto) {
         zoneService.updateZoneDTO(dto);
+    }
+
+    @ApiOperation(value = "Affecter Dregionale")
+    @PutMapping("/affecterDregToZone/{idDreg}/{idZone}")
+    public void affecterDregToZone(@PathVariable String idDreg,@PathVariable String idZone){
+        zoneService.affecterDregToZone(idDreg,idZone);
     }
 
 }
