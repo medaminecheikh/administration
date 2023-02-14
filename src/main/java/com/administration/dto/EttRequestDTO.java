@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EttRequestDTO {
-    private String idEtt;
+
     private String address;
     private  int tel;
     private  String email;

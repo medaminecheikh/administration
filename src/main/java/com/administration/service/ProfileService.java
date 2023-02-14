@@ -13,4 +13,6 @@ public interface ProfileService {
     void updateProfileDTO(ProfileUpdateDTO dto);
     void affecterFoncToProfile(String idFonc,String idProfile);
     void affecterModelToProfile(String idModel,String idProfile);
+
+    void affecterUserToProfile(String idUser,String idProfile);
 }

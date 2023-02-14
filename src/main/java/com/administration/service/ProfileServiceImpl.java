@@ -6,11 +6,13 @@ import com.administration.dto.ProfileUpdateDTO;
 import com.administration.entity.Fonctionalite;
 import com.administration.entity.Model;
 import com.administration.entity.Profile;
+import com.administration.entity.Utilisateur;
 import com.administration.mappers.ProfileMapper;
 import com.administration.repo.FoncRepo;
 import com.administration.repo.ModelRepo;
 import com.administration.repo.ProfileRepo;
 
+import com.administration.repo.UtilisateurRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +29,14 @@ public class ProfileServiceImpl implements ProfileService{
     ProfileMapper profileMapper;
     FoncRepo foncRepo;
     ModelRepo modelRepo;
+    UtilisateurRepo utilisateurRepo;
 
-
-    public ProfileServiceImpl(ProfileRepo profileRepo, ProfileMapper profileMapper, FoncRepo foncRepo, ModelRepo modelRepo) {
+    public ProfileServiceImpl(ProfileRepo profileRepo, ProfileMapper profileMapper, FoncRepo foncRepo, ModelRepo modelRepo, UtilisateurRepo utilisateurRepo) {
         this.profileRepo = profileRepo;
         this.profileMapper = profileMapper;
         this.foncRepo = foncRepo;
         this.modelRepo = modelRepo;
+        this.utilisateurRepo = utilisateurRepo;
     }
 
     @Override
@@ -84,6 +87,15 @@ public class ProfileServiceImpl implements ProfileService{
         Profile profile=profileRepo.findById(idProfile).get();
         Model model=modelRepo.findById(idModel).get();
         profile.setModel(model);
+        profileRepo.save(profile);
+
+    }
+
+    @Override
+    public void affecterUserToProfile(String idUser, String idProfile) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        Profile profile=profileRepo.findById(idProfile).get();
+        profile.getUtilisateurs().add(utilisateur);
         profileRepo.save(profile);
 
     }

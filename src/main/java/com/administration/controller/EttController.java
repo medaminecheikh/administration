@@ -25,7 +25,7 @@ public class EttController {
     }
 
     @ApiOperation(value = "ajoute Ett")
-    @PostMapping(path="/ahouteett")
+    @PostMapping(path="/ajouteett")
     public EttResponseDTO save(@RequestBody EttRequestDTO ettRequestDTO){
         return ettService.addEtt(ettRequestDTO);
     }

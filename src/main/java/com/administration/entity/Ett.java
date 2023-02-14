@@ -25,7 +25,7 @@ public class Ett implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "users_profils",
-            joinColumns = @JoinColumn(name = "ett_id"),
+            joinColumns = @JoinColumn(name = "ett_id", nullable = true),
             inverseJoinColumns = @JoinColumn(name = "utilistateur_id")
     )
     private List<Utilisateur> utilisateurs;
