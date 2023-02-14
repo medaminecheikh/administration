@@ -1,5 +1,6 @@
 package com.administration.entity;
 
+import com.sun.istack.Nullable;
 import lombok.*;
 
 import javax.persistence.*;

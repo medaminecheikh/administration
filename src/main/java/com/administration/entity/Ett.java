@@ -1,5 +1,6 @@
 package com.administration.entity;
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @Table(name = "ett")
 public class Ett implements Serializable {
     @Id
+
     private String idEtt;
     private String address;
     private  int tel;
@@ -25,7 +27,7 @@ public class Ett implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "users_profils",
-            joinColumns = @JoinColumn(name = "ett_id", nullable = true),
+            joinColumns = @JoinColumn(name = "ett_id",nullable = true),
             inverseJoinColumns = @JoinColumn(name = "utilistateur_id")
     )
     private List<Utilisateur> utilisateurs;
