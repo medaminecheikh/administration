@@ -16,10 +16,15 @@ import java.util.List;
 @Setter
 @Table(name = "zone")
 public class Zone implements Serializable {
-@Id
-    private String idZone;
-    private String nomZone;
-    private int nbrVille;
-    @OneToMany
-    private List<Dregional> dregionals;
+    @Id
+    private String codZone ;
+    private String codEtt;
+    @Column(name = "DES_CFRX")
+    private String desCFRX;
+    @Column(name = "PRFX_CFRX")
+    private String prfxCFRX;
+    @Column(name = "ORG")
+    private String org;
+    @Column(name = "ADR")
+    private String adr;
 }

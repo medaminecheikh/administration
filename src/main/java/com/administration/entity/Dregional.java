@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,16 +14,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "dregionale")
+@Table(name = "SNE_DR")
 public class Dregional implements Serializable {
     @Id
-    private String idDregional;
-    private String address;
-    private int tel;
-    private String email;
-    private String codePostal;
-    private String chefDirection;
-    @OneToMany
-    private List<Ett> etts;
+    @Column(name = "COD_DR")
+    private String cod_DR;
+    @Column(name = "DR")
+    private String dr;
+    @Column(name = "DR_AR")
+    private String drAr;
 
 }

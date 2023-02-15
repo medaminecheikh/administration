@@ -3,16 +3,10 @@ package com.administration.service;
 import com.administration.dto.ProfileRequestDTO;
 import com.administration.dto.ProfileResponseDTO;
 import com.administration.dto.ProfileUpdateDTO;
-import com.administration.entity.Fonctionalite;
-import com.administration.entity.Model;
-import com.administration.entity.Profile;
-import com.administration.entity.Utilisateur;
+import com.administration.entity.*;
 import com.administration.mappers.ProfileMapper;
-import com.administration.repo.FoncRepo;
-import com.administration.repo.ModelRepo;
-import com.administration.repo.ProfileRepo;
+import com.administration.repo.*;
 
-import com.administration.repo.UtilisateurRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +25,15 @@ public class ProfileServiceImpl implements ProfileService{
     ModelRepo modelRepo;
     UtilisateurRepo utilisateurRepo;
 
-    public ProfileServiceImpl(ProfileRepo profileRepo, ProfileMapper profileMapper, FoncRepo foncRepo, ModelRepo modelRepo, UtilisateurRepo utilisateurRepo) {
+    EttRepo ettRepo;
+
+    public ProfileServiceImpl(ProfileRepo profileRepo, ProfileMapper profileMapper, FoncRepo foncRepo, ModelRepo modelRepo, UtilisateurRepo utilisateurRepo, EttRepo ettRepo) {
         this.profileRepo = profileRepo;
         this.profileMapper = profileMapper;
         this.foncRepo = foncRepo;
         this.modelRepo = modelRepo;
         this.utilisateurRepo = utilisateurRepo;
+        this.ettRepo = ettRepo;
     }
 
     @Override
@@ -92,12 +89,14 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void affecterUserToProfile(String idUser, String idProfile) {
+    public void affecterUserToProfile(String idUser, String idProfile,String idEtt) {
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
         Profile profile=profileRepo.findById(idProfile).get();
+        Ett ett=ettRepo.findById(idEtt).get();
         profile.getUtilisateurs().add(utilisateur);
+        ett.getUtilisateurs().add(utilisateur);
         profileRepo.save(profile);
-
+        ettRepo.save(ett);
     }
 
 }

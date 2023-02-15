@@ -61,8 +61,8 @@ public class ProfileController {
         profileService.affecterModelToProfile(idModel,idProfile);
     }
     @ApiOperation(value = "Affecter User")
-    @PutMapping("/affecterUserToProfile/{idUser}/{idProfile}")
-    public void affecterUserToProfile(@PathVariable String idUser,@PathVariable String idProfile){
-        profileService.affecterUserToProfile(idUser,idProfile);
+    @PutMapping("/affecterUserToProfile/{idUser}/{idProfile}/{idEtt}")
+    public void affecterUserToProfile(@PathVariable String idUser,@PathVariable String idProfile,@PathVariable String idEtt){
+        profileService.affecterUserToProfile(idUser,idProfile,idEtt);
     }
 }

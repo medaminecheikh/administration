@@ -17,14 +17,8 @@ import java.util.List;
 public class Model implements Serializable {
     @Id
     private String idModel;
-    private String nomModel;
-    private boolean consulter;
-    private boolean ajouter;
-    private boolean modifier;
-    @Enumerated(EnumType.STRING)
-    private Status status;
-    @Enumerated(EnumType.STRING)
-    private Role role;
-    @OneToMany(mappedBy = "model")
-    private List<Profile> profiles;
+    @Column(name = "DES_MOD")
+    private String desMOD;
+    @Column(name = "OBS")
+    private String obs;
 }

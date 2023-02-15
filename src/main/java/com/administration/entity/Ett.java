@@ -18,17 +18,16 @@ import java.util.List;
 @Table(name = "ett")
 public class Ett implements Serializable {
     @Id
-
-    private String idEtt;
-    private String address;
-    private  int tel;
-    private  String email;
-    private boolean disponibilite;
-    @ManyToMany
-    @JoinTable(
-            name = "users_profils",
-            joinColumns = @JoinColumn(name = "ett_id",nullable = true),
-            inverseJoinColumns = @JoinColumn(name = "utilistateur_id")
-    )
-    private List<Utilisateur> utilisateurs;
+    @Column(name = "COD_ETT")
+    private String codEtt;
+    private String COD_Zone;
+    private String COD_DR;
+    @Column(name = "DES_SRC_ENC")
+    private String des_SRC_ENC;
+    @Column(name = "PRFX_SRC_ENC")
+    private String prfx_SRC_ENC;
+    @Column(name = "ADR")
+    private String adr;
+    @Column(name = "IS_BSCS")
+    private int is_BSCS;
 }
