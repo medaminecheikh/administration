@@ -20,8 +20,6 @@ public class Ett implements Serializable {
     @Id
     @Column(name = "COD_ETT")
     private String codEtt;
-    private String COD_Zone;
-    private String COD_DR;
     @Column(name = "DES_SRC_ENC")
     private String des_SRC_ENC;
     @Column(name = "PRFX_SRC_ENC")
@@ -30,4 +28,10 @@ public class Ett implements Serializable {
     private String adr;
     @Column(name = "IS_BSCS")
     private int is_BSCS;
+    @ManyToOne
+    @JoinColumn(name = "COD_Zone")
+    private Zone zone;
+    @ManyToOne
+    @JoinColumn(name = "COD_DR")
+    private Dregional dregional;
 }

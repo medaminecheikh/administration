@@ -17,15 +17,15 @@ import java.util.List;
 public class Fonctionalite implements Serializable {
     @Id
     @Column(name = "COD_F")
-   private String COD_F;
+   private String codF;
     @Column(name = "FON_COD_F")
    private String FON_COD_F;
     @Column(name = "DES_F")
-   private String DES_F;
+   private String desF;
     @Column(name = "NOM_F")
-   private String NOM_F;
+   private String nomF;
     @Column(name = "NOM_MENU")
-   private String NOM_MENU;
+   private String nomMENU;
     @Column(name = "F_DROIT_ACCES")
    @NotNull
    private int F_DROIT_ACCES;

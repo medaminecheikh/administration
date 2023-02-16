@@ -23,5 +23,9 @@ public class Dregional implements Serializable {
     private String dr;
     @Column(name = "DR_AR")
     private String drAr;
+    @ManyToOne
+    private Zone zone;
+    @OneToMany(mappedBy = "dregional")
+    private List<Ett> etts;
 
 }

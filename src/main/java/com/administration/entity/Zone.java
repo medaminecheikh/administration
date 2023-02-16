@@ -27,4 +27,8 @@ public class Zone implements Serializable {
     private String org;
     @Column(name = "ADR")
     private String adr;
+    @OneToMany(mappedBy = "zone")
+    private List<Dregional> dregionals;
+    @OneToMany(mappedBy = "zone")
+    private  List<Ett> etts;
 }
