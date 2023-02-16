@@ -34,4 +34,6 @@ public class Ett implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COD_DR")
     private Dregional dregional;
+    @OneToMany(mappedBy = "ett")
+    private List<Utilisateur> utilisateurs;
 }

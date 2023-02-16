@@ -18,4 +18,16 @@ public class Profile implements Serializable {
     private String idProfile;
     private String nomProfile;
 
+    @ManyToMany
+    @JoinTable(
+            name = "DROIT_ACCES",
+            joinColumns = @JoinColumn(name = "NOM_P"),
+            inverseJoinColumns = @JoinColumn(name = "COD_F")
+    )
+    private List<Fonctionalite> fonctionalites;
+    @OneToMany(mappedBy = "profile")
+    private List<ProfileUser> profileUsers;
+    @OneToMany(mappedBy = "profile")
+    private List<Utilisateur> utilisateurs;
+
 }

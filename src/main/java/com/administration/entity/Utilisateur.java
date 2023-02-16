@@ -37,4 +37,8 @@ public class Utilisateur implements Serializable {
     @Column(name = "MATRICULE")
     private String matricule;
 
+    @ManyToOne
+    private Profile profile;
+    @ManyToOne
+    private Ett ett;
 }

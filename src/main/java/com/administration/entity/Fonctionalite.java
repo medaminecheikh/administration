@@ -32,4 +32,8 @@ public class Fonctionalite implements Serializable {
     @Column(name = "F_ADM")
    @NotNull
    private int F_ADM;
+    @ManyToMany
+    private List<Model> models;
+    @ManyToMany(mappedBy = "fonctionalites")
+    private List<Profile> profiles;
 }
