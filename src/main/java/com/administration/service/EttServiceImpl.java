@@ -29,7 +29,7 @@ public class EttServiceImpl implements EttService{
     @Override
     public EttResponseDTO addEtt(EttRequestDTO ettRequestDTO) {
         Ett ett=ettMapper.EttRequestDTOEtt(ettRequestDTO);
-        ett.setIdEtt(UUID.randomUUID().toString());
+        ett.setCodEtt(UUID.randomUUID().toString());
         ettRepo.save(ett);
         EttResponseDTO ettResponseDTO=ettMapper.EttTOEttResponseDTO(ett);
         return ettResponseDTO;
@@ -53,7 +53,7 @@ public class EttServiceImpl implements EttService{
 
     @Override
     public void updateEttDTO(EttUpdateDTO dto) {
-        Ett ett=ettRepo.findById(dto.getIdEtt()).get();
+        Ett ett=ettRepo.findById(dto.getCodEtt()).get();
         ettMapper.updateEttFromDto(dto,ett);
         ettRepo.save(ett);
 

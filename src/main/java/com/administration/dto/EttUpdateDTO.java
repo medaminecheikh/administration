@@ -7,9 +7,9 @@ import java.util.List;
 
 @Data
 public class EttUpdateDTO {
-    private String idEtt;
-    private String address;
-    private  int tel;
-    private  String email;
-    private boolean disponibilite;
+    private String codEtt;
+    private String des_SRC_ENC;
+    private String prfx_SRC_ENC;
+    private String adr;
+    private int is_BSCS;
 }

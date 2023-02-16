@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.util.List;
 
 @Data
@@ -12,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 public class EttRequestDTO {
 
-    private String address;
-    private  int tel;
-    private  String email;
-    private boolean disponibilite;
+    private String des_SRC_ENC;
+    private String prfx_SRC_ENC;
+    private String adr;
+    private int is_BSCS;
 
 }

@@ -7,8 +7,10 @@ import java.util.List;
 
 @Data
 public class ZoneUpdateDTO {
-    private String idZone;
-    private String nomZone;
-    private int nbrVille;
-
+    private String codZone ;
+    private String codEtt;
+    private String desCFRX;
+    private String prfxCFRX;
+    private String org;
+    private String adr;
 }

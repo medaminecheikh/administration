@@ -3,8 +3,11 @@ package com.administration.service;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
+import com.administration.entity.Profile;
+import com.administration.entity.ProfileUser;
 import com.administration.entity.Utilisateur;
 import com.administration.mappers.UserMapper;
+import com.administration.repo.ProfileRepo;
 import com.administration.repo.UtilisateurRepo;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +20,18 @@ import java.util.stream.Collectors;
 public class UtilisateurServiceImpl implements UtilisateurService{
     UtilisateurRepo utilisateurRepo;
     UserMapper userMapper;
+    ProfileRepo profileRepo;
 
-    public UtilisateurServiceImpl(UtilisateurRepo utilisateurRepo, UserMapper userMapper) {
+    public UtilisateurServiceImpl(UtilisateurRepo utilisateurRepo, UserMapper userMapper, ProfileRepo profileRepo) {
         this.utilisateurRepo = utilisateurRepo;
         this.userMapper = userMapper;
+        this.profileRepo = profileRepo;
     }
 
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
         Utilisateur utilisateur=userMapper.UtilisateurRequestDTOUtilisateur(RequestDTO);
         utilisateur.setIdUser(UUID.randomUUID().toString());
-        utilisateur.setDateInscrit(new Date());
         utilisateurRepo.save(utilisateur);
         UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
         return utilisateurResponseDTO;
@@ -54,5 +58,16 @@ public class UtilisateurServiceImpl implements UtilisateurService{
             Utilisateur utilisateur=utilisateurRepo.findById(dto.getIdUser()).get();
             userMapper.updateUtilisateurFromDto(dto,utilisateur);
             utilisateurRepo.save(utilisateur);
+    }
+
+    @Override
+    public void affecterProfileToUser(String idUser, String idProfile) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        Profile profile =profileRepo.findById(idProfile).get();
+        ProfileUser profileUser=new ProfileUser();
+        profileUser.setProfile(profile);
+        profileUser.setUtilisateur(utilisateur);
+        utilisateur.setProfileUser(profileUser);
+        utilisateurRepo.save(utilisateur);
     }
 }

@@ -29,7 +29,7 @@ public class ModelServiceImpl implements ModelService{
     @Override
     public ModelResponseDTO addModel(ModelRequestDTO RequestDTO) {
         Model model=modMapper.ModelRequestDTOModel(RequestDTO);
-        model.setNomModel(UUID.randomUUID().toString());
+        model.setIdModel(UUID.randomUUID().toString());
         modelRepo.save(model);
         ModelResponseDTO modelResponseDTO=modMapper.ModelTOModelResponseDTO(model);
         return modelResponseDTO;

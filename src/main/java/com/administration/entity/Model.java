@@ -28,4 +28,6 @@ public class Model implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "COD_F")
     )
     private List<Fonctionalite> fonctionalites;
+    @OneToMany(mappedBy = "model")
+    private List<Profile> profiles;
 }

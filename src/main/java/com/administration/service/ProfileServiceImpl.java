@@ -75,7 +75,7 @@ public class ProfileServiceImpl implements ProfileService{
         Profile profile=profileRepo.findById(idProfile).get();
         Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
 
-        profile.getFunctionalites().add(fonctionalite);
+        profile.getFonctionalites().add(fonctionalite);
         profileRepo.save(profile);
     }
 
@@ -88,15 +88,6 @@ public class ProfileServiceImpl implements ProfileService{
 
     }
 
-    @Override
-    public void affecterUserToProfile(String idUser, String idProfile,String idEtt) {
-        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        Profile profile=profileRepo.findById(idProfile).get();
-        Ett ett=ettRepo.findById(idEtt).get();
-        profile.getUtilisateurs().add(utilisateur);
-        ett.getUtilisateurs().add(utilisateur);
-        profileRepo.save(profile);
-        ettRepo.save(ett);
-    }
+
 
 }

@@ -14,5 +14,4 @@ public interface ProfileService {
     void affecterFoncToProfile(String idFonc,String idProfile);
     void affecterModelToProfile(String idModel,String idProfile);
 
-    void affecterUserToProfile(String idUser,String idProfile,String idEtt);
 }

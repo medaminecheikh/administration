@@ -30,7 +30,7 @@ public class ZoneServiceImpl implements ZoneService{
     @Override
     public ZoneResponseDTO addZone(ZoneRequestDTO RequestDTO) {
         Zone zone=zoneMapper.ZoneRequestDTOZone(RequestDTO);
-        zone.setIdZone(UUID.randomUUID().toString());
+        zone.setCodZone(UUID.randomUUID().toString());
         zoneRepo.save(zone);
         ZoneResponseDTO zoneResponseDTO=zoneMapper.ZoneTOZoneResponseDTO(zone);
         return zoneResponseDTO;
@@ -54,7 +54,7 @@ public class ZoneServiceImpl implements ZoneService{
 
     @Override
     public void updateZoneDTO(ZoneUpdateDTO dto) {
-        Zone zone=zoneRepo.findById(dto.getIdZone()).get();
+        Zone zone=zoneRepo.findById(dto.getCodZone()).get();
         zoneMapper.updateZoneFromDto(dto,zone);
         zoneRepo.save(zone);
 

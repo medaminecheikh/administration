@@ -30,5 +30,7 @@ public class Profile implements Serializable {
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<ProfileUser> profileUsers;
 
+    @ManyToOne
+    private Model model;
 
 }

@@ -17,5 +17,5 @@ public class ProfileResponseDTO {
     private String nomProfile;
     private ModelUpdateDTO model;
     private List<FoncUpdateDTO> functionalites;
-    private List<Utilisateur> utilisateurs;
+    private List<UtilisateurUpdateDTO> utilisateurs;
 }
