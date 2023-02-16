@@ -37,8 +37,8 @@ public class Utilisateur implements Serializable {
     @Column(name = "MATRICULE")
     private String matricule;
 
-    @ManyToOne
-    private Profile profile;
+    @OneToOne(mappedBy = "utilisateur", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private ProfileUser profileUser;
     @ManyToOne
     private Ett ett;
 }

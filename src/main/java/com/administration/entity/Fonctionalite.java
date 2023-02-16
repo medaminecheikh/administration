@@ -27,10 +27,8 @@ public class Fonctionalite implements Serializable {
     @Column(name = "NOM_MENU")
    private String nomMENU;
     @Column(name = "F_DROIT_ACCES")
-   @NotNull
    private int F_DROIT_ACCES;
     @Column(name = "F_ADM")
-   @NotNull
    private int F_ADM;
     @ManyToMany
     private List<Model> models;

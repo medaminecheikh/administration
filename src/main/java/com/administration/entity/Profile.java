@@ -13,8 +13,10 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@Table(name = "SNE.PROFIL")
 public class Profile implements Serializable {
     @Id
+    @Column(name = "NOM_P")
     private String idProfile;
     private String nomProfile;
 
@@ -25,9 +27,8 @@ public class Profile implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "COD_F")
     )
     private List<Fonctionalite> fonctionalites;
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<ProfileUser> profileUsers;
-    @OneToMany(mappedBy = "profile")
-    private List<Utilisateur> utilisateurs;
+
 
 }
