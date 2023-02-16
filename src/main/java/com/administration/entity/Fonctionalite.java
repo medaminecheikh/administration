@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name = "SNE.FONCTION")
+@Table(name = "FONCTION")
 public class Fonctionalite implements Serializable {
     @Id
     @Column(name = "COD_F")
@@ -30,7 +30,7 @@ public class Fonctionalite implements Serializable {
    private int F_DROIT_ACCES;
     @Column(name = "F_ADM")
    private int F_ADM;
-    @ManyToMany
+    @ManyToMany(mappedBy ="fonctionalites" )
     private List<Model> models;
     @ManyToMany(mappedBy = "fonctionalites")
     private List<Profile> profiles;

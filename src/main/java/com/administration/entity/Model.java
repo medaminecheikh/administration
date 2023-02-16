@@ -21,7 +21,7 @@ public class Model implements Serializable {
     private String desMOD;
     @Column(name = "OBS")
     private String obs;
-    @ManyToMany(mappedBy = "models")
+    @ManyToMany
     @JoinTable(
             name = "MODELE_Fonction",
             joinColumns = @JoinColumn(name = "ID_MODELE"),
