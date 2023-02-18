@@ -36,13 +36,15 @@ public class UtilisateurController {
         return utilisateurService.getUtilisateur(idUtilisateur);
     }
 
-
-
     @ApiOperation(value = "Update Utilisateur")
     @PutMapping("/update-utilisateur/")
     @ResponseBody
     public void UpdateUtilisateurDTO(@RequestBody UtilisateurUpdateDTO dto) {
         utilisateurService.updateUtilisateurDTO(dto);
     }
-
+    @ApiOperation(value = "Affecter Profile")
+    @PutMapping("/affecterProfiletoUser/{idUser}/{idProfile}")
+    public void affecterUserToProfile(@PathVariable String idUser,@PathVariable String idProfile){
+        utilisateurService.affecterProfileToUser(idUser,idProfile);
+    }
 }

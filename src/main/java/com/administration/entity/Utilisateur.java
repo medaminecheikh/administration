@@ -12,6 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Table(name = "utilisateur")
 public class Utilisateur implements Serializable {
     @Id
@@ -37,7 +38,7 @@ public class Utilisateur implements Serializable {
     @Column(name = "MATRICULE")
     private String matricule;
 
-    @OneToOne(mappedBy = "utilisateur", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "utilisateur", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProfileUser profileUser;
     @ManyToOne
     private Ett ett;

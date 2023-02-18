@@ -9,6 +9,7 @@ import com.administration.entity.Utilisateur;
 import com.administration.mappers.UserMapper;
 import com.administration.repo.ProfileRepo;
 import com.administration.repo.UtilisateurRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService{
     UtilisateurRepo utilisateurRepo;
@@ -40,6 +42,7 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     @Override
     public UtilisateurResponseDTO getUtilisateur(String id) {
         Utilisateur utilisateur =utilisateurRepo.findById(id).get();
+        log.info(utilisateur.toString());
         UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
         return utilisateurResponseDTO;
     }
