@@ -27,6 +27,7 @@ public class FoncServiceImpl implements FoncService{
     public FoncResponseDTO addFonc(FoncRequestDTO RequestDTO) {
         Fonctionalite fonctionalite= foncMapper.FonctionaliteRequestDTOFonctionalite(RequestDTO);
         fonctionalite.setCodF(UUID.randomUUID().toString());
+        fonctionalite.setDesF(RequestDTO.getFON_COD_F()+RequestDTO.getDesF());
         foncRepo.save(fonctionalite);
         FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite);
         return foncResponseDTO;

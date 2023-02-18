@@ -10,12 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Data
-public class ProfileUserResponseDTO {
+public class ProfileUserViewUserDTO {
     private Long id;
     private ProfileUpdateDTO profile;
-    private String COD_CFRX          ;
+    private String COD_ZONE          ;
     private String COD_DR            ;
-    private String COD_SRC_ENC       ;
+    private String COD_ETT       ;
     private String MIS_P             ;
     private String CATEG_PROFIL      ;
 }

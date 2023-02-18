@@ -24,11 +24,11 @@ public class ProfileUser implements Serializable {
     private Profile profile;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private Utilisateur utilisateur;
-    private String COD_CFRX          ;
+    private String COD_ZONE          ;
     private String COD_DR            ;
-    private String COD_SRC_ENC       ;
+    private String COD_ETT       ;
     private String MIS_P             ;
     private String CATEG_PROFIL      ;
 }

@@ -13,7 +13,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface ProfileMapper {
     ProfileResponseDTO ProfileTOProfileResponseDTO(Profile profile);
     Profile ProfileRequestDTOProfile(ProfileRequestDTO profileRequestDTO);
-
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateProfileFromDto(ProfileUpdateDTO dto, @MappingTarget Profile entity);
 }

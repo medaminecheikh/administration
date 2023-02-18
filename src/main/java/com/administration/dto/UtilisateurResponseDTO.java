@@ -15,6 +15,6 @@ public class UtilisateurResponseDTO {
     private int f_ADM_LOC;
     private int f_ADM_CEN;
     private String matricule;
-    private ProfileUserResponseDTO profileUser;
+    private ProfileUserViewUserDTO profileUser;
     private EttUpdateDTO ett;
 }
