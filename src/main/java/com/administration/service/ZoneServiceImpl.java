@@ -64,7 +64,7 @@ public class ZoneServiceImpl implements ZoneService{
     public void affecterDregToZone(String idDreg, String idZone) {
         Dregional dregional=dregionalRepo.findById(idDreg).get();
         Zone zone=zoneRepo.findById(idZone).get();
-        zone.getDregionals().add(dregional);
-        zoneRepo.save(zone);
+        dregional.setZone(zone);
+        dregionalRepo.save(dregional);
     }
 }

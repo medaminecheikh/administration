@@ -16,6 +16,6 @@ public class ZoneResponseDTO {
     private String prfxCFRX;
     private String org;
     private String adr;
-    private List<DregionalResponseDTO> dregionals;
+    private List<DregionalUpdateDTO> dregionals;
     private  List<EttUpdateDTO> etts;
 }

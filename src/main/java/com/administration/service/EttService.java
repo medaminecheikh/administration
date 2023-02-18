@@ -11,4 +11,5 @@ public interface EttService {
     List<EttResponseDTO> listEtts();
     void updateEttDTO(EttUpdateDTO dto);
     void affecterUserToEtt(String idUser,String idEtt);
+    void affecterEttToZone(String idEtt, String idZone);
 }

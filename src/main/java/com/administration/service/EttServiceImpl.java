@@ -5,9 +5,11 @@ import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
 import com.administration.entity.Ett;
 import com.administration.entity.Utilisateur;
+import com.administration.entity.Zone;
 import com.administration.mappers.EttMapper;
 import com.administration.repo.EttRepo;
 import com.administration.repo.UtilisateurRepo;
+import com.administration.repo.ZoneRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +21,13 @@ public class EttServiceImpl implements EttService{
     EttRepo ettRepo;
     EttMapper ettMapper;
     UtilisateurRepo utilisateurRepo;
+    ZoneRepo zoneRepo;
 
-    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper, UtilisateurRepo utilisateurRepo) {
+    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper, UtilisateurRepo utilisateurRepo, ZoneRepo zoneRepo) {
         this.ettRepo = ettRepo;
         this.ettMapper = ettMapper;
         this.utilisateurRepo = utilisateurRepo;
+        this.zoneRepo = zoneRepo;
     }
 
     @Override
@@ -64,6 +68,13 @@ public class EttServiceImpl implements EttService{
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
         Ett ett=ettRepo.findById(idEtt).get();
         ett.getUtilisateurs().add(utilisateur);
+        ettRepo.save(ett);
+    }
+    @Override
+    public void affecterEttToZone(String idEtt, String idZone) {
+        Zone zone =zoneRepo.findById(idZone).get();
+        Ett ett=ettRepo.findById(idEtt).get();
+        ett.setZone(zone);
         ettRepo.save(ett);
     }
 }
