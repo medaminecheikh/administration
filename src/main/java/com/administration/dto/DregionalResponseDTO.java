@@ -17,7 +17,7 @@ public class DregionalResponseDTO {
 
     private String drAr;
 
-    private Zone zone;
+    private ZoneUpdateDTO zone;
 
     private List<EttUpdateDTO> etts;
 }
