@@ -47,5 +47,10 @@ public class EttController {
     public void affecterUserToEtt(@PathVariable String idUser,@PathVariable String idEtt){
         ettService.affecterUserToEtt(idUser,idEtt);
     }
+    @ApiOperation(value = "Affecter Zone")
+    @PutMapping("/affecterEttToZone/{idZone}/{idEtt}")
+    public void affecterEttToZone(@PathVariable String idZone,@PathVariable String idEtt){
+        ettService.affecterEttToZone(idEtt,idZone);
+    }
 
 }
