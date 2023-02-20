@@ -37,14 +37,17 @@ public class FonctionaliteController {
 
         return foncService.getFonc(idFonc);
     }
-
-
-
     @ApiOperation(value = "Update Fonc")
     @PutMapping("/update-fonc/")
     @ResponseBody
     public void UpdateFoncDTO(@RequestBody FoncUpdateDTO dto) {
         foncService.updateFoncDTO(dto);
+    }
+
+    @ApiOperation(value = "Affecter Model")
+    @PutMapping("/affecterModelToFonc/{idModel}/{idFonc}")
+    public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idFonc){
+        foncService.affecterModelToFonc(idModel,idFonc);
     }
 
 }

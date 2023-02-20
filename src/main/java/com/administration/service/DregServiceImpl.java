@@ -61,11 +61,6 @@ public class DregServiceImpl implements DregService{
 
     }
 
-    @Override
-    public void affecterEttToDreg(String idEtt, String idDreg) {
-        Ett ett=ettRepo.findById(idEtt).get();
-        Dregional dregional=dregionalRepo.findById(idDreg).get();
-        ett.setDregional(dregional);
-        ettRepo.save(ett);
-    }
+
+
 }

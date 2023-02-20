@@ -4,8 +4,10 @@ import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
 import com.administration.entity.Fonctionalite;
+import com.administration.entity.Model;
 import com.administration.mappers.FoncMapper;
 import com.administration.repo.FoncRepo;
+import com.administration.repo.ModelRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +18,13 @@ import java.util.stream.Collectors;
 public class FoncServiceImpl implements FoncService{
     FoncRepo foncRepo;
      FoncMapper foncMapper;
+     ModelRepo modelRepo;
 
-    public FoncServiceImpl(FoncRepo foncRepo, FoncMapper foncMapper) {
+    public FoncServiceImpl(FoncRepo foncRepo, FoncMapper foncMapper, ModelRepo modelRepo) {
         this.foncRepo = foncRepo;
         this.foncMapper = foncMapper;
+        this.modelRepo = modelRepo;
     }
-
 
     @Override
     public FoncResponseDTO addFonc(FoncRequestDTO RequestDTO) {
@@ -53,6 +56,15 @@ public class FoncServiceImpl implements FoncService{
     public void updateFoncDTO(FoncUpdateDTO dto) {
         Fonctionalite fonctionalite=foncRepo.findById(dto.getCodF()).get();
         foncMapper.updateFonctionaliteFromDto(dto,fonctionalite);
+        foncRepo.save(fonctionalite);
+
+    }
+
+    @Override
+    public void affecterModelToFonc(String idModel, String idFonc) {
+        Model model=modelRepo.findById(idModel).get();
+        Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
+        fonctionalite.getModels().add(model);
         foncRepo.save(fonctionalite);
 
     }

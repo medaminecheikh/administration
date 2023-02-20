@@ -12,6 +12,6 @@ public interface UtilisateurService {
     UtilisateurResponseDTO getUtilisateur(String id);
     List<UtilisateurResponseDTO> listUtilisateurs();
     void updateUtilisateurDTO(UtilisateurUpdateDTO dto);
-
+    void affecterUserToEtt(String idUser,String idEtt);
     void affecterProfileToUser(String idUser,String idProfile);
 }

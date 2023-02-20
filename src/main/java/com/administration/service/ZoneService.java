@@ -12,6 +12,7 @@ public interface ZoneService {
     ZoneResponseDTO getZone(String id);
     List<ZoneResponseDTO> listZones();
     void updateZoneDTO(ZoneUpdateDTO dto);
-
     void affecterDregToZone(String idDreg,String idZone);
+    void removeDreg(String idDreg);
+    void deleteZone(String idZone);
 }

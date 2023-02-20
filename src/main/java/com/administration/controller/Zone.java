@@ -49,5 +49,15 @@ public class Zone {
     public void affecterDregToZone(@PathVariable String idDreg,@PathVariable String idZone){
         zoneService.affecterDregToZone(idDreg,idZone);
     }
+    @ApiOperation(value = "remove Dregionale")
+    @PutMapping("/removeDreg/{idDreg}")
+    public void affecterDregToZone(@PathVariable String idDreg){
+        zoneService.removeDreg(idDreg);
+    }
+    @ApiOperation(value = "Delete Zone")
+    @DeleteMapping("/DeleteDreg/{idZone}")
+    public void DeleteZone(@PathVariable String idZone){
+        zoneService.deleteZone(idZone);
+    }
 
 }

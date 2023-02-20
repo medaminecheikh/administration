@@ -10,6 +10,9 @@ public interface EttService {
     EttResponseDTO getEtt(String id);
     List<EttResponseDTO> listEtts();
     void updateEttDTO(EttUpdateDTO dto);
-    void affecterUserToEtt(String idUser,String idEtt);
     void affecterEttToZone(String idEtt, String idZone);
+    void removeZone(String idEtt);
+    void affecterEttToDreg(String idEtt,String idDreg);
+
+    void deleteEtt(String idEtt);
 }

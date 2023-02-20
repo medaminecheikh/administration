@@ -3,10 +3,12 @@ package com.administration.service;
 import com.administration.dto.EttRequestDTO;
 import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
+import com.administration.entity.Dregional;
 import com.administration.entity.Ett;
 import com.administration.entity.Utilisateur;
 import com.administration.entity.Zone;
 import com.administration.mappers.EttMapper;
+import com.administration.repo.DregionalRepo;
 import com.administration.repo.EttRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.repo.ZoneRepo;
@@ -22,12 +24,14 @@ public class EttServiceImpl implements EttService{
     EttMapper ettMapper;
     UtilisateurRepo utilisateurRepo;
     ZoneRepo zoneRepo;
+    DregionalRepo dregionalRepo;
 
-    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper, UtilisateurRepo utilisateurRepo, ZoneRepo zoneRepo) {
+    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper, UtilisateurRepo utilisateurRepo, ZoneRepo zoneRepo, DregionalRepo dregionalRepo) {
         this.ettRepo = ettRepo;
         this.ettMapper = ettMapper;
         this.utilisateurRepo = utilisateurRepo;
         this.zoneRepo = zoneRepo;
+        this.dregionalRepo = dregionalRepo;
     }
 
     @Override
@@ -64,17 +68,35 @@ public class EttServiceImpl implements EttService{
     }
 
     @Override
-    public void affecterUserToEtt(String idUser, String idEtt) {
-        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        Ett ett=ettRepo.findById(idEtt).get();
-        ett.getUtilisateurs().add(utilisateur);
-        ettRepo.save(ett);
-    }
-    @Override
     public void affecterEttToZone(String idEtt, String idZone) {
         Zone zone =zoneRepo.findById(idZone).get();
         Ett ett=ettRepo.findById(idEtt).get();
         ett.setZone(zone);
         ettRepo.save(ett);
     }
+
+    @Override
+    public void removeZone(String idEtt) {
+        Ett ett=ettRepo.findById(idEtt).get();
+        ett.setZone(null);
+        ettRepo.save(ett);
+    }
+
+    @Override
+        public void affecterEttToDreg(String idEtt, String idDreg) {
+            Ett ett=ettRepo.findById(idEtt).get();
+            Dregional dregional=dregionalRepo.findById(idDreg).get();
+            ett.setDregional(dregional);
+            ettRepo.save(ett);
+        }
+
+    @Override
+    public void deleteEtt(String idEtt) {
+        Ett ett=ettRepo.findById(idEtt).get();
+        if (ett.getZone()==null&&ett.getDregional()==null)
+        {
+            ettRepo.deleteById(idEtt);
+        }else  throw  new RuntimeException("This Ett with address "+ett.getAdr()+" has associations");
+    }
+
 }

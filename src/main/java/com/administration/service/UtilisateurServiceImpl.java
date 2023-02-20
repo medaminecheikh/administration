@@ -3,10 +3,12 @@ package com.administration.service;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
+import com.administration.entity.Ett;
 import com.administration.entity.Profile;
 import com.administration.entity.ProfileUser;
 import com.administration.entity.Utilisateur;
 import com.administration.mappers.UserMapper;
+import com.administration.repo.EttRepo;
 import com.administration.repo.ProfileRepo;
 import com.administration.repo.UtilisateurRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +25,13 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     UtilisateurRepo utilisateurRepo;
     UserMapper userMapper;
     ProfileRepo profileRepo;
+    EttRepo ettRepo;
 
-    public UtilisateurServiceImpl(UtilisateurRepo utilisateurRepo, UserMapper userMapper, ProfileRepo profileRepo) {
+    public UtilisateurServiceImpl(UtilisateurRepo utilisateurRepo, UserMapper userMapper, ProfileRepo profileRepo, EttRepo ettRepo) {
         this.utilisateurRepo = utilisateurRepo;
         this.userMapper = userMapper;
         this.profileRepo = profileRepo;
+        this.ettRepo = ettRepo;
     }
 
     @Override
@@ -61,6 +65,14 @@ public class UtilisateurServiceImpl implements UtilisateurService{
             Utilisateur utilisateur=utilisateurRepo.findById(dto.getIdUser()).get();
             userMapper.updateUtilisateurFromDto(dto,utilisateur);
             utilisateurRepo.save(utilisateur);
+    }
+
+    @Override
+    public void affecterUserToEtt(String idUser, String idEtt) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        Ett ett=ettRepo.findById(idEtt).get();
+        utilisateur.setEtt(ett);
+        utilisateurRepo.save(utilisateur);
     }
 
     @Override

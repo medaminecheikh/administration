@@ -47,4 +47,9 @@ public class UtilisateurController {
     public void affecterUserToProfile(@PathVariable String idUser,@PathVariable String idProfile){
         utilisateurService.affecterProfileToUser(idUser,idProfile);
     }
+    @ApiOperation(value = "Affecter User")
+    @PutMapping("/affecterUserToEtt/{idUser}/{idEtt}")
+    public void affecterUserToEtt(@PathVariable String idUser,@PathVariable String idEtt){
+        utilisateurService.affecterUserToEtt(idUser,idEtt);
+    }
 }

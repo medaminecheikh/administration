@@ -42,9 +42,5 @@ public class DregionalController {
     public void UpdateDregionalDTO(@RequestBody DregionalUpdateDTO dto) {
         dregService.updateDregionalDTO(dto);
     }
-    @ApiOperation(value = "Affecter Ett")
-    @PutMapping("/affecterEttToDregional/{idEtt}/{idDreg}")
-    public void affecterEttToDreg(@PathVariable String idEtt,@PathVariable String idDreg){
-        dregService.affecterEttToDreg(idEtt,idDreg);
-    }
+
 }

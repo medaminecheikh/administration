@@ -67,4 +67,21 @@ public class ZoneServiceImpl implements ZoneService{
         dregional.setZone(zone);
         dregionalRepo.save(dregional);
     }
+
+    @Override
+    public void removeDreg(String idDreg) {
+        Dregional dregional=dregionalRepo.findById(idDreg).get();
+        dregional.setZone(null);
+        dregionalRepo.save(dregional);
+    }
+
+    @Override
+    public void deleteZone(String idZone) {
+        Zone zone=zoneRepo.findById(idZone).get();
+        if (zone.getDregionals()==null&&zone.getEtts()==null)
+        {
+            zoneRepo.deleteById(idZone);
+        }
+        else  throw new RuntimeException("This zone with address "+zone.getAdr()+" has associations");
+    }
 }

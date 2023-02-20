@@ -12,6 +12,6 @@ public interface DregService {
     DregionalResponseDTO getDregional(String id);
     List<DregionalResponseDTO> listDregionals();
     void updateDregionalDTO(DregionalUpdateDTO dto);
-    void affecterEttToDreg(String idEtt,String idDreg);
+
 
 }

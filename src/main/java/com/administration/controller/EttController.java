@@ -42,15 +42,25 @@ public class EttController {
     public void UpdateEttDTO(@RequestBody EttUpdateDTO dto) {
         ettService.updateEttDTO(dto);
     }
-    @ApiOperation(value = "Affecter User")
-    @PutMapping("/affecterUserToEtt/{idUser}/{idEtt}")
-    public void affecterUserToEtt(@PathVariable String idUser,@PathVariable String idEtt){
-        ettService.affecterUserToEtt(idUser,idEtt);
-    }
+
     @ApiOperation(value = "Affecter Zone")
     @PutMapping("/affecterEttToZone/{idZone}/{idEtt}")
     public void affecterEttToZone(@PathVariable String idZone,@PathVariable String idEtt){
         ettService.affecterEttToZone(idEtt,idZone);
     }
-
+    @ApiOperation(value = "Affecter Dregional")
+    @PutMapping("/affecterEttToDregional/{idEtt}/{idDreg}")
+    public void affecterEttToDreg(@PathVariable String idEtt,@PathVariable String idDreg){
+        ettService.affecterEttToDreg(idEtt,idDreg);
+    }
+    @ApiOperation(value = "remove Zone")
+    @PutMapping("/removeZone/{idZone}")
+    public void removeZone(@PathVariable String idZone){
+        ettService.removeZone(idZone);
+    }
+    @ApiOperation(value = "Delete Ett")
+    @DeleteMapping("/DeleteEtt/{idEtt}")
+    public void DeleteEtt(@PathVariable String idEtt){
+        ettService.deleteEtt(idEtt);
+    }
 }

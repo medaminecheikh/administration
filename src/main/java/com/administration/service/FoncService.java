@@ -12,4 +12,7 @@ public interface FoncService {
     FoncResponseDTO getFonc(String id);
     List<FoncResponseDTO> listFoncs();
     void updateFoncDTO(FoncUpdateDTO dto);
+    void affecterModelToFonc(String idModel,String idFonc);
+
+
 }
