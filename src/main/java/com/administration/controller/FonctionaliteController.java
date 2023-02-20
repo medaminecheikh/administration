@@ -49,5 +49,10 @@ public class FonctionaliteController {
     public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idFonc){
         foncService.affecterModelToFonc(idModel,idFonc);
     }
+    @ApiOperation(value = "Delete Fonctionalite")
+    @DeleteMapping("/DeleteFonctionalite/{idFonc}")
+    public void DeleteEtt(@PathVariable String idFonc){
+        foncService.deleteFonc(idFonc);
+    }
 
 }

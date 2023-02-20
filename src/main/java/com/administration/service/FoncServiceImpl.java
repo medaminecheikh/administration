@@ -64,8 +64,25 @@ public class FoncServiceImpl implements FoncService{
     public void affecterModelToFonc(String idModel, String idFonc) {
         Model model=modelRepo.findById(idModel).get();
         Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
-        fonctionalite.getModels().add(model);
-        foncRepo.save(fonctionalite);
+        boolean exist=false;
+       for (Model model1:fonctionalite.getModels())
+       {
+           if (model1.getIdModel()==idModel){exist=true;}
+       }
 
+        if (exist=false) {
+            fonctionalite.getModels().add(model);
+        foncRepo.save(fonctionalite);
+        }else throw new RuntimeException("This model already exist ");
+
+    }
+
+    @Override
+    public void deleteFonc(String idFonc) {
+        Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
+        if (fonctionalite.getModels().isEmpty()&&fonctionalite.getProfiles().isEmpty())
+        {
+            foncRepo.deleteById(idFonc);
+        }
     }
 }

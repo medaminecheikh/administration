@@ -15,4 +15,5 @@ public interface FoncService {
     void affecterModelToFonc(String idModel,String idFonc);
 
 
+    void deleteFonc(String idFonc);
 }
