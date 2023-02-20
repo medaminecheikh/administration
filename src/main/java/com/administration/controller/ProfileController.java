@@ -54,11 +54,27 @@ public class ProfileController {
     public void affecterFonctionaliteToProfile(@PathVariable String idFonc,@PathVariable String idProfile){
         profileService.affecterFoncToProfile(idFonc,idProfile);
     }
+    @ApiOperation(value = "Remove Fonctionalite")
+    @PutMapping("/removeFonc/{idFonc}/{idProfile}")
+    public void removeFonc(@PathVariable String idFonc,@PathVariable String idProfile){
+        profileService.removeFonc(idFonc,idProfile);
+    }
 
     @ApiOperation(value = "Affecter Model")
     @PutMapping("/affecterModelToProfile/{idModel}/{idProfile}")
     public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
         profileService.affecterModelToProfile(idModel,idProfile);
+    }
+
+    @ApiOperation(value = "remove Model")
+    @PutMapping("/removeModelToProfile/{idModel}/{idProfile}")
+    public void removeModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
+        profileService.removeModel(idProfile);
+    }
+    @ApiOperation(value = "Delete Profile")
+    @DeleteMapping("/deleteProfile/{idProfile}")
+    public void deleteProfile(@PathVariable String idProfile){
+        profileService.deleteProfile(idProfile);
     }
 
 }

@@ -13,5 +13,9 @@ public interface ProfileService {
     void updateProfileDTO(ProfileUpdateDTO dto);
     void affecterFoncToProfile(String idFonc,String idProfile);
     void affecterModelToProfile(String idModel,String idProfile);
+    void removeFonc(String idFonc, String idProfile);
 
+    void removeModel(String idProfile)
+
+    void deleteProfile(String idProfile);
 }

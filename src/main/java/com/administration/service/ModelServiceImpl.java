@@ -59,5 +59,14 @@ public class ModelServiceImpl implements ModelService{
 
     }
 
+    @Override
+    public void deleteModel(String idModel) {
+        Model model=modelRepo.findById(idModel).get();
+        if (model.getFonctionalites().isEmpty()&&model.getProfiles().isEmpty())
+        {
+            modelRepo.deleteById(idModel);
+        }else throw new RuntimeException("This model has associations !");
+    }
+
 
 }

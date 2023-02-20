@@ -88,6 +88,32 @@ public class ProfileServiceImpl implements ProfileService{
 
     }
 
+    @Override
+    public void removeFonc(String idFonc, String idProfile) {
+        Fonctionalite fonctionalite1=foncRepo.findById(idFonc).get();
+        Profile profile=profileRepo.findById(idProfile).get();
+        profile.getFonctionalites().remove(fonctionalite1);
+        profileRepo.save(profile);
+
+    }
+
+    @Override
+    public void removeModel(String idProfile) {
+        Profile profile=profileRepo.findById(idProfile).get();
+        profile.setModel(null);
+        profileRepo.save(profile);
+
+
+    }
+
+    @Override
+    public void deleteProfile(String idProfile) {
+        Profile profile=profileRepo.findById(idProfile).get();
+        if (profile.getProfileUsers().isEmpty()&&profile.getFonctionalites().isEmpty()&&profile.getModel()==null)
+        {
+            profileRepo.deleteById(idProfile);
+        }else  throw new RuntimeException("This profile has associations !!");
+    }
 
 
 }

@@ -36,13 +36,17 @@ public class ModelController {
         return modelService.getModel(idModel);
     }
 
-
-
     @ApiOperation(value = "Update Model")
     @PutMapping("/update-model/")
     @ResponseBody
     public void UpdateModelDTO(@RequestBody ModelUpdateDTO dto) {
         modelService.updateModelDTO(dto);
+    }
+
+    @ApiOperation(value = "Delete Model")
+    @DeleteMapping("/deleteModel/{idModel}")
+    public void deleteModel(@PathVariable String idModel){
+        modelService.deleteModel(idModel);
     }
 
 }
