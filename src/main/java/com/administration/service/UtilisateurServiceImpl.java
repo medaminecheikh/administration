@@ -85,4 +85,27 @@ public class UtilisateurServiceImpl implements UtilisateurService{
         utilisateur.setProfileUser(profileUser);
         utilisateurRepo.save(utilisateur);
     }
+
+    @Override
+    public void removeEtt(String idUser) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        utilisateur.setEtt(null);
+        utilisateurRepo.save(utilisateur);
+    }
+
+    @Override
+    public void removeProfile(String idUser) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        utilisateur.setProfileUser(null);
+        utilisateurRepo.save(utilisateur);
+    }
+
+    @Override
+    public void deleteUser(String idUser) {
+        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
+        if (utilisateur.getEtt()==null&&utilisateur.getProfileUser()==null)
+        {
+            utilisateurRepo.deleteById(idUser);
+        }else throw new RuntimeException("This user "+utilisateur.getNomU()+" has associations");
+    }
 }

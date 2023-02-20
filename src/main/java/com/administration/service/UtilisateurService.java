@@ -14,4 +14,10 @@ public interface UtilisateurService {
     void updateUtilisateurDTO(UtilisateurUpdateDTO dto);
     void affecterUserToEtt(String idUser,String idEtt);
     void affecterProfileToUser(String idUser,String idProfile);
+
+    void removeEtt(String idUser);
+
+    void removeProfile(String idUser);
+
+    void deleteUser(String idUser);
 }

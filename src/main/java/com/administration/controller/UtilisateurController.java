@@ -52,4 +52,19 @@ public class UtilisateurController {
     public void affecterUserToEtt(@PathVariable String idUser,@PathVariable String idEtt){
         utilisateurService.affecterUserToEtt(idUser,idEtt);
     }
+    @ApiOperation(value = "Remove Ett")
+    @PutMapping("/removeEtt/{idUser}")
+    public void removeEtt(@PathVariable String idUser){
+        utilisateurService.removeEtt(idUser);
+    }
+    @ApiOperation(value = "Remove Profile")
+    @PutMapping("/removeProfile/{idUser}")
+    public void removeProfile(@PathVariable String idUser){
+        utilisateurService.removeProfile(idUser);
+    }
+    @ApiOperation(value = "Delete User")
+    @DeleteMapping("/deleteUser/{idUser}")
+    public void deleteUser(@PathVariable String idUser){
+        utilisateurService.deleteUser(idUser);
+    }
 }

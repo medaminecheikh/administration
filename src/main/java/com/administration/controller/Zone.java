@@ -55,7 +55,7 @@ public class Zone {
         zoneService.removeDreg(idDreg);
     }
     @ApiOperation(value = "Delete Zone")
-    @DeleteMapping("/DeleteDreg/{idZone}")
+    @DeleteMapping("/DeleteZone/{idZone}")
     public void DeleteZone(@PathVariable String idZone){
         zoneService.deleteZone(idZone);
     }
