@@ -65,15 +65,14 @@ public class FoncServiceImpl implements FoncService{
         Model model=modelRepo.findById(idModel).get();
         Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
         boolean exist=false;
-       for (Model model1:fonctionalite.getModels())
-       {
-           if (model1.getIdModel()==idModel){exist=true;}
-       }
+        for (Fonctionalite fonctionalite1:model.getFonctionalites())
+        {
+            if (fonctionalite1.getCodF()==idFonc){exist=true;}
+        }
+        if (exist==false){
+        model.getFonctionalites().add(fonctionalite);
+        modelRepo.save(model);}else throw new RuntimeException("This model already exist");
 
-        if (exist=false) {
-            fonctionalite.getModels().add(model);
-        foncRepo.save(fonctionalite);
-        }else throw new RuntimeException("This model already exist ");
 
     }
 
@@ -83,6 +82,14 @@ public class FoncServiceImpl implements FoncService{
         if (fonctionalite.getModels().isEmpty()&&fonctionalite.getProfiles().isEmpty())
         {
             foncRepo.deleteById(idFonc);
-        }
+        }else throw new RuntimeException("This fonctionalite has associations");
     }
+
+    @Override
+    public void removeModel(String idModel, String idFonc) {
+        Model model=modelRepo.findById(idModel).get();
+        Fonctionalite fonctionalite1=foncRepo.findById(idFonc).get();
+                model.getFonctionalites().remove(fonctionalite1);
+                modelRepo.save(model);
+            }
 }

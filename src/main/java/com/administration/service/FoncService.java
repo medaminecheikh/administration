@@ -13,7 +13,7 @@ public interface FoncService {
     List<FoncResponseDTO> listFoncs();
     void updateFoncDTO(FoncUpdateDTO dto);
     void affecterModelToFonc(String idModel,String idFonc);
-
-
     void deleteFonc(String idFonc);
+
+    void removeModel(String idModel, String idFonc);
 }

@@ -54,5 +54,10 @@ public class FonctionaliteController {
     public void DeleteEtt(@PathVariable String idFonc){
         foncService.deleteFonc(idFonc);
     }
+    @ApiOperation(value = "Remove Model")
+    @PutMapping("/removeModel/{idModel}/{idFonc}")
+    public void removeModel(@PathVariable String idModel,@PathVariable String idFonc){
+        foncService.removeModel(idModel,idFonc);
+    }
 
 }
