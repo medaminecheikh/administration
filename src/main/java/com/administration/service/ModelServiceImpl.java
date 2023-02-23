@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.Interface.IModelService;
 import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;
 import com.administration.dto.ModelUpdateDTO;

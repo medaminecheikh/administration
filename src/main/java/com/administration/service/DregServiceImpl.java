@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.Interface.IDregService;
 import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;

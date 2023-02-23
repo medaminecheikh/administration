@@ -1,4 +1,4 @@
-package com.administration.service;
+package com.administration.Interface;
 
 import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;

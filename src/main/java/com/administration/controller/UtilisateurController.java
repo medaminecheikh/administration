@@ -3,13 +3,15 @@ package com.administration.controller;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
-import com.administration.service.IUtilisateurService;
+import com.administration.Interface.IUtilisateurService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Api(tags = "Gestion Users")
 public class UtilisateurController {
     IUtilisateurService IUtilisateurService;
 

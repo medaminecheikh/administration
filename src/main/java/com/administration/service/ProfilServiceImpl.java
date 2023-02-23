@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.Interface.IProfilService;
 import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;

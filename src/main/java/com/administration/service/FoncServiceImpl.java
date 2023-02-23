@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.Interface.IFoncService;
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;

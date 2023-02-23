@@ -3,13 +3,15 @@ package com.administration.controller;
 import com.administration.dto.EttRequestDTO;
 import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
-import com.administration.service.IEttService;
+import com.administration.Interface.IEttService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Api(tags = "Gestion ETT")
 public class EttController {
     IEttService IEttService;
     public EttController(IEttService IEttService) {

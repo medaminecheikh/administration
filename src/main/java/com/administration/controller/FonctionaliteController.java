@@ -3,13 +3,15 @@ package com.administration.controller;
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
-import com.administration.service.IFoncService;
+import com.administration.Interface.IFoncService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Api(tags = "Gestion Fonctions")
 public class FonctionaliteController {
 
     IFoncService IFoncService;

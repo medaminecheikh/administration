@@ -3,13 +3,15 @@ package com.administration.controller;
 import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;
-import com.administration.service.IDregService;
+import com.administration.Interface.IDregService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Api(tags = "Gestion Dregionals")
 public class DregionalController {
     IDregService IDregService;
 

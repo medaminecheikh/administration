@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.Interface.IUtilisateurService;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;

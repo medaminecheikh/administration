@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;
-import com.administration.service.IProfilService;
+import com.administration.Interface.IProfilService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api(tags = "Profile management")
+@Api(tags = "Gestion Profils")
 public class ProfileController {
     
      IProfilService IProfilService;

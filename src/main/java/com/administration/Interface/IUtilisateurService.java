@@ -1,4 +1,4 @@
-package com.administration.service;
+package com.administration.Interface;
 
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;

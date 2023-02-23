@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.Interface.IZoneService;
 import com.administration.dto.ZoneRequestDTO;
 import com.administration.dto.ZoneResponseDTO;
 import com.administration.dto.ZoneUpdateDTO;
