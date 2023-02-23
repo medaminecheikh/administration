@@ -61,7 +61,7 @@ public class EttServiceImpl implements EttService{
 
     @Override
     public void updateEttDTO(EttUpdateDTO dto) {
-        Ett ett=ettRepo.findById(dto.getCodEtt()).get();
+        Ett ett=ettRepo.findById(dto.getIdEtt()).get();
         ettMapper.updateEttFromDto(dto,ett);
         ettRepo.save(ett);
 

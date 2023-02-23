@@ -54,7 +54,7 @@ public class FoncServiceImpl implements FoncService{
 
     @Override
     public void updateFoncDTO(FoncUpdateDTO dto) {
-        Fonction fonction =foncRepo.findById(dto.getCodF()).get();
+        Fonction fonction =foncRepo.findById(dto.getIdFonc()).get();
         foncMapper.updateFonctionaliteFromDto(dto, fonction);
         foncRepo.save(fonction);
 

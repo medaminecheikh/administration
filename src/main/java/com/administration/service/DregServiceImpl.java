@@ -55,7 +55,7 @@ public class DregServiceImpl implements DregService{
 
     @Override
     public void updateDregionalDTO(DregionalUpdateDTO dto) {
-        Dregional dregional=dregionalRepo.findById(dto.getCod_DR()).get();
+        Dregional dregional=dregionalRepo.findById(dto.getIdDr()).get();
         dregionaleMapper.updateDregionaleFromDto(dto,dregional);
         dregionalRepo.save(dregional);
 
