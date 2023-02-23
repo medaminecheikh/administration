@@ -6,7 +6,7 @@ import com.administration.dto.FoncUpdateDTO;
 
 import java.util.List;
 
-public interface FoncService {
+public interface IFoncService {
 
     FoncResponseDTO addFonc(FoncRequestDTO RequestDTO);
     FoncResponseDTO getFonc(String id);

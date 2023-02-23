@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ModelServiceImpl implements ModelService{
+public class ModelServiceImpl implements IModelService {
     ModelRepo modelRepo;
     ModMapper modMapper;
     ProfileRepo profileRepo;

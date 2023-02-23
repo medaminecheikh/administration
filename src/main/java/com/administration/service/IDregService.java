@@ -6,7 +6,7 @@ import com.administration.dto.DregionalUpdateDTO;
 
 import java.util.List;
 
-public interface DregService {
+public interface IDregService {
 
     DregionalResponseDTO addDreg(DregionalRequestDTO dregionalRequestDTO);
     DregionalResponseDTO getDregional(String id);

@@ -42,8 +42,8 @@ public class Utilisateur implements Serializable {
     private int IS_EXPIRED ;
     @Temporal(TemporalType.DATE)
     private Date DATE_EXPIRED ;
-    @OneToOne(mappedBy = "utilisateur",fetch = FetchType.LAZY,orphanRemoval = true)
-    private ProfileUser profileUser;
+    @OneToOne(mappedBy = "utilisateur",cascade = CascadeType.ALL,fetch = FetchType.LAZY,optional = false)
+    private ProfilUser profilUser;
     @ManyToOne
     private Ett ett;
 }

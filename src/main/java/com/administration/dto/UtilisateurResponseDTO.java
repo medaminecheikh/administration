@@ -20,6 +20,6 @@ public class UtilisateurResponseDTO {
     private Date DAT_CREATION ;
     private int IS_EXPIRED ;
     private Date DATE_EXPIRED ;
-    private ProfilUserViewUserDTO profileUser;
+    private ProfilUserViewUserDTO profilUser;
     private EttUpdateDTO ett;
 }

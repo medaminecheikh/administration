@@ -4,7 +4,6 @@ import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;
 import com.administration.entity.Dregional;
-import com.administration.entity.Ett;
 import com.administration.mappers.DregionaleMapper;
 import com.administration.repo.DregionalRepo;
 import com.administration.repo.EttRepo;
@@ -15,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class DregServiceImpl implements DregService{
+public class DregServiceImpl implements IDregService {
 
     DregionalRepo dregionalRepo;
     DregionaleMapper dregionaleMapper;

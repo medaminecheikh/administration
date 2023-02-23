@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class FoncServiceImpl implements FoncService{
+public class FoncServiceImpl implements IFoncService {
     FoncRepo foncRepo;
      FoncMapper foncMapper;
      ModelRepo modelRepo;

@@ -14,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "PROFIL_USER")
-public class ProfileUser implements Serializable {
+public class ProfilUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

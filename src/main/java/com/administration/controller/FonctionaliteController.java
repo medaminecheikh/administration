@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
-import com.administration.service.FoncService;
+import com.administration.service.IFoncService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 public class FonctionaliteController {
 
-    FoncService foncService;
+    IFoncService IFoncService;
 
-    public FonctionaliteController(FoncService foncService) {
-        this.foncService = foncService;
+    public FonctionaliteController(IFoncService IFoncService) {
+        this.IFoncService = IFoncService;
     }
 
     @ApiOperation(value = "Récupérer la liste des Foncs")
@@ -23,41 +23,41 @@ public class FonctionaliteController {
     public List<FoncResponseDTO> allFoncs()
     {
 
-        return foncService.listFoncs();
+        return IFoncService.listFoncs();
     }
 
     @ApiOperation(value = "ajoute Fonc")
     @PostMapping(path="/ajoutefonc")
     public FoncResponseDTO save(@RequestBody FoncRequestDTO foncRequestDTO){
-        return foncService.addFonc(foncRequestDTO);
+        return IFoncService.addFonc(foncRequestDTO);
     }
     @ApiOperation(value = "Récupérer Fonc")
     @GetMapping(path = "/fonc/{idFonc}")
     public FoncResponseDTO getFonc(@PathVariable String idFonc){
 
-        return foncService.getFonc(idFonc);
+        return IFoncService.getFonc(idFonc);
     }
     @ApiOperation(value = "Update Fonc")
     @PutMapping("/update-fonc/")
     @ResponseBody
     public void UpdateFoncDTO(@RequestBody FoncUpdateDTO dto) {
-        foncService.updateFoncDTO(dto);
+        IFoncService.updateFoncDTO(dto);
     }
 
     @ApiOperation(value = "Affecter Model")
     @PutMapping("/affecterModelToFonc/{idModel}/{idFonc}")
     public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idFonc){
-        foncService.affecterModelToFonc(idModel,idFonc);
+        IFoncService.affecterModelToFonc(idModel,idFonc);
     }
     @ApiOperation(value = "Delete Fonctionalite")
     @DeleteMapping("/DeleteFonctionalite/{idFonc}")
     public void DeleteEtt(@PathVariable String idFonc){
-        foncService.deleteFonc(idFonc);
+        IFoncService.deleteFonc(idFonc);
     }
     @ApiOperation(value = "Remove Model")
     @PutMapping("/removeModel/{idModel}/{idFonc}")
     public void removeModel(@PathVariable String idModel,@PathVariable String idFonc){
-        foncService.removeModel(idModel,idFonc);
+        IFoncService.removeModel(idModel,idFonc);
     }
 
 }

@@ -5,7 +5,7 @@ import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
 import com.administration.entity.Ett;
 import com.administration.entity.Profil;
-import com.administration.entity.ProfileUser;
+import com.administration.entity.ProfilUser;
 import com.administration.entity.Utilisateur;
 import com.administration.mappers.UserMapper;
 import com.administration.repo.EttRepo;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class UtilisateurServiceImpl implements UtilisateurService{
+public class UtilisateurServiceImpl implements IUtilisateurService {
     UtilisateurRepo utilisateurRepo;
     UserMapper userMapper;
     ProfileRepo profileRepo;
@@ -77,10 +77,10 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     public void affecterProfileToUser(String idUser, String idProfile) {
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
         Profil profil =profileRepo.findById(idProfile).get();
-        ProfileUser profileUser=new ProfileUser();
-        profileUser.setProfil(profil);
-        profileUser.setUtilisateur(utilisateur);
-        utilisateur.setProfileUser(profileUser);
+        ProfilUser profilUser =new ProfilUser();
+        profilUser.setProfil(profil);
+        profilUser.setUtilisateur(utilisateur);
+        utilisateur.setProfilUser(profilUser);
         utilisateurRepo.save(utilisateur);
     }
 
@@ -94,14 +94,14 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     @Override
     public void removeProfile(String idUser) {
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        utilisateur.setProfileUser(null);
+        utilisateur.setProfilUser(null);
         utilisateurRepo.save(utilisateur);
     }
 
     @Override
     public void deleteUser(String idUser) {
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        if (utilisateur.getEtt()==null&&utilisateur.getProfileUser()==null)
+        if (utilisateur.getEtt()==null&&utilisateur.getProfilUser()==null)
         {
             utilisateurRepo.deleteById(idUser);
         }else throw new RuntimeException("This user "+utilisateur.getNomU()+" has associations");

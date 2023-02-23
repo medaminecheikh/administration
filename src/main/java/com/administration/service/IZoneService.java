@@ -6,7 +6,7 @@ import com.administration.dto.ZoneUpdateDTO;
 
 import java.util.List;
 
-public interface ZoneService {
+public interface IZoneService {
 
     ZoneResponseDTO addZone(ZoneRequestDTO RequestDTO);
     ZoneResponseDTO getZone(String id);

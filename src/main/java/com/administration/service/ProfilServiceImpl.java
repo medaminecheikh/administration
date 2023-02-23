@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class ProfilServiceImpl implements ProfilService {
+public class ProfilServiceImpl implements IProfilService {
     ProfileRepo profileRepo;
     ProfilMapper profilMapper;
     FoncRepo foncRepo;
@@ -109,7 +109,7 @@ public class ProfilServiceImpl implements ProfilService {
     @Override
     public void deleteProfile(String idProfile) {
         Profil profil =profileRepo.findById(idProfile).get();
-        if (profil.getProfileUsers().isEmpty()&& profil.getFonctions().isEmpty()&& profil.getModel()==null)
+        if (profil.getProfilUsers().isEmpty()&& profil.getFonctions().isEmpty()&& profil.getModel()==null)
         {
             profileRepo.deleteById(idProfile);
         }else  throw new RuntimeException("This profile has associations !!");

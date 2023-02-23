@@ -29,7 +29,7 @@ public class Profil implements Serializable {
     )
     private List<Fonction> fonctions;
     @OneToMany(mappedBy = "profil", cascade = CascadeType.ALL)
-    private List<ProfileUser> profileUsers;
+    private List<ProfilUser> profilUsers;
     @ManyToOne
     private Model model;
 

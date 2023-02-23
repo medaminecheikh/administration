@@ -5,7 +5,6 @@ import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
 import com.administration.entity.Dregional;
 import com.administration.entity.Ett;
-import com.administration.entity.Utilisateur;
 import com.administration.entity.Zone;
 import com.administration.mappers.EttMapper;
 import com.administration.repo.DregionalRepo;
@@ -19,7 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class EttServiceImpl implements EttService{
+public class EttServiceImpl implements IEttService {
     EttRepo ettRepo;
     EttMapper ettMapper;
     UtilisateurRepo utilisateurRepo;

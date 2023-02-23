@@ -6,7 +6,7 @@ import com.administration.dto.ProfilUpdateDTO;
 
 import java.util.List;
 
-public interface ProfilService {
+public interface IProfilService {
     ProfilResponseDTO addProfile(ProfilRequestDTO RequestDTO);
     ProfilResponseDTO getProfile(String id);
     List<ProfilResponseDTO> listProfiles();

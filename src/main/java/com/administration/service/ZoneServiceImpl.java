@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ZoneServiceImpl implements ZoneService{
+public class ZoneServiceImpl implements IZoneService {
     ZoneRepo zoneRepo;
     ZoneMapper zoneMapper;
     DregionalRepo dregionalRepo;

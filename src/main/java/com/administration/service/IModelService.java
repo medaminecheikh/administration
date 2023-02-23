@@ -6,7 +6,7 @@ import com.administration.dto.ModelUpdateDTO;
 
 import java.util.List;
 
-public interface ModelService {
+public interface IModelService {
 
     ModelResponseDTO addModel(ModelRequestDTO RequestDTO);
     ModelResponseDTO getModel(String id);

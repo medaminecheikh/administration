@@ -4,7 +4,7 @@ import com.administration.dto.*;
 
 import java.util.List;
 
-public interface EttService {
+public interface IEttService {
 
     EttResponseDTO addEtt(EttRequestDTO ettRequestDTO);
     EttResponseDTO getEtt(String id);

@@ -6,7 +6,7 @@ import com.administration.dto.UtilisateurUpdateDTO;
 
 import java.util.List;
 
-public interface UtilisateurService {
+public interface IUtilisateurService {
 
     UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO);
     UtilisateurResponseDTO getUtilisateur(String id);

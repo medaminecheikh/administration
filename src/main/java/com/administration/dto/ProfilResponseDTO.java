@@ -12,5 +12,5 @@ public class ProfilResponseDTO {
     private String Des_P;
     private ModelUpdateDTO model;
     private List<FoncUpdateDTO> functions;
-    private List<ProfilUserViewProfileDTO> profileUsers;
+    private List<ProfilUserViewProfileDTO> profilUsers;
 }
