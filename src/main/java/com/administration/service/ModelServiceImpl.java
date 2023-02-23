@@ -4,7 +4,6 @@ import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;
 import com.administration.dto.ModelUpdateDTO;
 import com.administration.entity.Model;
-import com.administration.entity.Profile;
 import com.administration.mappers.ModMapper;
 import com.administration.repo.ModelRepo;
 import com.administration.repo.ProfileRepo;
@@ -62,7 +61,7 @@ public class ModelServiceImpl implements ModelService{
     @Override
     public void deleteModel(String idModel) {
         Model model=modelRepo.findById(idModel).get();
-        if (model.getFonctionalites().isEmpty()&&model.getProfiles().isEmpty())
+        if (model.getFonctions().isEmpty()&&model.getProfils().isEmpty())
         {
             modelRepo.deleteById(idModel);
         }else throw new RuntimeException("This model has associations !");

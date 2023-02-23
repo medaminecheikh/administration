@@ -30,7 +30,7 @@ public class DregServiceImpl implements DregService{
     @Override
     public DregionalResponseDTO addDreg(DregionalRequestDTO dregionalRequestDTO) {
         Dregional dregional= dregionaleMapper.DregionaleRequestDTODregionale(dregionalRequestDTO);
-        dregional.setCod_DR(UUID.randomUUID().toString());
+        dregional.setIdDr(UUID.randomUUID().toString());
         Dregional dregionalsave=dregionalRepo.save(dregional);
         DregionalResponseDTO dregionalResponseDTO=dregionaleMapper.DregionaleTODregionaleResponseDTO(dregionalsave);
 

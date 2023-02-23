@@ -9,6 +9,6 @@ public class ModelResponseDTO {
     private String idModel;
     private String desMOD;
     private String obs;
-    private List<FoncUpdateDTO> fonctionalites;
-    private List<ProfileUpdateDTO> profiles;
+    private List<FoncUpdateDTO> fonctions;
+    private List<ProfilUpdateDTO> profils;
 }

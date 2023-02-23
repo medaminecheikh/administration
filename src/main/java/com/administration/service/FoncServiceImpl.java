@@ -3,7 +3,7 @@ package com.administration.service;
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
-import com.administration.entity.Fonctionalite;
+import com.administration.entity.Fonction;
 import com.administration.entity.Model;
 import com.administration.mappers.FoncMapper;
 import com.administration.repo.FoncRepo;
@@ -28,25 +28,25 @@ public class FoncServiceImpl implements FoncService{
 
     @Override
     public FoncResponseDTO addFonc(FoncRequestDTO RequestDTO) {
-        Fonctionalite fonctionalite= foncMapper.FonctionaliteRequestDTOFonctionalite(RequestDTO);
-        fonctionalite.setCodF(UUID.randomUUID().toString());
-        fonctionalite.setDesF(RequestDTO.getFON_COD_F()+RequestDTO.getDesF());
-        foncRepo.save(fonctionalite);
-        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite);
+        Fonction fonction = foncMapper.FonctionaliteRequestDTOFonctionalite(RequestDTO);
+        fonction.setIdFonc(UUID.randomUUID().toString());
+        fonction.setDesF(RequestDTO.getFON_COD_F()+RequestDTO.getDesF());
+        foncRepo.save(fonction);
+        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
         return foncResponseDTO;
     }
 
     @Override
     public FoncResponseDTO getFonc(String id) {
-        Fonctionalite fonctionalite=foncRepo.findById(id).get();
-        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite);
+        Fonction fonction =foncRepo.findById(id).get();
+        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
         return foncResponseDTO;
     }
 
     @Override
     public List<FoncResponseDTO> listFoncs() {
-        List<Fonctionalite> fonctionalites=foncRepo.findAll();
-        List<FoncResponseDTO> foncResponseDTOS=fonctionalites.stream()
+        List<Fonction> fonctions =foncRepo.findAll();
+        List<FoncResponseDTO> foncResponseDTOS= fonctions.stream()
                 .map(fonctionalite -> foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite))
                 .collect(Collectors.toList());
         return foncResponseDTOS;
@@ -54,23 +54,23 @@ public class FoncServiceImpl implements FoncService{
 
     @Override
     public void updateFoncDTO(FoncUpdateDTO dto) {
-        Fonctionalite fonctionalite=foncRepo.findById(dto.getCodF()).get();
-        foncMapper.updateFonctionaliteFromDto(dto,fonctionalite);
-        foncRepo.save(fonctionalite);
+        Fonction fonction =foncRepo.findById(dto.getCodF()).get();
+        foncMapper.updateFonctionaliteFromDto(dto, fonction);
+        foncRepo.save(fonction);
 
     }
 
     @Override
     public void affecterModelToFonc(String idModel, String idFonc) {
         Model model=modelRepo.findById(idModel).get();
-        Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
+        Fonction fonction =foncRepo.findById(idFonc).get();
         boolean exist=false;
-        for (Fonctionalite fonctionalite1:model.getFonctionalites())
+        for (Fonction fonction1 :model.getFonctions())
         {
-            if (fonctionalite1.getCodF()==idFonc){exist=true;}
+            if (fonction1.getCodF()==idFonc){exist=true;}
         }
         if (exist==false){
-        model.getFonctionalites().add(fonctionalite);
+        model.getFonctions().add(fonction);
         modelRepo.save(model);}else throw new RuntimeException("This model already exist");
 
 
@@ -78,8 +78,8 @@ public class FoncServiceImpl implements FoncService{
 
     @Override
     public void deleteFonc(String idFonc) {
-        Fonctionalite fonctionalite=foncRepo.findById(idFonc).get();
-        if (fonctionalite.getModels().isEmpty()&&fonctionalite.getProfiles().isEmpty())
+        Fonction fonction =foncRepo.findById(idFonc).get();
+        if (fonction.getModels().isEmpty()&& fonction.getProfils().isEmpty())
         {
             foncRepo.deleteById(idFonc);
         }else throw new RuntimeException("This fonctionalite has associations");
@@ -88,8 +88,8 @@ public class FoncServiceImpl implements FoncService{
     @Override
     public void removeModel(String idModel, String idFonc) {
         Model model=modelRepo.findById(idModel).get();
-        Fonctionalite fonctionalite1=foncRepo.findById(idFonc).get();
-                model.getFonctionalites().remove(fonctionalite1);
+        Fonction fonction1 =foncRepo.findById(idFonc).get();
+                model.getFonctions().remove(fonction1);
                 modelRepo.save(model);
             }
 }

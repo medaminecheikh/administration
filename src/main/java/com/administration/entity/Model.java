@@ -27,7 +27,7 @@ public class Model implements Serializable {
             joinColumns = @JoinColumn(name = "ID_MODELE"),
             inverseJoinColumns = @JoinColumn(name = "COD_F")
     )
-    private List<Fonctionalite> fonctionalites;
+    private List<Fonction> fonctions;
     @OneToMany(mappedBy = "model")
-    private List<Profile> profiles;
+    private List<Profil> profils;
 }

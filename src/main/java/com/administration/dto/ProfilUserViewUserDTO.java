@@ -3,9 +3,11 @@ package com.administration.dto;
 import lombok.Data;
 
 @Data
-public class ProfileUserViewProfileDTO {
+public class ProfilUserViewUserDTO {
     private Long id;
-    private UtilisateurUpdateDTO utilisateur;
+    private ProfilUpdateDTO profil;
+    private String nom_P;
+    private String COD_CFRX;
     private String COD_ZONE          ;
     private String COD_DR            ;
     private String COD_ETT       ;

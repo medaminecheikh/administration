@@ -14,9 +14,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "SNE_DR")
+@Table(name = "DR")
 public class Dregional implements Serializable {
     @Id
+    private String idDr;
     @Column(name = "COD_DR")
     private String cod_DR;
     @Column(name = "DR")

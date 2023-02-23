@@ -37,6 +37,11 @@ public class Utilisateur implements Serializable {
     private int f_ADM_CEN;
     @Column(name = "MATRICULE")
     private String matricule;
+    @Temporal(TemporalType.DATE)
+    private Date DAT_CREATION ;
+    private int IS_EXPIRED ;
+    @Temporal(TemporalType.DATE)
+    private Date DATE_EXPIRED ;
     @OneToOne(mappedBy = "utilisateur",fetch = FetchType.LAZY,orphanRemoval = true)
     private ProfileUser profileUser;
     @ManyToOne

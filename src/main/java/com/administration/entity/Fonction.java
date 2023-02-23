@@ -1,6 +1,5 @@
 package com.administration.entity;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,8 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "FONCTION")
-public class Fonctionalite implements Serializable {
+public class Fonction implements Serializable {
     @Id
+    private String idFonc;
     @Column(name = "COD_F")
    private String codF;
     @Column(name = "FON_COD_F")
@@ -30,8 +30,8 @@ public class Fonctionalite implements Serializable {
    private int F_DROIT_ACCES;
     @Column(name = "F_ADM")
    private int F_ADM;
-    @ManyToMany(mappedBy ="fonctionalites" )
+    @ManyToMany(mappedBy ="fonctions" )
     private List<Model> models;
-    @ManyToMany(mappedBy = "fonctionalites")
-    private List<Profile> profiles;
+    @ManyToMany(mappedBy = "fonctions")
+    private List<Profil> profils;
 }

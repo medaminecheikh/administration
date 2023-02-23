@@ -14,6 +14,7 @@ import java.util.List;
 public class EttRequestDTO {
 
     private String des_SRC_ENC;
+    private String COD_CFRX;
     private String prfx_SRC_ENC;
     private String adr;
     private int is_BSCS;

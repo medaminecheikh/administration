@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class DregionalUpdateDTO {
+    private String idDr;
     private String cod_DR;
     private String dr;
     private String drAr;

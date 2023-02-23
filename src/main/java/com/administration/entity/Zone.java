@@ -17,16 +17,10 @@ import java.util.List;
 @Table(name = "zone")
 public class Zone implements Serializable {
     @Id
-    private String codZone ;
-    private String codEtt;
-    @Column(name = "DES_CFRX")
-    private String desCFRX;
-    @Column(name = "PRFX_CFRX")
-    private String prfxCFRX;
-    @Column(name = "ORG")
-    private String org;
-    @Column(name = "ADR")
-    private String adr;
+    private String idZone ;
+    private String COD_ZONE ;
+    private String DES_ZONE   ;
+    private String DES_ZONE_AR;
     @OneToMany(mappedBy = "zone")
     private List<Dregional> dregionals;
     @OneToMany(mappedBy = "zone")

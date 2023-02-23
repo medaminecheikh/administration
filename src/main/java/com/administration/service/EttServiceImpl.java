@@ -37,7 +37,7 @@ public class EttServiceImpl implements EttService{
     @Override
     public EttResponseDTO addEtt(EttRequestDTO ettRequestDTO) {
         Ett ett=ettMapper.EttRequestDTOEtt(ettRequestDTO);
-        ett.setCodEtt(UUID.randomUUID().toString());
+        ett.setIdEtt(UUID.randomUUID().toString());
         ettRepo.save(ett);
         EttResponseDTO ettResponseDTO=ettMapper.EttTOEttResponseDTO(ett);
         return ettResponseDTO;

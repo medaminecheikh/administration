@@ -18,10 +18,12 @@ import java.util.List;
 @Table(name = "ett")
 public class Ett implements Serializable {
     @Id
+    private String idEtt;
     @Column(name = "COD_ETT")
     private String codEtt;
     @Column(name = "DES_SRC_ENC")
     private String des_SRC_ENC;
+    private String COD_CFRX;
     @Column(name = "PRFX_SRC_ENC")
     private String prfx_SRC_ENC;
     @Column(name = "ADR")

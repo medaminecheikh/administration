@@ -1,9 +1,9 @@
 package com.administration.controller;
 
-import com.administration.dto.ProfileRequestDTO;
-import com.administration.dto.ProfileResponseDTO;
-import com.administration.dto.ProfileUpdateDTO;
-import com.administration.service.ProfileService;
+import com.administration.dto.ProfilRequestDTO;
+import com.administration.dto.ProfilResponseDTO;
+import com.administration.dto.ProfilUpdateDTO;
+import com.administration.service.ProfilService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -14,30 +14,30 @@ import java.util.List;
 @Api(tags = "Profile management")
 public class ProfileController {
     
-     ProfileService profileService;
+     ProfilService profilService;
 
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
+    public ProfileController(ProfilService profilService) {
+        this.profilService = profilService;
     }
 
     @ApiOperation(value = "Récupérer la liste des Profiles")
     @GetMapping(path="/profiles")
-    public List<ProfileResponseDTO> allProfiles()
+    public List<ProfilResponseDTO> allProfiles()
     {
 
-        return profileService.listProfiles();
+        return profilService.listProfiles();
     }
 
     @ApiOperation(value = "ajoute Profile")
     @PostMapping(path="/ajouteprofile")
-    public ProfileResponseDTO save(@RequestBody ProfileRequestDTO profileRequestDTO){
-        return profileService.addProfile(profileRequestDTO);
+    public ProfilResponseDTO save(@RequestBody ProfilRequestDTO profilRequestDTO){
+        return profilService.addProfile(profilRequestDTO);
     }
     @ApiOperation(value = "Récupérer Profile")
     @GetMapping(path = "/profile/{idProfile}")
-    public ProfileResponseDTO getProfile(@PathVariable String idProfile){
+    public ProfilResponseDTO getProfile(@PathVariable String idProfile){
 
-        return profileService.getProfile(idProfile);
+        return profilService.getProfile(idProfile);
     }
 
 
@@ -45,36 +45,36 @@ public class ProfileController {
     @ApiOperation(value = "Update Profile")
     @PutMapping("/update-profile/")
     @ResponseBody
-    public void UpdateProfileDTO(@RequestBody ProfileUpdateDTO dto) {
-        profileService.updateProfileDTO(dto);
+    public void UpdateProfileDTO(@RequestBody ProfilUpdateDTO dto) {
+        profilService.updateProfileDTO(dto);
     }
 
     @ApiOperation(value = "Affecter Fonctionalite")
     @PutMapping("/affecterFonctionaliteToProfile/{idFonc}/{idProfile}")
     public void affecterFonctionaliteToProfile(@PathVariable String idFonc,@PathVariable String idProfile){
-        profileService.affecterFoncToProfile(idFonc,idProfile);
+        profilService.affecterFoncToProfile(idFonc,idProfile);
     }
     @ApiOperation(value = "Remove Fonctionalite")
     @PutMapping("/removeFonc/{idFonc}/{idProfile}")
     public void removeFonc(@PathVariable String idFonc,@PathVariable String idProfile){
-        profileService.removeFonc(idFonc,idProfile);
+        profilService.removeFonc(idFonc,idProfile);
     }
 
     @ApiOperation(value = "Affecter Model")
     @PutMapping("/affecterModelToProfile/{idModel}/{idProfile}")
     public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
-        profileService.affecterModelToProfile(idModel,idProfile);
+        profilService.affecterModelToProfile(idModel,idProfile);
     }
 
     @ApiOperation(value = "remove Model")
     @PutMapping("/removeModelToProfile/{idModel}/{idProfile}")
     public void removeModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
-        profileService.removeModel(idProfile);
+        profilService.removeModel(idProfile);
     }
     @ApiOperation(value = "Delete Profile")
     @DeleteMapping("/deleteProfile/{idProfile}")
     public void deleteProfile(@PathVariable String idProfile){
-        profileService.deleteProfile(idProfile);
+        profilService.deleteProfile(idProfile);
     }
 
 }

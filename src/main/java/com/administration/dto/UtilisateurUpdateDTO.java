@@ -2,6 +2,8 @@ package com.administration.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class UtilisateurUpdateDTO {
     private String idUser;
@@ -15,5 +17,8 @@ public class UtilisateurUpdateDTO {
     private int f_ADM_LOC;
     private int f_ADM_CEN;
     private String matricule;
+    private Date DAT_CREATION ;
+    private int IS_EXPIRED ;
+    private Date DATE_EXPIRED ;
 
 }

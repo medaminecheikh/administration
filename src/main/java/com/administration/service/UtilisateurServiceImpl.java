@@ -4,7 +4,7 @@ import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
 import com.administration.entity.Ett;
-import com.administration.entity.Profile;
+import com.administration.entity.Profil;
 import com.administration.entity.ProfileUser;
 import com.administration.entity.Utilisateur;
 import com.administration.mappers.UserMapper;
@@ -14,7 +14,6 @@ import com.administration.repo.UtilisateurRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,7 +45,6 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     @Override
     public UtilisateurResponseDTO getUtilisateur(String id) {
         Utilisateur utilisateur =utilisateurRepo.findById(id).get();
-        log.info(utilisateur.toString());
         UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
         return utilisateurResponseDTO;
     }
@@ -78,9 +76,9 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     @Override
     public void affecterProfileToUser(String idUser, String idProfile) {
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        Profile profile =profileRepo.findById(idProfile).get();
+        Profil profil =profileRepo.findById(idProfile).get();
         ProfileUser profileUser=new ProfileUser();
-        profileUser.setProfile(profile);
+        profileUser.setProfil(profil);
         profileUser.setUtilisateur(utilisateur);
         utilisateur.setProfileUser(profileUser);
         utilisateurRepo.save(utilisateur);

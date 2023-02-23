@@ -2,6 +2,8 @@ package com.administration.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class UtilisateurResponseDTO {
     private String idUser;
@@ -15,6 +17,9 @@ public class UtilisateurResponseDTO {
     private int f_ADM_LOC;
     private int f_ADM_CEN;
     private String matricule;
-    private ProfileUserViewUserDTO profileUser;
+    private Date DAT_CREATION ;
+    private int IS_EXPIRED ;
+    private Date DATE_EXPIRED ;
+    private ProfilUserViewUserDTO profileUser;
     private EttUpdateDTO ett;
 }

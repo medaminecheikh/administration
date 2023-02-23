@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +23,7 @@ public class UtilisateurRequestDTO {
     private int f_ADM_LOC;
     private int f_ADM_CEN;
     private String matricule;
+    private Date DAT_CREATION ;
+    private int IS_EXPIRED ;
+    private Date DATE_EXPIRED ;
 }

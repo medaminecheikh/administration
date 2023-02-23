@@ -1,12 +1,8 @@
 package com.administration.dto;
 
-import com.administration.entity.Profile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
