@@ -13,6 +13,8 @@ import com.administration.repo.EttRepo;
 import com.administration.repo.ProfileRepo;
 import com.administration.repo.UtilisateurRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -106,5 +108,14 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         {
             utilisateurRepo.deleteById(idUser);
         }else throw new RuntimeException("This user "+utilisateur.getNomU()+" has associations");
+    }
+
+    @Override
+    public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size) {
+        Page<Utilisateur> utilisateurs=utilisateurRepo.findUtilisateurByLogin(kw, PageRequest.of(page, size));
+        List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs.getContent().stream()
+                .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
+                .collect(Collectors.toList());
+        return utilisateurResponseDTOList;
     }
 }

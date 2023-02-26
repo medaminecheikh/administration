@@ -23,7 +23,7 @@ public class UtilisateurRequestDTO {
     private int f_ADM_LOC;
     private int f_ADM_CEN;
     private String matricule;
-    private Date DAT_CREATION ;
+    private Date DATE_CREATION ;
     private int IS_EXPIRED ;
     private Date DATE_EXPIRED ;
 }

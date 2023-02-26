@@ -3,6 +3,10 @@ package com.administration.Interface;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
+import com.administration.entity.Utilisateur;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -20,4 +24,6 @@ public interface IUtilisateurService {
     void removeProfile(String idUser);
 
     void deleteUser(String idUser);
+
+    List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size);
 }

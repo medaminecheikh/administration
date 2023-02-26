@@ -38,11 +38,11 @@ public class Utilisateur implements Serializable {
     @Column(name = "MATRICULE")
     private String matricule;
     @Temporal(TemporalType.DATE)
-    private Date DAT_CREATION ;
+    private Date DATE_CREATION ;
     private int IS_EXPIRED ;
     @Temporal(TemporalType.DATE)
     private Date DATE_EXPIRED ;
-    @OneToOne(mappedBy = "utilisateur",cascade = CascadeType.ALL,fetch = FetchType.LAZY,optional = false)
+    @OneToOne(mappedBy = "utilisateur",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private ProfilUser profilUser;
     @ManyToOne
     private Ett ett;

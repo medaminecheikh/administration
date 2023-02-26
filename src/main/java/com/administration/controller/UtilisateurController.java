@@ -69,4 +69,15 @@ public class UtilisateurController {
     public void deleteUser(@PathVariable String idUser){
         IUtilisateurService.deleteUser(idUser);
     }
+
+    @ApiOperation(value = "Récupérer la liste des Users")
+    @GetMapping(path="/searchPageUsers")
+    public List<UtilisateurResponseDTO> searchPageUsers(
+            @RequestParam(name = "Keyword",defaultValue = "")String kw,
+            @RequestParam (name = "page",defaultValue = "0")int page
+            ,@RequestParam(name = "size",defaultValue = "10")int size)
+    {
+
+        return IUtilisateurService.findUtilisateurByLogin("%"+kw+"%",page,size);
+    }
 }
