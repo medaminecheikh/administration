@@ -4,13 +4,18 @@ import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
 import com.administration.Interface.IUtilisateurService;
+import com.administration.entity.LoginRequest;
+import com.administration.entity.Utilisateur;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200")
 @Api(tags = "Gestion Users")
 public class UtilisateurController {
     IUtilisateurService IUtilisateurService;
@@ -79,5 +84,15 @@ public class UtilisateurController {
     {
 
         return IUtilisateurService.findUtilisateurByLogin("%"+kw+"%",page,size);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Utilisateur> login(@RequestBody LoginRequest loginRequest) {
+        Utilisateur user = IUtilisateurService.getUtilisateurbyLogin(loginRequest.getUsername());
+        if (user != null && user.getPwdU().equals(loginRequest.getPassword())) {
+            return new ResponseEntity<Utilisateur>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Utilisateur>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }

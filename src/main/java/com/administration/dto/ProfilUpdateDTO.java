@@ -8,7 +8,7 @@ import javax.persistence.Column;
 
 public class ProfilUpdateDTO {
     private String idProfil;
-    private String Nom_P;
+    private String nomP;
     private String Des_P;
 
 }

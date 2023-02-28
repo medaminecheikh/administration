@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,11 +40,17 @@ public class ProfilServiceImpl implements IProfilService {
 
     @Override
     public ProfilResponseDTO addProfile(ProfilRequestDTO RequestDTO) {
+        String profileName = RequestDTO.getNomP().toLowerCase();
+        Profil existingProfileOptional = profileRepo.findByNomP(profileName);
+        if (existingProfileOptional!=null) {
+            throw new IllegalArgumentException("Profile with the name " + profileName + " already exists.");
+        }else {
         Profil profil = profilMapper.ProfileRequestDTOProfile(RequestDTO);
         profil.setIdProfil(UUID.randomUUID().toString());
+        profil.setNomP(profil.getNomP().toLowerCase());
         Profil profilesave=profileRepo.save(profil);
         ProfilResponseDTO profilResponseDTO = profilMapper.ProfileTOProfileResponseDTO(profilesave);
-        return profilResponseDTO;
+        return profilResponseDTO;}
     }
 
     @Override

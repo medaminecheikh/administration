@@ -17,7 +17,7 @@ public class Profil implements Serializable {
     @Id
     private String idProfil;
     @Column
-    private String Nom_P;
+    private String nomP;
     @Column
     private String Des_P;
 

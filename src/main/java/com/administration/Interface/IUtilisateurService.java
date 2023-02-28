@@ -26,4 +26,5 @@ public interface IUtilisateurService {
     void deleteUser(String idUser);
 
     List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size);
+    Utilisateur getUtilisateurbyLogin(String username);
 }

@@ -11,7 +11,7 @@ import javax.persistence.Column;
 @NoArgsConstructor
 public class ProfilRequestDTO {
 
-    private String Nom_P;
+    private String nomP;
 
     private String Des_P;
 

@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class ProfilResponseDTO {
     private String idProfil;
-    private String Nom_P;
+    private String nomP;
     private String Des_P;
     private ModelUpdateDTO model;
     private List<FoncUpdateDTO> functions;

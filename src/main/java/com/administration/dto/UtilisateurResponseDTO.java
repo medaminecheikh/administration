@@ -22,4 +22,6 @@ public class UtilisateurResponseDTO {
     private Date DATE_EXPIRED ;
     private ProfilUserViewUserDTO profilUser;
     private EttUpdateDTO ett;
+
+    private long totalElements;
 }

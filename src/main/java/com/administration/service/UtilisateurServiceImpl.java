@@ -38,8 +38,14 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
+        String login=RequestDTO.getLogin().toLowerCase();
+        Utilisateur userexist=utilisateurRepo.findByLogin(login);
+        if (userexist!=null) {
+            throw new IllegalArgumentException("Login with the name " + login + " already exists.");
+        }
         Utilisateur utilisateur=userMapper.UtilisateurRequestDTOUtilisateur(RequestDTO);
         utilisateur.setIdUser(UUID.randomUUID().toString());
+        utilisateur.setLogin(utilisateur.getLogin().toLowerCase());
         utilisateurRepo.save(utilisateur);
         UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
         return utilisateurResponseDTO;
@@ -50,6 +56,12 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         Utilisateur utilisateur =utilisateurRepo.findById(id).get();
         UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
         return utilisateurResponseDTO;
+    }
+    @Override
+    public Utilisateur getUtilisateurbyLogin(String username) {
+        Utilisateur utilisateur =utilisateurRepo.findByLogin(username);
+
+        return utilisateur;
     }
 
     @Override
@@ -113,9 +125,15 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     @Override
     public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size) {
         Page<Utilisateur> utilisateurs=utilisateurRepo.findUtilisateurByLogin(kw, PageRequest.of(page, size));
+        long count =utilisateurRepo.count();
         List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs.getContent().stream()
                 .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
                 .collect(Collectors.toList());
+        for (UtilisateurResponseDTO responseDTO : utilisateurResponseDTOList
+        ){
+            responseDTO.setTotalElements(count);
+        }
+
         return utilisateurResponseDTOList;
     }
 }

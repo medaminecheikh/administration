@@ -12,4 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface UtilisateurRepo extends JpaRepository<Utilisateur,String> {
     @Query("select a from  Utilisateur a where a.login like :kw")
     Page<Utilisateur> findUtilisateurByLogin(@Param("kw")String Keyword, Pageable pageable);
+    long count();
+
+    Utilisateur findByLogin(String username);
 }

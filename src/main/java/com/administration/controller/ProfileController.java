@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Gestion Profils")
+@CrossOrigin(origins="http://localhost:4200")
 public class ProfileController {
     
      IProfilService IProfilService;
