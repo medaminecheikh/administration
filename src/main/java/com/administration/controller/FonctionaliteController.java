@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
-import com.administration.Interface.IFoncService;
+import com.administration.service.IFoncService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

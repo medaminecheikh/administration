@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IEttService;
 import com.administration.dto.EttRequestDTO;
 import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
@@ -12,13 +11,18 @@ import com.administration.repo.DregionalRepo;
 import com.administration.repo.EttRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.repo.ZoneRepo;
+import com.administration.service.IEttService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@AllArgsConstructor
 public class EttServiceImpl implements IEttService {
     EttRepo ettRepo;
     EttMapper ettMapper;
@@ -26,13 +30,7 @@ public class EttServiceImpl implements IEttService {
     ZoneRepo zoneRepo;
     DregionalRepo dregionalRepo;
 
-    public EttServiceImpl(EttRepo ettRepo, EttMapper ettMapper, UtilisateurRepo utilisateurRepo, ZoneRepo zoneRepo, DregionalRepo dregionalRepo) {
-        this.ettRepo = ettRepo;
-        this.ettMapper = ettMapper;
-        this.utilisateurRepo = utilisateurRepo;
-        this.zoneRepo = zoneRepo;
-        this.dregionalRepo = dregionalRepo;
-    }
+
 
     @Override
     public EttResponseDTO addEtt(EttRequestDTO ettRequestDTO) {

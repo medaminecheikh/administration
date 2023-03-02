@@ -1,4 +1,4 @@
-package com.administration.Interface;
+package com.administration.service;
 
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;

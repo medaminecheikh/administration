@@ -7,7 +7,6 @@ import java.util.Date;
 @Data
 public class UtilisateurUpdateDTO {
     private String idUser;
-    private String login;
     private String nomP;
     private String nomU;
     private String pwdU;
@@ -17,8 +16,8 @@ public class UtilisateurUpdateDTO {
     private int f_ADM_LOC;
     private int f_ADM_CEN;
     private String matricule;
-    private Date DATE_CREATION ;
-    private int IS_EXPIRED ;
-    private Date DATE_EXPIRED ;
+    private Date date_CREATION ;
+    private int is_EXPIRED ;
+    private Date date_EXPIRED ;
 
 }

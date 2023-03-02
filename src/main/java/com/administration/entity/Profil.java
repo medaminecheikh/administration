@@ -32,5 +32,7 @@ public class Profil implements Serializable {
     private List<ProfilUser> profilUsers;
     @ManyToOne
     private Model model;
+    @ManyToOne
+    private CategProfil categProfil;
 
 }

@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.EttRequestDTO;
 import com.administration.dto.EttResponseDTO;
 import com.administration.dto.EttUpdateDTO;
-import com.administration.Interface.IEttService;
+import com.administration.service.IEttService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

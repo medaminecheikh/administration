@@ -19,19 +19,19 @@ public class ProfilUser implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idProfil")
     private Profil profil;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private Utilisateur utilisateur;
 
     @Column (name = "NOM_P")
     private String nom_P;
-    private String COD_CFRX;
-    private String COD_ZONE          ;
-    private String COD_DR            ;
-    private String COD_ETT       ;
-    private String MIS_P             ;
-    private String CATEG_PROFIL      ;
+    private String cod_CFRX;
+    private String cod_ZONE          ;
+    private String cod_DR            ;
+    private String cod_ETT       ;
+    private String mis_P             ;
+    private String categ_PROFIL      ;
 }

@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IModelService;
 import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;
 import com.administration.dto.ModelUpdateDTO;
@@ -8,23 +7,23 @@ import com.administration.entity.Model;
 import com.administration.mappers.ModMapper;
 import com.administration.repo.ModelRepo;
 import com.administration.repo.ProfileRepo;
+import com.administration.service.IModelService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@AllArgsConstructor
 public class ModelServiceImpl implements IModelService {
     ModelRepo modelRepo;
     ModMapper modMapper;
     ProfileRepo profileRepo;
 
-    public ModelServiceImpl(ModelRepo modelRepo, ModMapper modMapper, ProfileRepo profileRepo) {
-        this.modelRepo = modelRepo;
-        this.modMapper = modMapper;
-        this.profileRepo = profileRepo;
-    }
 
     @Override
     public ModelResponseDTO addModel(ModelRequestDTO RequestDTO) {

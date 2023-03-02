@@ -14,14 +14,14 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Table(name = "CFRX")
 public class CFRX implements Serializable {
     @Id
     private String idCFRX;
-   private String COD_CFRX    ;
-   private String COD_ETT  ;
-   private String DES_CFRX     ;
-   private String PRFX_CFRX    ;
-   private String ORG          ;
-   private String ADR          ;
+   private String cod_CFRX    ;
+   private String cod_ETT  ;
+   private String des_CFRX     ;
+   private String prfx_CFRX    ;
+   private String org          ;
+   private String adr          ;
 }

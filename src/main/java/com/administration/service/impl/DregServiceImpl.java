@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IDregService;
 import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;
@@ -8,24 +7,24 @@ import com.administration.entity.Dregional;
 import com.administration.mappers.DregionaleMapper;
 import com.administration.repo.DregionalRepo;
 import com.administration.repo.EttRepo;
+import com.administration.service.IDregService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@AllArgsConstructor
 public class DregServiceImpl implements IDregService {
 
     DregionalRepo dregionalRepo;
     DregionaleMapper dregionaleMapper;
     EttRepo ettRepo;
 
-    public DregServiceImpl(DregionalRepo dregionalRepo, DregionaleMapper dregionaleMapper, EttRepo ettRepo) {
-        this.dregionalRepo = dregionalRepo;
-        this.dregionaleMapper = dregionaleMapper;
-        this.ettRepo = ettRepo;
-    }
 
     @Override
     public DregionalResponseDTO addDreg(DregionalRequestDTO dregionalRequestDTO) {

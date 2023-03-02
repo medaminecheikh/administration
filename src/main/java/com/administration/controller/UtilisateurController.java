@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
-import com.administration.Interface.IUtilisateurService;
+import com.administration.service.IUtilisateurService;
 import com.administration.entity.LoginRequest;
 import com.administration.entity.Utilisateur;
 import io.swagger.annotations.Api;
@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
 @Api(tags = "Gestion Users")
+
 public class UtilisateurController {
     IUtilisateurService IUtilisateurService;
 

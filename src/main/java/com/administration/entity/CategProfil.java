@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,4 +23,6 @@ public class CategProfil implements Serializable {
     private String idCategProfile;
    private String COD_CATEG_P  ;
    private String DES_CATEG_P;
+   @OneToMany(mappedBy = "categProfil",fetch = FetchType.LAZY)
+    private List<Profil> profils;
 }

@@ -1,4 +1,4 @@
-package com.administration.Interface;
+package com.administration.service;
 
 import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;

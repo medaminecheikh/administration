@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;
 import com.administration.dto.ModelUpdateDTO;
-import com.administration.Interface.IModelService;
+import com.administration.service.IModelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

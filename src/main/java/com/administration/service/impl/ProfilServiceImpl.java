@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IProfilService;
 import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;
@@ -8,18 +7,21 @@ import com.administration.entity.*;
 import com.administration.mappers.ProfilMapper;
 import com.administration.repo.*;
 
+import com.administration.service.IProfilService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 
 
 @Service
-@Slf4j
+@Slf4j@Transactional
+@AllArgsConstructor
 public class ProfilServiceImpl implements IProfilService {
     ProfileRepo profileRepo;
     ProfilMapper profilMapper;
@@ -29,25 +31,18 @@ public class ProfilServiceImpl implements IProfilService {
 
     EttRepo ettRepo;
 
-    public ProfilServiceImpl(ProfileRepo profileRepo, ProfilMapper profilMapper, FoncRepo foncRepo, ModelRepo modelRepo, UtilisateurRepo utilisateurRepo, EttRepo ettRepo) {
-        this.profileRepo = profileRepo;
-        this.profilMapper = profilMapper;
-        this.foncRepo = foncRepo;
-        this.modelRepo = modelRepo;
-        this.utilisateurRepo = utilisateurRepo;
-        this.ettRepo = ettRepo;
-    }
+
 
     @Override
     public ProfilResponseDTO addProfile(ProfilRequestDTO RequestDTO) {
-        String profileName = RequestDTO.getNomP().toLowerCase();
+        String profileName = RequestDTO.getNomP().toUpperCase();
         Profil existingProfileOptional = profileRepo.findByNomP(profileName);
         if (existingProfileOptional!=null) {
             throw new IllegalArgumentException("Profile with the name " + profileName + " already exists.");
         }else {
         Profil profil = profilMapper.ProfileRequestDTOProfile(RequestDTO);
         profil.setIdProfil(UUID.randomUUID().toString());
-        profil.setNomP(profil.getNomP().toLowerCase());
+        profil.setNomP(profil.getNomP().toUpperCase());
         Profil profilesave=profileRepo.save(profil);
         ProfilResponseDTO profilResponseDTO = profilMapper.ProfileTOProfileResponseDTO(profilesave);
         return profilResponseDTO;}
@@ -121,6 +116,13 @@ public class ProfilServiceImpl implements IProfilService {
         {
             profileRepo.deleteById(idProfile);
         }else  throw new RuntimeException("This profile has associations !!");
+    }
+
+    @Override
+    public Profil getProfilbyName(String nomp) {
+        Profil profil=profileRepo.findByNomP(nomp.toUpperCase());
+
+        return profil;
     }
 
 

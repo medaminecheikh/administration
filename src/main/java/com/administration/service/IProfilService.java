@@ -1,8 +1,9 @@
-package com.administration.Interface;
+package com.administration.service;
 
 import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;
+import com.administration.entity.Profil;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface IProfilService {
     void removeModel(String idProfile);
 
     void deleteProfile(String idProfile);
+    Profil getProfilbyName(String nomp);
 }

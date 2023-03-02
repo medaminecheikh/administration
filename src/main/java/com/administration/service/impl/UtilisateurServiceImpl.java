@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IUtilisateurService;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
@@ -12,10 +11,14 @@ import com.administration.mappers.UserMapper;
 import com.administration.repo.EttRepo;
 import com.administration.repo.ProfileRepo;
 import com.administration.repo.UtilisateurRepo;
+import com.administration.service.IUtilisateurService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,18 +26,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional
+@AllArgsConstructor
 public class UtilisateurServiceImpl implements IUtilisateurService {
     UtilisateurRepo utilisateurRepo;
     UserMapper userMapper;
     ProfileRepo profileRepo;
     EttRepo ettRepo;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UtilisateurServiceImpl(UtilisateurRepo utilisateurRepo, UserMapper userMapper, ProfileRepo profileRepo, EttRepo ettRepo) {
-        this.utilisateurRepo = utilisateurRepo;
-        this.userMapper = userMapper;
-        this.profileRepo = profileRepo;
-        this.ettRepo = ettRepo;
-    }
 
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
@@ -43,9 +43,13 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         if (userexist!=null) {
             throw new IllegalArgumentException("Login with the name " + login + " already exists.");
         }
+        if (RequestDTO.getPwdU()!=RequestDTO.getConfirmedpassword()){
+            throw new RuntimeException("Please confirm your password");
+        }
         Utilisateur utilisateur=userMapper.UtilisateurRequestDTOUtilisateur(RequestDTO);
         utilisateur.setIdUser(UUID.randomUUID().toString());
         utilisateur.setLogin(utilisateur.getLogin().toLowerCase());
+        utilisateur.setPwdU(bCryptPasswordEncoder.encode(utilisateur.getPwdU()));
         utilisateurRepo.save(utilisateur);
         UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
         return utilisateurResponseDTO;
@@ -95,7 +99,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         ProfilUser profilUser =new ProfilUser();
         profilUser.setProfil(profil);
         profilUser.setUtilisateur(utilisateur);
-        utilisateur.setProfilUser(profilUser);
+        utilisateur.getProfilUser().add(profilUser);
         utilisateurRepo.save(utilisateur);
     }
 

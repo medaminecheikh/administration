@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.DregionalRequestDTO;
 import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;
-import com.administration.Interface.IDregService;
+import com.administration.service.IDregService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

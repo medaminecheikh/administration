@@ -1,10 +1,12 @@
 package com.administration.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -13,37 +15,50 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "utilisateur")
+@Table(name = "UTILISATEUR")
 public class Utilisateur implements Serializable {
     @Id
     private String idUser;
     @Column(name = "LOGIN")
+    @NotNull
     private String login;
     @Column(name = "NOM_P")
+    @NotNull
     private String nomP;
     @Column(name = "NOM_U")
+    @NotNull
     private String nomU;
     @Column(name = "PWD_U")
+    @NotNull
     private String pwdU;
+    @NotNull
+    @Transient
+    private String confirmedpassword;
     @Column(name = "PREN_U")
+    @NotNull
     private String prenU;
     @Column(name = "DESC_U")
+    @NotNull
     private String descU;
     @Column(name = "EST_ACTIF")
+    @NotNull
     private int estActif;
     @Column(name = "F_ADM_LOC")
+    @NotNull
     private int f_ADM_LOC;
     @Column(name = "F_ADM_CEN")
+    @NotNull
     private int f_ADM_CEN;
     @Column(name = "MATRICULE")
+    @NotNull
     private String matricule;
     @Temporal(TemporalType.DATE)
-    private Date DATE_CREATION ;
-    private int IS_EXPIRED ;
+    private Date date_CREATION ;
+    private int is_EXPIRED ;
     @Temporal(TemporalType.DATE)
-    private Date DATE_EXPIRED ;
-    @OneToOne(mappedBy = "utilisateur",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private ProfilUser profilUser;
+    private Date date_EXPIRED ;
+    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<ProfilUser> profilUser;
     @ManyToOne
     private Ett ett;
 }

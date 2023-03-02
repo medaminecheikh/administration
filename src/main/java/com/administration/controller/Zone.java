@@ -3,7 +3,7 @@ package com.administration.controller;
 import com.administration.dto.ZoneRequestDTO;
 import com.administration.dto.ZoneResponseDTO;
 import com.administration.dto.ZoneUpdateDTO;
-import com.administration.Interface.IZoneService;
+import com.administration.service.IZoneService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

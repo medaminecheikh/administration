@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IZoneService;
 import com.administration.dto.ZoneRequestDTO;
 import com.administration.dto.ZoneResponseDTO;
 import com.administration.dto.ZoneUpdateDTO;
@@ -9,24 +8,23 @@ import com.administration.entity.Zone;
 import com.administration.mappers.ZoneMapper;
 import com.administration.repo.DregionalRepo;
 import com.administration.repo.ZoneRepo;
+import com.administration.service.IZoneService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@AllArgsConstructor
 public class ZoneServiceImpl implements IZoneService {
     ZoneRepo zoneRepo;
     ZoneMapper zoneMapper;
     DregionalRepo dregionalRepo;
 
-
-    public ZoneServiceImpl(ZoneRepo zoneRepo, ZoneMapper zoneMapper, DregionalRepo dregionalRepo) {
-        this.zoneRepo = zoneRepo;
-        this.zoneMapper = zoneMapper;
-        this.dregionalRepo = dregionalRepo;
-    }
 
     @Override
     public ZoneResponseDTO addZone(ZoneRequestDTO RequestDTO) {

@@ -1,6 +1,5 @@
-package com.administration.service;
+package com.administration.service.impl;
 
-import com.administration.Interface.IFoncService;
 import com.administration.dto.FoncRequestDTO;
 import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
@@ -9,23 +8,23 @@ import com.administration.entity.Model;
 import com.administration.mappers.FoncMapper;
 import com.administration.repo.FoncRepo;
 import com.administration.repo.ModelRepo;
+import com.administration.service.IFoncService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@AllArgsConstructor
 public class FoncServiceImpl implements IFoncService {
     FoncRepo foncRepo;
      FoncMapper foncMapper;
      ModelRepo modelRepo;
 
-    public FoncServiceImpl(FoncRepo foncRepo, FoncMapper foncMapper, ModelRepo modelRepo) {
-        this.foncRepo = foncRepo;
-        this.foncMapper = foncMapper;
-        this.modelRepo = modelRepo;
-    }
 
     @Override
     public FoncResponseDTO addFonc(FoncRequestDTO RequestDTO) {
