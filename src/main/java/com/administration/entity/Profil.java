@@ -28,7 +28,7 @@ public class Profil implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "idFoncs")
     )
     private List<Fonction> fonctions;
-    @OneToMany(mappedBy = "profil", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "profil", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<ProfilUser> profilUsers;
     @ManyToOne
     private Model model;
