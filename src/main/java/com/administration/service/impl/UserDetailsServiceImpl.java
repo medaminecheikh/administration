@@ -29,6 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         utilisateur.getProfilUser().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getProfil().getNomP()));
         });
-        return new User(utilisateur.getLogin(), utilisateur.getPwdU(),authorities );
+        return new User(utilisateur.getLogin(), utilisateur.getPwdU(),authorities);
     }
 }

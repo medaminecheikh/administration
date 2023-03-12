@@ -1,11 +1,10 @@
 package com.administration.security.filters;
 
-import com.administration.security.JWTUtils;
+import com.administration.security.Jwt.JwtVariables;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,12 +43,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
         User user=(User) authResult.getPrincipal();
-        Algorithm algorithm=Algorithm.HMAC256(JWTUtils.SECRET);
+        Algorithm algorithm=Algorithm.HMAC256(JwtVariables.SECRET);
 
         //create access token
         String jwtAccesToken= JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+JWTUtils.EXPIRE_ACCESS))
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_ACCESS))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles",user.getAuthorities().stream().map(
                         grantedAuthority -> grantedAuthority.getAuthority()).collect(Collectors.toList()))
@@ -58,7 +57,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         //create refresh token
         String jwtRefreshToken= JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+ JWTUtils.EXPIRE_REFRESH))
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_REFRESH))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 

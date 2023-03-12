@@ -1,6 +1,6 @@
-package com.administration.security;
+package com.administration.security.Jwt;
 
-public class JWTUtils {
+public class JwtVariables {
     public static final String SECRET="is secret :^D";
     public static final String AUTH_HEADER="Authorization";
     public static final long EXPIRE_ACCESS=30*60*1000; // 30min

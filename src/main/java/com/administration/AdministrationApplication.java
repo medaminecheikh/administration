@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class AdministrationApplication {
 
     public static void main(String[] args) {

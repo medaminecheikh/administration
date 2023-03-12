@@ -1,6 +1,6 @@
 package com.administration.security.filters;
 
-import com.administration.security.JWTUtils;
+import com.administration.security.Jwt.JwtVariables;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -25,22 +25,20 @@ import java.util.List;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,authorization");
-        response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin, Access-Control-Allow-Credentials, authorization");
-        if (request.getServletPath().equals("/refreshtoken")) {
-            log.info("!!!!!!!!!/refreshtoken!!!! started");
+
+        if (request.getServletPath().equals("/POS/refreshtoken") ||request.getServletPath().equals("/POS/login")) {
+            log.info("!!!!!!!!!/refreshtoken /LOGIN!!!! started");
             filterChain.doFilter(request, response);
             log.info("!!!!!!!!!/refreshtoken!!!! finished");
 
         } else {
-            String authorizationtoken = request.getHeader(JWTUtils.AUTH_HEADER);
-            if (authorizationtoken != null && authorizationtoken.startsWith(JWTUtils.PREFIX)) {
+            String authorizationtoken = request.getHeader(JwtVariables.AUTH_HEADER);
+            if (authorizationtoken != null && authorizationtoken.startsWith(JwtVariables.PREFIX)) {
                 try {
                     log.info("!!!!!!!!!token not null!!!! and prefix Bearer found");
 
                     String jwt = authorizationtoken.substring(7);
-                    Algorithm algorithm = Algorithm.HMAC256(JWTUtils.SECRET);
+                    Algorithm algorithm = Algorithm.HMAC256(JwtVariables.SECRET);
                     JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
                     String username = decodedJWT.getSubject();
@@ -51,20 +49,21 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     roles.forEach(rn -> {
                         authorities.add(new SimpleGrantedAuthority(rn));
                     });
-                    log.info(authorities.toString());
+                    log.info("{}",authorities);
                     UsernamePasswordAuthenticationToken AuthenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
-                    log.info(authorities.toString());
+                    log.info(username.toString());
+                    log.info("{}",authorities);
                     SecurityContextHolder.getContext().setAuthentication(AuthenticationToken);
                     filterChain.doFilter(request, response);
                     log.info("!!!!!!!!!Token found!!!! end");
-
+                    log.info("{}");
                 } catch (Exception e) {
                     response.setHeader("error message", e.getMessage());
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 }
             } else filterChain.doFilter(request, response);
-            log.info("!!!!!!!!ELSE!!!! END");
+
 
 
         }
