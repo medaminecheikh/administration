@@ -15,7 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins="*")
+@CrossOrigin(origins="http://localhost:4200")
 @Api(tags = "Gestion Users")
 @Slf4j
 public class UtilisateurController {

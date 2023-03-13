@@ -33,8 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@RequestMapping("/auth")
 @Slf4j
 @AllArgsConstructor
 public class AuthController {
@@ -47,9 +48,10 @@ public class AuthController {
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username,@RequestParam String password) {
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthResponse> login(@RequestParam String username,@RequestParam String password) {
         try {
+            log.info("Attempting authentication for user: " + username);
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);

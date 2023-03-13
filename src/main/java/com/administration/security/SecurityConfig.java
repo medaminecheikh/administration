@@ -41,16 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
-                .antMatchers("/POS/refreshtoken/**").permitAll()
-                .antMatchers("/POS/login/**").permitAll()
-                .antMatchers("/POS/swagger-ui.html").permitAll()
-                .antMatchers("/POS/swagger-resources/**").permitAll()
-                .antMatchers("/POS/v2/api-docs").permitAll()
-                .antMatchers("/POS/webjars/**").permitAll()
+                .antMatchers("/POS/auth/**").permitAll()
+
                 .anyRequest().authenticated()
                 .and().httpBasic();
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
+        http.cors().and().csrf().disable();
 
     }
 }

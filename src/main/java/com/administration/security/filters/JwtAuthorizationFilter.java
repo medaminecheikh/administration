@@ -26,7 +26,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getServletPath().equals("/POS/refreshtoken") ||request.getServletPath().equals("/POS/login")) {
+        if (request.getServletPath().startsWith("/POS/auth/")) {
             log.info("!!!!!!!!!/refreshtoken /LOGIN!!!! started");
             filterChain.doFilter(request, response);
             log.info("!!!!!!!!!/refreshtoken!!!! finished");
