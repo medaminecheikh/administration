@@ -56,8 +56,19 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            String accessToken = jwtTokenUtil.generateAccessToken(userDetails);
-            String refreshToken = jwtTokenUtil.generateRefreshToken(userDetails);
+            Algorithm algorithm=Algorithm.HMAC256(JwtVariables.SECRET);
+
+            String accessToken = JWT.create()
+                    .withSubject(userDetails.getUsername())
+                    .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_ACCESS))
+                    .withClaim("roles",userDetails.getAuthorities().stream().map(
+                            GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                    .sign(algorithm);
+
+            String refreshToken = JWT.create()
+                    .withSubject(userDetails.getUsername())
+                    .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_REFRESH))
+                    .sign(algorithm);
             AuthResponse authResponse = new AuthResponse(userDetails.getUsername(),
                     userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
                     accessToken, refreshToken);

@@ -39,8 +39,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
                     String jwt = authorizationtoken.substring(7);
                     Algorithm algorithm = Algorithm.HMAC256(JwtVariables.SECRET);
+                    log.info("Verifie token start !!!!!");
                     JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
+                    log.info("Verifie token passed !!!!!");
+
                     String username = decodedJWT.getSubject();
                     List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);
                     log.info("!!!!!!!!!"+ username +"!!!!!!!!!");
