@@ -68,6 +68,8 @@ public class AuthController {
             String refreshToken = JWT.create()
                     .withSubject(userDetails.getUsername())
                     .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_REFRESH))
+                    .withClaim("roles",userDetails.getAuthorities().stream().map(
+                            GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .sign(algorithm);
             AuthResponse authResponse = new AuthResponse(userDetails.getUsername(),
                     userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
@@ -79,7 +81,7 @@ public class AuthController {
     }
 
     @GetMapping("/refreshtoken")
-    public void RefreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<AuthResponse> RefreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String authorizationtoken = request.getHeader(JwtVariables.AUTH_HEADER);
         log.info(authorizationtoken +"authorizationtoken FOUND");
@@ -90,21 +92,26 @@ public class AuthController {
                 JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
                 String username = decodedJWT.getSubject();
-                Utilisateur user = IUtilisateurService.getUtilisateurbyLogin(username);//on peut verifier blacklist apres
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);//on peut verifier blacklist apres
                 //create token
-                String jwtAccesToken = JWT.create()
-                        .withSubject(user.getLogin())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + JwtVariables.EXPIRE_ACCESS))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getProfilUser().stream().map(
-                                r -> r.getProfil().getNomP()).collect(Collectors.toList()))
+                String accessToken = JWT.create()
+                        .withSubject(userDetails.getUsername())
+                        .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_ACCESS))
+                        .withClaim("roles",userDetails.getAuthorities().stream().map(
+                                GrantedAuthority::getAuthority).collect(Collectors.toList()))
                         .sign(algorithm);
 
-                Map<String, String> idToken = new HashMap<>();
-                idToken.put("Access-token", jwtAccesToken);
-                idToken.put("Refresh-token", jwt);
-                response.setContentType("application/json");
-                new ObjectMapper().writeValue(response.getOutputStream(), idToken);
+                String refreshToken = JWT.create()
+                        .withSubject(userDetails.getUsername())
+                        .withExpiresAt(new Date(System.currentTimeMillis()+ JwtVariables.EXPIRE_REFRESH))
+                        .withClaim("roles",userDetails.getAuthorities().stream().map(
+                                GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                        .sign(algorithm);
+
+                AuthResponse authResponse = new AuthResponse(userDetails.getUsername(),
+                        userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
+                        accessToken, refreshToken);
+                return ResponseEntity.ok(authResponse);
 
             } catch (Exception e) {
                 throw e;
