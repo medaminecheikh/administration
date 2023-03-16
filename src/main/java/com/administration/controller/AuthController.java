@@ -71,6 +71,7 @@ public class AuthController {
                     .withClaim("roles",userDetails.getAuthorities().stream().map(
                             GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .sign(algorithm);
+
             AuthResponse authResponse = new AuthResponse(userDetails.getUsername(),
                     userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
                     accessToken, refreshToken);

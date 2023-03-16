@@ -1,19 +1,20 @@
 package com.administration.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthResponse {
     private String username;
     private List<String> roles;
     private String accessToken;
     private String refreshToken;
 
-    public AuthResponse(String username, List<String> roles, String accessToken, String refreshToken) {
-        this.username = username;
-        this.roles = roles;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-    }
+
+
 
     // getters and setters
 
@@ -48,4 +49,6 @@ public class AuthResponse {
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+
 }

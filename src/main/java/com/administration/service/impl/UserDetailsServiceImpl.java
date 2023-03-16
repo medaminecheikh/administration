@@ -22,13 +22,59 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.utilisateurService = utilisateurService;
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur utilisateur=utilisateurService.getUtilisateurbyLogin(username);
-        Collection<GrantedAuthority> authorities=new ArrayList<>();
-        utilisateur.getProfilUser().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getProfil().getNomP()));
-        });
-        return new User(utilisateur.getLogin(), utilisateur.getPwdU(),authorities);
+        Utilisateur utilisateur = utilisateurService.getUtilisateurbyLogin(username);
+        return new UtilisateurDetails(utilisateur);
     }
+
+    private static class UtilisateurDetails implements UserDetails {
+
+        private Utilisateur utilisateur;
+
+        public UtilisateurDetails(Utilisateur utilisateur) {
+            this.utilisateur = utilisateur;
+        }
+
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            utilisateur.getProfilUser().forEach(role -> {
+                authorities.add(new SimpleGrantedAuthority(role.getProfil().getNomP()));
+            });
+            return authorities;
+        }
+
+        @Override
+        public String getPassword() {
+            return utilisateur.getPwdU();
+        }
+
+        @Override
+        public String getUsername() {
+            return utilisateur.getLogin();
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+            return utilisateur.getIs_EXPIRED() == 0;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return utilisateur.getEstActif() == 1;
+        }
+    }
+
 }

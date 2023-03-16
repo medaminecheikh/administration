@@ -43,8 +43,8 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         if (userexist!=null) {
             throw new IllegalArgumentException("Login with the name " + login + " already exists.");
         }
-        if (RequestDTO.getPwdU()!=RequestDTO.getConfirmedpassword()){
-            throw new RuntimeException("Please confirm your password");
+        if (!RequestDTO.getPwdU().equals(RequestDTO.getConfirmedpassword())){
+            throw new RuntimeException("Please confirm your password !!!!!!!");
         }
         Utilisateur utilisateur=userMapper.UtilisateurRequestDTOUtilisateur(RequestDTO);
         utilisateur.setIdUser(UUID.randomUUID().toString());
