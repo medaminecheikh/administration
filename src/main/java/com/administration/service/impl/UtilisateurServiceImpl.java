@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -58,14 +59,12 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     @Override
     public UtilisateurResponseDTO getUtilisateur(String id) {
         Utilisateur utilisateur =utilisateurRepo.findById(id).get();
-        UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
-        return utilisateurResponseDTO;
+        return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
     }
     @Override
     public Utilisateur getUtilisateurbyLogin(String username) {
-        Utilisateur utilisateur =utilisateurRepo.findByLogin(username);
 
-        return utilisateur;
+        return utilisateurRepo.findByLogin(username);
     }
 
     @Override
@@ -111,11 +110,22 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
     @Override
-    public void removeProfile(String idUser) {
-        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        utilisateur.setProfilUser(null);
+    public void removeProfile(String idUser, String idProfil) {
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+        List<ProfilUser> profilUsers = utilisateur.getProfilUser();
+        if (profilUsers != null) {
+            Iterator<ProfilUser> iterator = profilUsers.iterator();
+            while (iterator.hasNext()) {
+                ProfilUser profilUser = iterator.next();
+                if (profilUser.getUtilisateur().getIdUser().equals(idUser) && profilUser.getProfil().getIdProfil().equals(idProfil)) {
+                    iterator.remove();
+                }
+            }
+        }
+        utilisateur.setProfilUser(profilUsers);
         utilisateurRepo.save(utilisateur);
     }
+
 
     @Override
     public void deleteUser(String idUser) {

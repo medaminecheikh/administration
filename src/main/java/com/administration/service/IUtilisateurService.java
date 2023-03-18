@@ -21,7 +21,7 @@ public interface IUtilisateurService {
 
     void removeEtt(String idUser);
 
-    void removeProfile(String idUser);
+    void removeProfile(String idUser,String idProfil);
 
     void deleteUser(String idUser);
 

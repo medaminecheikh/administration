@@ -48,7 +48,7 @@ public class UtilisateurController {
     }
 
     @ApiOperation(value = "Update Utilisateur")
-    @PutMapping("/update-utilisateur/")
+    @PutMapping("/update-utilisateur")
     @ResponseBody
     public void UpdateUtilisateurDTO(@RequestBody UtilisateurUpdateDTO dto) {
         IUtilisateurService.updateUtilisateurDTO(dto);
@@ -72,9 +72,9 @@ public class UtilisateurController {
         IUtilisateurService.removeEtt(idUser);
     }
     @ApiOperation(value = "Remove Profile")
-    @PutMapping("/removeProfile/{idUser}")
-    public void removeProfile(@PathVariable String idUser){
-        IUtilisateurService.removeProfile(idUser);
+    @PutMapping("/removeProfile/{idUser}/{idProfil}")
+    public void removeProfile(@PathVariable String idUser,@PathVariable String idProfil){
+        IUtilisateurService.removeProfile(idUser,idProfil);
     }
     
     @ApiOperation(value = "Delete User")

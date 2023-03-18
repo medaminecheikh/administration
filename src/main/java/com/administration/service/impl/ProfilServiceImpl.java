@@ -120,9 +120,8 @@ public class ProfilServiceImpl implements IProfilService {
 
     @Override
     public Profil getProfilbyName(String nomp) {
-        Profil profil=profileRepo.findByNomP(nomp.toUpperCase());
 
-        return profil;
+        return profileRepo.findByNomP(nomp.toUpperCase());
     }
 
 

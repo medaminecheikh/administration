@@ -42,9 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests()
                 .antMatchers("/POS/auth/**").permitAll()
-
+                .antMatchers("/auth/authenticate").permitAll()
+                .antMatchers("/auth/refreshtoken").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/auth-controller/loginUsingPOST").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
-                .and().httpBasic();
+              ;
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
         http.cors().and().csrf().disable();

@@ -70,8 +70,8 @@ public class ProfileController {
     }
 
     @ApiOperation(value = "remove Model")
-    @PutMapping("/removeModelToProfile/{idModel}/{idProfile}")
-    public void removeModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
+    @PutMapping("/removeModelToProfile/{idProfile}")
+    public void removeModelToProfile(@PathVariable String idProfile){
         IProfilService.removeModel(idProfile);
     }
     @ApiOperation(value = "Delete Profile")
