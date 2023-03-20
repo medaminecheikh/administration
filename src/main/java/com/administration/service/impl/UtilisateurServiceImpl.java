@@ -52,8 +52,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         utilisateur.setLogin(utilisateur.getLogin().toLowerCase());
         utilisateur.setPwdU(bCryptPasswordEncoder.encode(utilisateur.getPwdU()));
         utilisateurRepo.save(utilisateur);
-        UtilisateurResponseDTO utilisateurResponseDTO=userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
-        return utilisateurResponseDTO;
+        return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
     }
 
     @Override
@@ -70,10 +69,9 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     @Override
     public List<UtilisateurResponseDTO> listUtilisateurs() {
         List<Utilisateur> utilisateurs=utilisateurRepo.findAll();
-        List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs.stream()
+        return utilisateurs.stream()
                 .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
                 .collect(Collectors.toList());
-        return utilisateurResponseDTOList;
     }
 
     @Override
