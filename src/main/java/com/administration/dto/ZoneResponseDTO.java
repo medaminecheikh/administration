@@ -16,4 +16,5 @@ public class ZoneResponseDTO {
     private String DES_ZONE_AR;
     private List<DregionalUpdateDTO> dregionals;
     private  List<EttUpdateDTO> etts;
+    private long totalElements;
 }

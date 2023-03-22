@@ -16,4 +16,5 @@ public class FoncResponseDTO {
     private int F_ADM;
     private List<ModelUpdateDTO> models;
     private List<ProfilUpdateDTO> profils;
+    private long totalElements;
 }

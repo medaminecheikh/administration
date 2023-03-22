@@ -20,4 +20,5 @@ public class DregionalResponseDTO {
     private ZoneUpdateDTO zone;
 
     private List<EttUpdateDTO> etts;
+    private long totalElements;
 }

@@ -20,4 +20,5 @@ public class EttResponseDTO {
     private List<UtilisateurUpdateDTO> utilisateurs;
     private DregionalUpdateDTO dregional;
     private ZoneUpdateDTO zone;
+    private long totalElements;
 }

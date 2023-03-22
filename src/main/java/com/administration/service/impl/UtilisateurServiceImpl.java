@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,15 +137,13 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size) {
-        Page<Utilisateur> utilisateurs=utilisateurRepo.findUtilisateurByLogin(kw, PageRequest.of(page, size));
-        long count =utilisateurRepo.count();
-        List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs.getContent().stream()
+        Sort sort = Sort.by("idUser");
+        Page<Utilisateur> utilisateurs=utilisateurRepo.findUtilisateurByLogin(kw, PageRequest.of(page, size,sort));
+        List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs
                 .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
-                .collect(Collectors.toList());
-        for (UtilisateurResponseDTO responseDTO : utilisateurResponseDTOList
-        ){
-            responseDTO.setTotalElements(count);
-        }
+                .getContent();
+        long count=utilisateurs.getTotalElements();
+        utilisateurResponseDTOList.forEach(dto -> dto.setTotalElements(count));
 
         return utilisateurResponseDTOList;
     }

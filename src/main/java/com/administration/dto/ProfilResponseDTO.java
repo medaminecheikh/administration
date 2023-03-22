@@ -15,4 +15,5 @@ public class ProfilResponseDTO {
     private ModelUpdateDTO model;
     private List<FoncUpdateDTO> functions;
     private List<ProfilUserViewProfileDTO> profilUsers;
+    private long totalElements;
 }

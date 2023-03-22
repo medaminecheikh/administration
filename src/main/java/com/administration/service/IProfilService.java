@@ -3,6 +3,7 @@ package com.administration.service;
 import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;
+import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.entity.Profil;
 
 import java.util.List;
@@ -15,9 +16,8 @@ public interface IProfilService {
     void affecterFoncToProfile(String idFonc,String idProfile);
     void affecterModelToProfile(String idModel,String idProfile);
     void removeFonc(String idFonc, String idProfile);
-
     void removeModel(String idProfile);
-
     void deleteProfile(String idProfile);
     Profil getProfilbyName(String nomp);
+    List<ProfilResponseDTO> findProfilsByLogin(String kw, int page, int size);
 }

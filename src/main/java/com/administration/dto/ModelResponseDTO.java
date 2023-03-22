@@ -11,4 +11,5 @@ public class ModelResponseDTO {
     private String obs;
     private List<FoncUpdateDTO> fonctions;
     private List<ProfilUpdateDTO> profils;
+    private long totalElements;
 }

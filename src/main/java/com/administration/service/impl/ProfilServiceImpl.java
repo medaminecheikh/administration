@@ -10,6 +10,9 @@ import com.administration.repo.*;
 import com.administration.service.IProfilService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,6 +125,18 @@ public class ProfilServiceImpl implements IProfilService {
     public Profil getProfilbyName(String nomp) {
 
         return profileRepo.findByNomP(nomp.toUpperCase());
+    }
+
+    @Override
+    public List<ProfilResponseDTO> findProfilsByLogin(String kw, int page, int size) {
+        Sort sort = Sort.by("idProfil");
+        Page<Profil> profilPage =profileRepo.findProfilsByNomP(kw, PageRequest.of(page, size,sort));
+        List<ProfilResponseDTO> profilResponseDTOList =profilPage
+                .map(profil -> profilMapper.ProfileTOProfileResponseDTO(profil))
+                .getContent();
+        long count =profilPage.getTotalElements();
+        profilResponseDTOList.forEach(profil -> profil.setTotalElements(count));
+        return profilResponseDTOList;
     }
 
 
