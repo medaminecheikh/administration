@@ -47,25 +47,22 @@ public class ProfilServiceImpl implements IProfilService {
         profil.setIdProfil(UUID.randomUUID().toString());
         profil.setNomP(profil.getNomP().toUpperCase());
         Profil profilesave=profileRepo.save(profil);
-        ProfilResponseDTO profilResponseDTO = profilMapper.ProfileTOProfileResponseDTO(profilesave);
-        return profilResponseDTO;}
+            return profilMapper.ProfileTOProfileResponseDTO(profilesave);}
     }
 
     @Override
     public ProfilResponseDTO getProfile(String id) {
         Profil profil = profileRepo.findById(id).get();
-        ProfilResponseDTO profilResponseDTO = profilMapper.ProfileTOProfileResponseDTO(profil);
-        return profilResponseDTO;
+        return profilMapper.ProfileTOProfileResponseDTO(profil);
     }
 
     @Override
     public List<ProfilResponseDTO> listProfiles() {
         List<Profil> profils =profileRepo.findAll();
 
-        List<ProfilResponseDTO> profilResponseDTOList = profils.stream()
+        return profils.stream()
                 .map(profile -> profilMapper.ProfileTOProfileResponseDTO(profile))
                 .collect(Collectors.toList());
-        return profilResponseDTOList;
     }
 
     @Override
