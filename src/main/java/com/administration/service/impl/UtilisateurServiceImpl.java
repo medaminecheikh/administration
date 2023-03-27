@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -52,6 +53,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         utilisateur.setIdUser(UUID.randomUUID().toString());
         utilisateur.setLogin(utilisateur.getLogin().toLowerCase());
         utilisateur.setPwdU(bCryptPasswordEncoder.encode(utilisateur.getPwdU()));
+        utilisateur.setDate_CREATION(new Date());
         utilisateurRepo.save(utilisateur);
         return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
     }

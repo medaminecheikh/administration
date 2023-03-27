@@ -23,7 +23,7 @@ public class Utilisateur implements Serializable {
     @NotNull
     private String login;
     @Column(name = "NOM_P")
-    @NotNull
+
     private String nomP;
     @Column(name = "NOM_U")
     @NotNull
