@@ -75,12 +75,20 @@ public class ProfilServiceImpl implements IProfilService {
 
     @Override
     public void affecterFoncToProfile(String idFonc, String idProfile) {
-        Profil profil =profileRepo.findById(idProfile).get();
-        Fonction fonction =foncRepo.findById(idFonc).get();
+        Profil profil = profileRepo.findById(idProfile).get();
+        Fonction fonction = foncRepo.findById(idFonc).get();
 
-        profil.getFonctions().add(fonction);
-        profileRepo.save(profil);
+        boolean fonctionExists = profil.getFonctions().stream()
+                .anyMatch(fonctionInProfil -> fonctionInProfil.getCodF().equals(idFonc));
+
+        if (!fonctionExists) {
+            profil.getFonctions().add(fonction);
+            profileRepo.save(profil);
+        } else {
+            throw new RuntimeException("This function already exists in the profile");
+        }
     }
+
 
     @Override
     public void affecterModelToProfile(String idModel, String idProfile) {

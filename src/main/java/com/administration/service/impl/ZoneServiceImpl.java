@@ -31,24 +31,21 @@ public class ZoneServiceImpl implements IZoneService {
         Zone zone=zoneMapper.ZoneRequestDTOZone(RequestDTO);
         zone.setIdZone(UUID.randomUUID().toString());
         zoneRepo.save(zone);
-        ZoneResponseDTO zoneResponseDTO=zoneMapper.ZoneTOZoneResponseDTO(zone);
-        return zoneResponseDTO;
+        return zoneMapper.ZoneTOZoneResponseDTO(zone);
     }
 
     @Override
     public ZoneResponseDTO getZone(String id) {
         Zone zone=zoneRepo.findById(id).get();
-        ZoneResponseDTO zoneResponseDTO=zoneMapper.ZoneTOZoneResponseDTO(zone);
-        return zoneResponseDTO;
+        return zoneMapper.ZoneTOZoneResponseDTO(zone);
     }
 
     @Override
     public List<ZoneResponseDTO> listZones() {
         List<Zone> zones=zoneRepo.findAll();
-        List<ZoneResponseDTO> zoneResponseDTOList=zones.stream()
+        return zones.stream()
                 .map(zone -> zoneMapper.ZoneTOZoneResponseDTO(zone))
                 .collect(Collectors.toList());
-        return zoneResponseDTOList;
     }
 
     @Override

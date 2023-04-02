@@ -32,24 +32,21 @@ public class FoncServiceImpl implements IFoncService {
         fonction.setIdFonc(UUID.randomUUID().toString());
         fonction.setDesF(RequestDTO.getFON_COD_F()+RequestDTO.getDesF());
         foncRepo.save(fonction);
-        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
-        return foncResponseDTO;
+        return foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
     }
 
     @Override
     public FoncResponseDTO getFonc(String id) {
         Fonction fonction =foncRepo.findById(id).get();
-        FoncResponseDTO foncResponseDTO=foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
-        return foncResponseDTO;
+        return foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
     }
 
     @Override
     public List<FoncResponseDTO> listFoncs() {
         List<Fonction> fonctions =foncRepo.findAll();
-        List<FoncResponseDTO> foncResponseDTOS= fonctions.stream()
+        return fonctions.stream()
                 .map(fonctionalite -> foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite))
                 .collect(Collectors.toList());
-        return foncResponseDTOS;
     }
 
     @Override
@@ -62,19 +59,23 @@ public class FoncServiceImpl implements IFoncService {
 
     @Override
     public void affecterModelToFonc(String idModel, String idFonc) {
-        Model model=modelRepo.findById(idModel).get();
-        Fonction fonction =foncRepo.findById(idFonc).get();
-        boolean exist=false;
-        for (Fonction fonction1 :model.getFonctions())
-        {
-            if (fonction1.getCodF()==idFonc){exist=true;}
+        Model model = modelRepo.findById(idModel).orElseThrow(() -> new RuntimeException("Model not found"));
+        Fonction fonction = foncRepo.findById(idFonc).orElseThrow(() -> new RuntimeException("Function not found"));
+        boolean exist = false;
+        for (Fonction fonction1 : model.getFonctions()) {
+            if (fonction1.getCodF().equals(idFonc)) {
+                exist = true;
+                break;
+            }
         }
-        if (exist==false){
-        model.getFonctions().add(fonction);
-        modelRepo.save(model);}else throw new RuntimeException("This model already exist");
-
-
+        if (!exist) {
+            model.getFonctions().add(fonction);
+            modelRepo.save(model);
+        } else {
+            throw new RuntimeException("This model already has this function");
+        }
     }
+
 
     @Override
     public void deleteFonc(String idFonc) {

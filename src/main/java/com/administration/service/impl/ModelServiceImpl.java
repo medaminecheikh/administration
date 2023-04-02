@@ -30,24 +30,21 @@ public class ModelServiceImpl implements IModelService {
         Model model=modMapper.ModelRequestDTOModel(RequestDTO);
         model.setIdModel(UUID.randomUUID().toString());
         modelRepo.save(model);
-        ModelResponseDTO modelResponseDTO=modMapper.ModelTOModelResponseDTO(model);
-        return modelResponseDTO;
+        return modMapper.ModelTOModelResponseDTO(model);
     }
 
     @Override
     public ModelResponseDTO getModel(String id) {
         Model model =modelRepo.findById(id).get();
-        ModelResponseDTO modelResponseDTO=modMapper.ModelTOModelResponseDTO(model);
-        return modelResponseDTO;
+        return modMapper.ModelTOModelResponseDTO(model);
     }
 
     @Override
     public List<ModelResponseDTO> listModels() {
         List<Model> models=modelRepo.findAll();
-        List<ModelResponseDTO> modelResponseDTOList=models.stream()
+        return models.stream()
                 .map(model -> modMapper.ModelTOModelResponseDTO(model))
                 .collect(Collectors.toList());
-        return modelResponseDTOList;
     }
 
     @Override

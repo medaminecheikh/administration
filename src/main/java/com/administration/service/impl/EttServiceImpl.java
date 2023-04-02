@@ -37,24 +37,21 @@ public class EttServiceImpl implements IEttService {
         Ett ett=ettMapper.EttRequestDTOEtt(ettRequestDTO);
         ett.setIdEtt(UUID.randomUUID().toString());
         ettRepo.save(ett);
-        EttResponseDTO ettResponseDTO=ettMapper.EttTOEttResponseDTO(ett);
-        return ettResponseDTO;
+        return ettMapper.EttTOEttResponseDTO(ett);
     }
 
     @Override
     public EttResponseDTO getEtt(String id) {
         Ett ett=ettRepo.findById(id).get();
-        EttResponseDTO ettResponseDTO=ettMapper.EttTOEttResponseDTO(ett);
-        return ettResponseDTO;
+        return ettMapper.EttTOEttResponseDTO(ett);
     }
 
     @Override
     public List<EttResponseDTO> listEtts() {
         List<Ett> etts=ettRepo.findAll();
-        List<EttResponseDTO> ettResponseDTOList=etts.stream()
+        return etts.stream()
                 .map(ett -> ettMapper.EttTOEttResponseDTO(ett))
                 .collect(Collectors.toList());
-        return ettResponseDTOList;
     }
 
     @Override

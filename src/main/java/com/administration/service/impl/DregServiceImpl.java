@@ -31,25 +31,22 @@ public class DregServiceImpl implements IDregService {
         Dregional dregional= dregionaleMapper.DregionaleRequestDTODregionale(dregionalRequestDTO);
         dregional.setIdDr(UUID.randomUUID().toString());
         Dregional dregionalsave=dregionalRepo.save(dregional);
-        DregionalResponseDTO dregionalResponseDTO=dregionaleMapper.DregionaleTODregionaleResponseDTO(dregionalsave);
 
-        return dregionalResponseDTO;
+        return dregionaleMapper.DregionaleTODregionaleResponseDTO(dregionalsave);
     }
 
     @Override
     public DregionalResponseDTO getDregional(String id) {
         Dregional dregional=dregionalRepo.findById(id).get();
-        DregionalResponseDTO dregionalResponseDTO=dregionaleMapper.DregionaleTODregionaleResponseDTO(dregional);
-        return dregionalResponseDTO;
+        return dregionaleMapper.DregionaleTODregionaleResponseDTO(dregional);
     }
 
     @Override
     public List<DregionalResponseDTO> listDregionals() {
         List<Dregional> dregionals=dregionalRepo.findAll();
-        List<DregionalResponseDTO> dregionalResponseDTOS=dregionals.stream()
+        return dregionals.stream()
                 .map(dto->dregionaleMapper.DregionaleTODregionaleResponseDTO(dto))
                 .collect(Collectors.toList());
-        return dregionalResponseDTOS;
     }
 
     @Override

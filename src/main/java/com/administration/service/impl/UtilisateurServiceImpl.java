@@ -80,6 +80,9 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     @Override
     public void updateUtilisateurDTO(UtilisateurUpdateDTO dto) {
             Utilisateur utilisateur=utilisateurRepo.findById(dto.getIdUser()).get();
+        if (dto.getPwdU() != null){
+            dto.setPwdU(bCryptPasswordEncoder.encode(dto.getPwdU()));
+        }
             userMapper.updateUtilisateurFromDto(dto,utilisateur);
             utilisateurRepo.save(utilisateur);
     }
@@ -94,14 +97,28 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public void affecterProfileToUser(String idUser, String idProfile) {
-        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        Profil profil =profileRepo.findById(idProfile).get();
-        ProfilUser profilUser =new ProfilUser();
-        profilUser.setProfil(profil);
-        profilUser.setUtilisateur(utilisateur);
-        utilisateur.getProfilUser().add(profilUser);
-        utilisateurRepo.save(utilisateur);
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).get();
+        Profil profil = profileRepo.findById(idProfile).get();
+
+        boolean profileExists = false;
+        for (ProfilUser profilUser : utilisateur.getProfilUser()) {
+            if (profilUser.getProfil().equals(profil)) {
+                profileExists = true;
+                break;
+            }
+        }
+
+        if (!profileExists) {
+            ProfilUser profilUser = new ProfilUser();
+            profilUser.setProfil(profil);
+            profilUser.setUtilisateur(utilisateur);
+            utilisateur.getProfilUser().add(profilUser);
+            utilisateurRepo.save(utilisateur);
+        } else {
+            throw new RuntimeException("This profile already exists for the user");
+        }
     }
+
 
     @Override
     public void removeEtt(String idUser) {
@@ -115,17 +132,12 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
         List<ProfilUser> profilUsers = utilisateur.getProfilUser();
         if (profilUsers != null) {
-            Iterator<ProfilUser> iterator = profilUsers.iterator();
-            while (iterator.hasNext()) {
-                ProfilUser profilUser = iterator.next();
-                if (profilUser.getUtilisateur().getIdUser().equals(idUser) && profilUser.getProfil().getIdProfil().equals(idProfil)) {
-                    iterator.remove();
-                }
-            }
+            profilUsers.removeIf(profilUser -> profilUser.getProfil().getIdProfil().equals(idProfil));
+            utilisateur.setProfilUser(profilUsers);
+            utilisateurRepo.save(utilisateur);
         }
-        utilisateur.setProfilUser(profilUsers);
-        utilisateurRepo.save(utilisateur);
     }
+
 
 
     @Override
