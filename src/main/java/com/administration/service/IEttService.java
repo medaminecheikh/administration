@@ -15,4 +15,6 @@ public interface IEttService {
     void affecterEttToDreg(String idEtt,String idDreg);
 
     void deleteEtt(String idEtt);
+    List<EttResponseDTO> getEttsByDrId(String drId);
+
 }

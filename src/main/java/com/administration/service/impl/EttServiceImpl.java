@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -94,4 +95,16 @@ public class EttServiceImpl implements IEttService {
         }else  throw  new RuntimeException("This Ett with address "+ett.getAdr()+" has associations");
     }
 
+    @Override
+    public List<EttResponseDTO> getEttsByDrId(String drId) {
+        Dregional dregional = dregionalRepo.findById(drId).orElse(null);
+        if (dregional != null) {
+            return dregional.getEtts().stream()
+                    .map(ettMapper::EttTOEttResponseDTO)
+                    .collect(Collectors.toList());
+
+        } else {
+            return Collections.emptyList();
+        }
+    }
 }

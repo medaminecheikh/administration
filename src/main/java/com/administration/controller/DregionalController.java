@@ -45,4 +45,10 @@ public class DregionalController {
         IDregService.updateDregionalDTO(dto);
     }
 
+    @ApiOperation(value = "Récupérer Dregionals par zone")
+    @GetMapping(path = "/dregbyzone/{idZone}")
+    public List<DregionalResponseDTO> getDregionalsByZone(@PathVariable String idZone){
+
+        return IDregService.getDregionalsByZoneId(idZone);
+    }
 }

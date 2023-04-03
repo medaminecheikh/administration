@@ -12,6 +12,7 @@ public interface IDregService {
     DregionalResponseDTO getDregional(String id);
     List<DregionalResponseDTO> listDregionals();
     void updateDregionalDTO(DregionalUpdateDTO dto);
+    List<DregionalResponseDTO> getDregionalsByZoneId(String zoneId);
 
 
 }

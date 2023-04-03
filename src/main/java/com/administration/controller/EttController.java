@@ -55,14 +55,23 @@ public class EttController {
     public void affecterEttToDreg(@PathVariable String idEtt,@PathVariable String idDreg){
         IEttService.affecterEttToDreg(idEtt,idDreg);
     }
+
     @ApiOperation(value = "remove Zone")
     @PutMapping("/removeZone/{idZone}")
     public void removeZone(@PathVariable String idZone){
         IEttService.removeZone(idZone);
     }
+
     @ApiOperation(value = "Delete Ett")
     @DeleteMapping("/DeleteEtt/{idEtt}")
     public void DeleteEtt(@PathVariable String idEtt){
         IEttService.deleteEtt(idEtt);
+    }
+
+    @ApiOperation(value = "Récupérer Ett par dr")
+    @GetMapping(path = "/ettbydr/{drId}")
+    public List<EttResponseDTO> getEttbyDr(@PathVariable String drId){
+
+        return IEttService.getEttsByDrId(drId);
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DregionalRequestDTO {
     private String dr;
+    private String cod_DR;
     private String drAr;
 
 }
