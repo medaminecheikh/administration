@@ -20,4 +20,5 @@ public interface IProfilService {
     void deleteProfile(String idProfile);
     Profil getProfilbyName(String nomp);
     List<ProfilResponseDTO> findProfilsByLogin(String kw, int page, int size);
+
 }

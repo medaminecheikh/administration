@@ -4,6 +4,7 @@ import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;
 import com.administration.dto.UtilisateurResponseDTO;
+import com.administration.entity.Profil;
 import com.administration.service.IProfilService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
