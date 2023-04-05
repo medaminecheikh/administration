@@ -30,7 +30,7 @@ public class FoncServiceImpl implements IFoncService {
     public FoncResponseDTO addFonc(FoncRequestDTO RequestDTO) {
         Fonction fonction = foncMapper.FonctionaliteRequestDTOFonctionalite(RequestDTO);
         fonction.setIdFonc(UUID.randomUUID().toString());
-        fonction.setDesF(RequestDTO.getFON_COD_F()+RequestDTO.getDesF());
+        fonction.setFON_COD_F(RequestDTO.getNomMENU()+RequestDTO.getFON_COD_F());
         foncRepo.save(fonction);
         return foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
     }
