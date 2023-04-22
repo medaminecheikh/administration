@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoncRequestDTO {
+    private String codF;
     private String FON_COD_F;
     private String desF;
     private String nomF;
