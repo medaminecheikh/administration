@@ -6,7 +6,7 @@ import lombok.Data;
 public class FoncUpdateDTO {
     private String idFonc;
     private String codF;
-    private String FON_COD_F;
+    private String fon_COD_F;
     private String desF;
     private String nomF;
     private String nomMENU;

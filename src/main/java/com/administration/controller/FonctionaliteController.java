@@ -61,5 +61,8 @@ public class FonctionaliteController {
     public void removeModel(@PathVariable String idModel,@PathVariable String idFonc){
         IFoncService.removeModel(idModel,idFonc);
     }
-
+    @GetMapping("/bymenu/{nomMenu}")
+    public List<FoncResponseDTO> getFonctionsByNomMenu(@PathVariable String nomMenu) {
+        return IFoncService.getFonctionsByNomMenu(nomMenu);
+    }
 }

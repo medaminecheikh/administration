@@ -16,4 +16,6 @@ public interface IFoncService {
     void deleteFonc(String idFonc);
 
     void removeModel(String idModel, String idFonc);
+
+     List<FoncResponseDTO> getFonctionsByNomMenu(String nomMENU);
 }

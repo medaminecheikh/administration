@@ -19,7 +19,7 @@ public class Fonction implements Serializable {
     @Column(name = "COD_F")
    private String codF;
     @Column(name = "FON_COD_F")
-   private String FON_COD_F;
+   private String fon_COD_F;
     @Column(name = "DES_F")
    private String desF;
     @Column(name = "NOM_F")

@@ -8,7 +8,7 @@ import java.util.List;
 public class FoncResponseDTO {
     private String idFonc;
     private String codF;
-    private String FON_COD_F;
+    private String fon_COD_F;
     private String desF;
     private String nomF;
     private String nomMENU;

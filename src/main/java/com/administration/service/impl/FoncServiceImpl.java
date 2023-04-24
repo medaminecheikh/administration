@@ -92,4 +92,12 @@ public class FoncServiceImpl implements IFoncService {
                 model.getFonctions().remove(fonction1);
                 modelRepo.save(model);
             }
+
+    @Override
+    public List<FoncResponseDTO> getFonctionsByNomMenu(String nomMENU) {
+      List<Fonction> fonctionList= foncRepo.findByNomMENUAndFon_COD_FIsNotNull(nomMENU, "");
+        return fonctionList.stream()
+                .map(fonctionalite -> foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite))
+                .collect(Collectors.toList());
+    }
 }
