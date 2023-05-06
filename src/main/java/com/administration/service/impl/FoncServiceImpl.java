@@ -41,6 +41,12 @@ public class FoncServiceImpl implements IFoncService {
     }
 
     @Override
+    public FoncResponseDTO getFoncbyNom(String nom) {
+        Fonction fonction =foncRepo.findByNomF(nom);
+        return foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
+    }
+
+    @Override
     public List<FoncResponseDTO> listFoncs() {
         List<Fonction> fonctions =foncRepo.findAll();
         return fonctions.stream()
@@ -99,5 +105,26 @@ public class FoncServiceImpl implements IFoncService {
         return fonctionList.stream()
                 .map(fonctionalite -> foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void initializeFonctions(List<FoncRequestDTO> fonctions) {
+        for (FoncRequestDTO fonc : fonctions) {
+            FoncResponseDTO existingFonc = getFoncbyNom(fonc.getNomF());
+
+            if (existingFonc == null) {
+                addFonc(fonc);
+            }
+        }
+    }
+
+
+    @Override
+    public FoncResponseDTO addsousFonc(FoncRequestDTO foncRequestDTO) {
+        Fonction fonction = foncMapper.FonctionaliteRequestDTOFonctionalite(foncRequestDTO);
+        fonction.setIdFonc(UUID.randomUUID().toString());
+        fonction.setFon_COD_F(foncRequestDTO.getNomMENU()+foncRequestDTO.getFon_COD_F());
+        foncRepo.save(fonction);
+        return foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonction);
     }
 }

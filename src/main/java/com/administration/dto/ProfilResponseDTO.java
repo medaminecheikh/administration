@@ -13,7 +13,7 @@ public class ProfilResponseDTO {
     private String Des_P;
     private CategProfilUpdateDTO categProfil;
     private ModelUpdateDTO model;
-    private List<FoncUpdateDTO> functions;
+    private List<FoncUpdateDTO> fonctions;
     private List<ProfilUserViewProfileDTO> profilUsers;
     private long totalElements;
 }

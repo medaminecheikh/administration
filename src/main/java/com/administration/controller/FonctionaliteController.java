@@ -33,6 +33,11 @@ public class FonctionaliteController {
     public FoncResponseDTO save(@RequestBody FoncRequestDTO foncRequestDTO){
         return IFoncService.addFonc(foncRequestDTO);
     }
+    @ApiOperation(value = "ajoute Fonc")
+    @PostMapping(path="/ajoutesousfonc")
+    public FoncResponseDTO savesous(@RequestBody FoncRequestDTO foncRequestDTO){
+        return IFoncService.addsousFonc(foncRequestDTO);
+    }
     @ApiOperation(value = "Récupérer Fonc")
     @GetMapping(path = "/fonc/{idFonc}")
     public FoncResponseDTO getFonc(@PathVariable String idFonc){

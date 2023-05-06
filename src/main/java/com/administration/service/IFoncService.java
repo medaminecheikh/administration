@@ -10,6 +10,7 @@ public interface IFoncService {
 
     FoncResponseDTO addFonc(FoncRequestDTO RequestDTO);
     FoncResponseDTO getFonc(String id);
+    FoncResponseDTO getFoncbyNom(String nom);
     List<FoncResponseDTO> listFoncs();
     void updateFoncDTO(FoncUpdateDTO dto);
     void affecterModelToFonc(String idModel,String idFonc);
@@ -18,4 +19,6 @@ public interface IFoncService {
     void removeModel(String idModel, String idFonc);
 
      List<FoncResponseDTO> getFonctionsByNomMenu(String nomMENU);
+    void initializeFonctions(List<FoncRequestDTO> fonctions);
+    FoncResponseDTO addsousFonc(FoncRequestDTO foncRequestDTO);
 }

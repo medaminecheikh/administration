@@ -70,6 +70,12 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
     @Override
+    public UtilisateurResponseDTO getbyLogin(String username) {
+       Utilisateur utilisateur= utilisateurRepo.findByLogin(username);
+        return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
+    }
+
+    @Override
     public List<UtilisateurResponseDTO> listUtilisateurs() {
         List<Utilisateur> utilisateurs=utilisateurRepo.findAll();
         return utilisateurs.stream()

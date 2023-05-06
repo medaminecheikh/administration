@@ -27,4 +27,5 @@ public interface IUtilisateurService {
 
     List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size);
     Utilisateur getUtilisateurbyLogin(String username);
+    UtilisateurResponseDTO getbyLogin(String username);
 }

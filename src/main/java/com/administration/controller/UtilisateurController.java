@@ -3,10 +3,12 @@ package com.administration.controller;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
+import com.administration.entity.Utilisateur;
 import com.administration.service.IUtilisateurService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -95,6 +97,15 @@ public class UtilisateurController {
         return IUtilisateurService.findUtilisateurByLogin("%"+kw+"%",page,size);
     }
 
+    @GetMapping("/utilisateurlogin/{username}")
+    public ResponseEntity<UtilisateurResponseDTO> getUtilisateurByLogin(@PathVariable String username) {
+        UtilisateurResponseDTO utilisateur = IUtilisateurService.getbyLogin(username);
 
+        if (utilisateur == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(utilisateur);
+        }
+    }
 
 }
