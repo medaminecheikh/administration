@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @ToString
 @Table(name = "UTILISATEUR")
 public class Utilisateur implements Serializable {
@@ -53,12 +53,14 @@ public class Utilisateur implements Serializable {
     @NotNull
     private String matricule;
     @Temporal(TemporalType.DATE)
-    private Date date_CREATION ;
-    private int is_EXPIRED ;
+    private Date date_CREATION;
+    private int is_EXPIRED;
     @Temporal(TemporalType.DATE)
-    private Date date_EXPIRED ;
-    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Date date_EXPIRED;
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProfilUser> profilUser;
     @ManyToOne
     private Ett ett;
+    @OneToOne(mappedBy = "login")
+    private Caisse caisse;
 }

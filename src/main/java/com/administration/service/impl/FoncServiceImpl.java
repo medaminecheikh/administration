@@ -106,7 +106,13 @@ public class FoncServiceImpl implements IFoncService {
                 .map(fonctionalite -> foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite))
                 .collect(Collectors.toList());
     }
-
+    @Override
+    public List<FoncResponseDTO> findFonctionsByNomMenu(String nomMENU) {
+        List<Fonction> fonctionList= foncRepo.findByNomMENU(nomMENU);
+        return fonctionList.stream()
+                .map(fonctionalite -> foncMapper.FonctionaliteTOFonctionaliteResponseDTO(fonctionalite))
+                .collect(Collectors.toList());
+    }
     @Override
     public void initializeFonctions(List<FoncRequestDTO> fonctions) {
         for (FoncRequestDTO fonc : fonctions) {

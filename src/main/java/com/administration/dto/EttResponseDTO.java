@@ -18,6 +18,7 @@ public class EttResponseDTO {
     private String adr;
     private int is_BSCS;
     private List<UtilisateurUpdateDTO> utilisateurs;
+    private List<CaisseUpdateDTO> caisses;
     private DregionalUpdateDTO dregional;
     private ZoneUpdateDTO zone;
     private long totalElements;

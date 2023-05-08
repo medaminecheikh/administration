@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j@Transactional
 @AllArgsConstructor
+
 public class ProfilServiceImpl implements IProfilService {
     ProfileRepo profileRepo;
     ProfilMapper profilMapper;
@@ -80,7 +81,7 @@ public class ProfilServiceImpl implements IProfilService {
         Fonction fonction = foncRepo.findById(idFonc).get();
 
         boolean fonctionExists = profil.getFonctions().stream()
-                .anyMatch(fonctionInProfil -> fonctionInProfil.getCodF().equals(idFonc));
+                .anyMatch(fonctionInProfil -> fonctionInProfil.getIdFonc().equals(idFonc));
 
         if (!fonctionExists) {
             profil.getFonctions().add(fonction);

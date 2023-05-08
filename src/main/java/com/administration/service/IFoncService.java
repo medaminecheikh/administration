@@ -19,6 +19,9 @@ public interface IFoncService {
     void removeModel(String idModel, String idFonc);
 
      List<FoncResponseDTO> getFonctionsByNomMenu(String nomMENU);
+
+    List<FoncResponseDTO> findFonctionsByNomMenu(String nomMENU);
+
     void initializeFonctions(List<FoncRequestDTO> fonctions);
     FoncResponseDTO addsousFonc(FoncRequestDTO foncRequestDTO);
 }

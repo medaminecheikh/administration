@@ -38,4 +38,6 @@ public class Ett implements Serializable {
     private Dregional dregional;
     @OneToMany(mappedBy = "ett")
     private List<Utilisateur> utilisateurs;
+    @OneToMany(mappedBy = "cod_ett")
+    private List<Caisse> caisses;
 }

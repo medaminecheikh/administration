@@ -1,19 +1,24 @@
 package com.administration.service.impl;
 
 import com.administration.dto.FoncRequestDTO;
+import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.UtilisateurRequestDTO;
+import com.administration.entity.Fonction;
 import com.administration.entity.Profil;
 import com.administration.entity.Utilisateur;
 import com.administration.service.IFoncService;
 import com.administration.service.IProfilService;
 import com.administration.service.IUtilisateurService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
+@Transactional
 public class InitializationService {
     private final IUtilisateurService utilisateurService;
     private final IFoncService foncService;
@@ -24,6 +29,7 @@ public class InitializationService {
         this.foncService = foncService;
         this.profilService = profilService;
     }
+
     public void initializeFonctions() {
         foncService.initializeFonctions(Arrays.asList(
                 new FoncRequestDTO("1", "", "Fonction d'encaissement", "Encaissement", "100", 1, 1),
@@ -42,16 +48,34 @@ public class InitializationService {
                 new FoncRequestDTO("14", "40002-1", "Fonction de génération des bordereaux", "Generation Bordereau", "400", 1, 1),
                 new FoncRequestDTO("15", "40002-2", "Fonction de consultation des bordereaux", "Consultation Bordereau", "400", 1, 1),
                 new FoncRequestDTO("16", "40003", "Fonction de gestion des caisses", "Gestion des caisses", "400", 1, 1),
-                new FoncRequestDTO("17", "40004", "Fonction de validation de la journée", "Validation journée", "400", 1, 1)
+                new FoncRequestDTO("17", "40004", "Fonction de validation de la journée", "Validation journée", "400", 1, 1),
+                new FoncRequestDTO("18", "", "Fonction de Gestion Utilisateur", "Gestion Utilisateur", "500", 1, 1),
+                new FoncRequestDTO("19", "50001", "Fonction dashboard,update,delete", "Gestion ", "500", 1, 1),
+                new FoncRequestDTO("20", "50002", "Fonction de creation", "ajout Utilisateur", "500", 1, 1),
+                new FoncRequestDTO("21", "", "Fonction de Gestion Profil", "Gestion Profil", "600", 1, 1),
+                new FoncRequestDTO("22", "60001", "Fonction dashboard,update,delete", "Gestion", "600", 1, 1),
+                new FoncRequestDTO("23", "60002", "Fonction de creation", "ajout profil", "600", 1, 1),
+                new FoncRequestDTO("24", "", "Fonction de Gestion Model", "Gestion Model", "700", 1, 1),
+                new FoncRequestDTO("25", "70001", "Fonction dashboard,update,delete", "Gestion  ", "700", 1, 1),
+                new FoncRequestDTO("26", "70002", "Fonction de creation", "ajout model", "700", 1, 1)
+
+
         ));
     }
+
     @PostConstruct
     public void initialize() {
         initializeFonctions();
         if (utilisateurService.getUtilisateurbyLogin("firstadmin") == null) {
             utilisateurService.addUtilisateur(new UtilisateurRequestDTO("firstadmin", "admin", "admin", "admin", "admin", "admin", "first admin at start", 1, 1, 1, "admin", null, 0, null));
             if (profilService.getProfilbyName("ADMIN") == null) {
-                profilService.addProfile(new ProfilRequestDTO("admin", "first admin at start"));
+                profilService.addProfile(new ProfilRequestDTO("admin", "gestion des comptes"));
+                List<FoncResponseDTO> fonctions = foncService.findFonctionsByNomMenu("500");
+                fonctions.addAll(foncService.findFonctionsByNomMenu("600"));
+                fonctions.addAll(foncService.findFonctionsByNomMenu("700"));
+                for (FoncResponseDTO fonc : fonctions) {
+                    profilService.affecterFoncToProfile(fonc.getIdFonc(), profilService.getProfilbyName("admin").getIdProfil());
+                }
             }
             Utilisateur user = utilisateurService.getUtilisateurbyLogin("firstadmin");
             Profil profil = profilService.getProfilbyName("ADMIN");
