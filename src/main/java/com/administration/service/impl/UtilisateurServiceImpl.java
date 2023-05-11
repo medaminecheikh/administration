@@ -9,6 +9,7 @@ import com.administration.entity.ProfilUser;
 import com.administration.entity.Utilisateur;
 import com.administration.mappers.UserMapper;
 import com.administration.repo.EttRepo;
+import com.administration.repo.ProfilUserRepo;
 import com.administration.repo.ProfileRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.service.IUtilisateurService;
@@ -37,7 +38,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     ProfileRepo profileRepo;
     EttRepo ettRepo;
     BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    ProfilUserRepo profilUserRepo;
 
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
@@ -134,16 +135,28 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
     @Override
-    public void removeProfile(String idUser, String idProfil) {
-        Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+    public void removeProfile(String userId, String profilId) {
+        Utilisateur utilisateur = utilisateurRepo.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id"));
+        Profil profilToRemove = profileRepo.findById(profilId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid profil id"));
+
         List<ProfilUser> profilUsers = utilisateur.getProfilUser();
         if (profilUsers != null) {
-            profilUsers.removeIf(profilUser -> profilUser.getProfil().getIdProfil().equals(idProfil));
+            Iterator<ProfilUser> iterator = profilUsers.iterator();
+            while(iterator.hasNext()) {
+                ProfilUser profilUser = iterator.next();
+                if (profilUser.getProfil().getIdProfil().equals(profilId)) {
+                    profilUser.setUtilisateur(null);
+                    profilUser.setProfil(null);
+                    profilUserRepo.delete(profilUser);
+                    iterator.remove();
+                }
+            }
             utilisateur.setProfilUser(profilUsers);
             utilisateurRepo.save(utilisateur);
         }
     }
-
 
 
     @Override
