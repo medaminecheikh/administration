@@ -149,7 +149,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
                 if (profilUser.getProfil().getIdProfil().equals(profilId)) {
                     profilUser.setUtilisateur(null);
                     profilUser.setProfil(null);
-                    profilUserRepo.delete(profilUser);
+                    profilUserRepo.deleteById(profilUser.getId());
                     iterator.remove();
                 }
             }
