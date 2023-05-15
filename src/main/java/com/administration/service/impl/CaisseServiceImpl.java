@@ -6,11 +6,11 @@ import com.administration.dto.CaisseUpdateDTO;
 import com.administration.entity.Caisse;
 import com.administration.entity.Ett;
 import com.administration.entity.Utilisateur;
-import com.administration.mappers.CaisseMapper;
 import com.administration.repo.CaisseRepo;
 import com.administration.repo.EttRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.service.ICaisseService;
+import com.administration.service.mappers.CaisseMappers;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class CaisseServiceImpl implements ICaisseService {
 
     CaisseRepo caisseRepo;
-    CaisseMapper caisseMapper;
+    CaisseMappers caisseMapper;
     UtilisateurRepo utilisateurRepo;
     EttRepo ettRepo;
     @Override

@@ -38,6 +38,7 @@ public class InitializationService {
                 new FoncRequestDTO("4", "", "Fonction de recherche", "Recherche", "200", 1, 1),
                 new FoncRequestDTO("5", "20001", "Fonction de recherche d'encaissements", "Recherche Encaissement", "200", 1, 1),
                 new FoncRequestDTO("6", "20002", "Fonction de recherche de factures", "Recherche Facture", "200", 1, 1),
+                new FoncRequestDTO("30", "20003", "Fonction de Journal Encaissement", "Journal Encaissement", "200", 1, 1),
                 new FoncRequestDTO("7", "", "Fonction de journal d'encaissement", "Etat d'edition", "300", 1, 1),
                 new FoncRequestDTO("8", "30001", "Fonction de journal d'encaissement E1", "E1 Journal Encaissement", "300", 1, 1),
                 new FoncRequestDTO("9", "30002", "Fonction de journal de modification E2", "E2 Journal Modification", "300", 1, 1),

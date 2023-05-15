@@ -3,6 +3,7 @@ package com.administration.service;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
+import com.administration.entity.UserView;
 import com.administration.entity.Utilisateur;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,4 +29,7 @@ public interface IUtilisateurService {
     List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size);
     Utilisateur getUtilisateurbyLogin(String username);
     UtilisateurResponseDTO getbyLogin(String username);
+    UserView userviewByLogin(String username);
+    List<UserView> getallUserView();
+    List<UserView> getUserViewByEtt(String ett);
 }

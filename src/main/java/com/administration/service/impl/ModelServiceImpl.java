@@ -4,7 +4,7 @@ import com.administration.dto.ModelRequestDTO;
 import com.administration.dto.ModelResponseDTO;
 import com.administration.dto.ModelUpdateDTO;
 import com.administration.entity.Model;
-import com.administration.mappers.ModMapper;
+import com.administration.service.mappers.ModMapper;
 import com.administration.repo.ModelRepo;
 import com.administration.repo.ProfileRepo;
 import com.administration.service.IModelService;

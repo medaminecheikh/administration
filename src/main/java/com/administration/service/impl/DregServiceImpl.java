@@ -5,7 +5,7 @@ import com.administration.dto.DregionalResponseDTO;
 import com.administration.dto.DregionalUpdateDTO;
 import com.administration.entity.Dregional;
 import com.administration.entity.Zone;
-import com.administration.mappers.DregionaleMapper;
+import com.administration.service.mappers.DregionaleMapper;
 import com.administration.repo.DregionalRepo;
 import com.administration.repo.EttRepo;
 import com.administration.repo.ZoneRepo;

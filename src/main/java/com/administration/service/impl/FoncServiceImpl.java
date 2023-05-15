@@ -5,7 +5,7 @@ import com.administration.dto.FoncResponseDTO;
 import com.administration.dto.FoncUpdateDTO;
 import com.administration.entity.Fonction;
 import com.administration.entity.Model;
-import com.administration.mappers.FoncMapper;
+import com.administration.service.mappers.FoncMapper;
 import com.administration.repo.FoncRepo;
 import com.administration.repo.ModelRepo;
 import com.administration.service.IFoncService;

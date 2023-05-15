@@ -1,5 +1,6 @@
 package com.administration.repo;
 
+import com.administration.entity.UserView;
 import com.administration.entity.Utilisateur;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UtilisateurRepo extends JpaRepository<Utilisateur,String> {
     @Query("select a from  Utilisateur a where a.login like :kw")
@@ -15,4 +18,6 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur,String> {
     long count();
 
     Utilisateur findByLogin(String username);
+
+
 }

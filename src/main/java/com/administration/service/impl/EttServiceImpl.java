@@ -6,7 +6,7 @@ import com.administration.dto.EttUpdateDTO;
 import com.administration.entity.Dregional;
 import com.administration.entity.Ett;
 import com.administration.entity.Zone;
-import com.administration.mappers.EttMapper;
+import com.administration.service.mappers.EttMapper;
 import com.administration.repo.DregionalRepo;
 import com.administration.repo.EttRepo;
 import com.administration.repo.UtilisateurRepo;

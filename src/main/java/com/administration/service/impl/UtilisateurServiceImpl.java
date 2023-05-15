@@ -3,15 +3,9 @@ package com.administration.service.impl;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
-import com.administration.entity.Ett;
-import com.administration.entity.Profil;
-import com.administration.entity.ProfilUser;
-import com.administration.entity.Utilisateur;
-import com.administration.mappers.UserMapper;
-import com.administration.repo.EttRepo;
-import com.administration.repo.ProfilUserRepo;
-import com.administration.repo.ProfileRepo;
-import com.administration.repo.UtilisateurRepo;
+import com.administration.entity.*;
+import com.administration.service.mappers.UserMapper;
+import com.administration.repo.*;
 import com.administration.service.IUtilisateurService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +33,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     EttRepo ettRepo;
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ProfilUserRepo profilUserRepo;
-
+    UserViewRepo viewRepo;
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
         String login=RequestDTO.getLogin().toLowerCase();
@@ -75,6 +69,8 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
        Utilisateur utilisateur= utilisateurRepo.findByLogin(username);
         return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
     }
+
+
 
     @Override
     public List<UtilisateurResponseDTO> listUtilisateurs() {
@@ -147,12 +143,19 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
             while(iterator.hasNext()) {
                 ProfilUser profilUser = iterator.next();
                 if (profilUser.getProfil().getIdProfil().equals(profilId)) {
+                    // Set the user and profil to null
                     profilUser.setUtilisateur(null);
                     profilUser.setProfil(null);
+
+                    // Delete the association from the database
                     profilUserRepo.deleteById(profilUser.getId());
+
+                    // Remove the profil user from the list
                     iterator.remove();
                 }
             }
+
+            // Update the utilisateur with the new list of profil users
             utilisateur.setProfilUser(profilUsers);
             utilisateurRepo.save(utilisateur);
         }
@@ -179,5 +182,21 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         utilisateurResponseDTOList.forEach(dto -> dto.setTotalElements(count));
 
         return utilisateurResponseDTOList;
+    }
+
+    @Override
+    public UserView userviewByLogin(String username) {
+
+        return viewRepo.getByLogin(username);
+    }
+
+    @Override
+    public List<UserView> getallUserView() {
+        return viewRepo.findAll();
+    }
+
+    @Override
+    public List<UserView> getUserViewByEtt(String ett) {
+        return viewRepo.findByEtt(ett);
     }
 }

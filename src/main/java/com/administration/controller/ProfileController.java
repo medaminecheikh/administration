@@ -34,6 +34,7 @@ public class ProfileController {
     }
 
     @ApiOperation(value = "ajoute Profile")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path="/ajouteprofile")
     public ProfilResponseDTO save(@RequestBody ProfilRequestDTO profilRequestDTO){
         return IProfilService.addProfile(profilRequestDTO);
@@ -48,6 +49,7 @@ public class ProfileController {
 
 
     @ApiOperation(value = "Update Profile")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update-profile/")
     @ResponseBody
     public void UpdateProfileDTO(@RequestBody ProfilUpdateDTO dto) {
@@ -55,23 +57,27 @@ public class ProfileController {
     }
 
     @ApiOperation(value = "Affecter Fonctionalite")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/affecterFonctionaliteToProfile/{idFonc}/{idProfile}")
     public void affecterFonctionaliteToProfile(@PathVariable String idFonc,@PathVariable String idProfile){
         IProfilService.affecterFoncToProfile(idFonc,idProfile);
     }
     @ApiOperation(value = "Remove Fonctionalite")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/removeFonc/{idFonc}/{idProfile}")
     public void removeFonc(@PathVariable String idFonc,@PathVariable String idProfile){
         IProfilService.removeFonc(idFonc,idProfile);
     }
 
     @ApiOperation(value = "Affecter Model")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/affecterModelToProfile/{idModel}/{idProfile}")
     public void affecterModelToProfile(@PathVariable String idModel,@PathVariable String idProfile){
         IProfilService.affecterModelToProfile(idModel,idProfile);
     }
 
     @ApiOperation(value = "remove Model")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/removeModelToProfile/{idProfile}")
     public void removeModelToProfile(@PathVariable String idProfile){
         IProfilService.removeModel(idProfile);

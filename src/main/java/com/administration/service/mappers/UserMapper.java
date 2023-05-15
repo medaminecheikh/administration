@@ -1,4 +1,4 @@
-package com.administration.mappers;
+package com.administration.service.mappers;
 
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;

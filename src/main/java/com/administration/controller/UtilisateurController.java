@@ -3,6 +3,7 @@ package com.administration.controller;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
+import com.administration.entity.UserView;
 import com.administration.entity.Utilisateur;
 import com.administration.service.IUtilisateurService;
 import io.swagger.annotations.Api;
@@ -37,6 +38,7 @@ public class UtilisateurController {
     }
 
     @ApiOperation(value = "ajoute Utilisateur")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path="/ajouteutilisateur")
     public UtilisateurResponseDTO save(@RequestBody UtilisateurRequestDTO utilisateurRequestDTO){
         return IUtilisateurService.addUtilisateur(utilisateurRequestDTO);
@@ -50,6 +52,7 @@ public class UtilisateurController {
     }
 
     @ApiOperation(value = "Update Utilisateur")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/update-utilisateur")
     @ResponseBody
     public void UpdateUtilisateurDTO(@RequestBody UtilisateurUpdateDTO dto) {
@@ -57,18 +60,21 @@ public class UtilisateurController {
     }
 
     @ApiOperation(value = "Affecter Profile")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/affecterProfiletoUser/{idUser}/{idProfile}")
     public void affecterUserToProfile(@PathVariable String idUser,@PathVariable String idProfile){
         IUtilisateurService.affecterProfileToUser(idUser,idProfile);
     }
 
     @ApiOperation(value = "Affecter User")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/affecterUserToEtt/{idUser}/{idEtt}")
     public void affecterUserToEtt(@PathVariable String idUser,@PathVariable String idEtt){
         IUtilisateurService.affecterUserToEtt(idUser,idEtt);
     }
 
     @ApiOperation(value = "Remove Ett")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/removeEtt/{idUser}")
     public void removeEtt(@PathVariable String idUser){
         IUtilisateurService.removeEtt(idUser);
@@ -80,6 +86,7 @@ public class UtilisateurController {
     }
     
     @ApiOperation(value = "Delete User")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/deleteUser/{idUser}")
     public void deleteUser(@PathVariable String idUser){
         IUtilisateurService.deleteUser(idUser);
@@ -107,5 +114,30 @@ public class UtilisateurController {
             return ResponseEntity.ok(utilisateur);
         }
     }
+    @GetMapping("/viewbylogin/{username}")
+    public ResponseEntity<UserView> getviewByLogin(@PathVariable String username) {
+        UserView utilisateur = IUtilisateurService.userviewByLogin(username);
+        log.info(utilisateur.toString());
 
+            return ResponseEntity.ok(utilisateur);
+
+    }
+    @GetMapping("/viewbyett/{ett}")
+    public ResponseEntity<List<UserView>> getviewByett(@PathVariable String ett) {
+        List<UserView> utilisateur = IUtilisateurService.getUserViewByEtt(ett);
+        if (utilisateur.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(utilisateur);
+        }
+    }
+    @GetMapping("/allview")
+    public ResponseEntity<List<UserView>> getviews() {
+        List<UserView> utilisateur = IUtilisateurService.getallUserView();
+        if (utilisateur.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(utilisateur);
+        }
+    }
 }

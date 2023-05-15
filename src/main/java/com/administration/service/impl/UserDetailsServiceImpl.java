@@ -12,8 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -28,6 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Utilisateur utilisateur = utilisateurService.getUtilisateurbyLogin(username);
+
         if (utilisateur == null) {
             throw new UsernameNotFoundException("Utilisateur non trouvé");
         }
@@ -36,9 +40,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("Le compte est désactivé.");
         }
 
-        if(utilisateur.getIs_EXPIRED() == 1) {
+        if(utilisateur.getIs_EXPIRED() == 1 ) {
             throw new CredentialsExpiredException("Le compte a expiré.");
         }
+
+
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         utilisateur.getProfilUser().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getProfil().getNomP()));

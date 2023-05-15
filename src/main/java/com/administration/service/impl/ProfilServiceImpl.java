@@ -4,7 +4,7 @@ import com.administration.dto.ProfilRequestDTO;
 import com.administration.dto.ProfilResponseDTO;
 import com.administration.dto.ProfilUpdateDTO;
 import com.administration.entity.*;
-import com.administration.mappers.ProfilMapper;
+import com.administration.service.mappers.ProfilMapper;
 import com.administration.repo.*;
 
 import com.administration.service.IProfilService;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

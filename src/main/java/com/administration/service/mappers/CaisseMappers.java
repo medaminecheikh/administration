@@ -1,4 +1,4 @@
-package com.administration.mappers;
+package com.administration.service.mappers;
 
 import com.administration.dto.CaisseRequestDTO;
 import com.administration.dto.CaisseResponseDTO;
@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
-public interface CaisseMapper {
+public interface CaisseMappers {
     CaisseResponseDTO CaisseTOCaisseResponseDTO(Caisse caisse);
     Caisse CaisseRequestDTOCaisse(CaisseRequestDTO caisseRequestDTO);
 
