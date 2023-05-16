@@ -1,6 +1,5 @@
 package com.administration.controller;
 
-import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.entity.AuthResponse;
 import com.administration.entity.Utilisateur;
 import com.administration.security.Jwt.JwtTokenUtil;
@@ -8,9 +7,7 @@ import com.administration.security.Jwt.JwtVariables;
 import com.administration.service.IUtilisateurService;
 import com.administration.service.impl.UserDetailsServiceImpl;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -48,17 +43,21 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> login(@RequestParam String username, @RequestParam String password) {
-        UtilisateurResponseDTO utilisateur = utilisateurService.getbyLogin(username);
-        Date today = new Date();
-        if (utilisateur.getDate_EXPIRED() == null || utilisateur.getDate_EXPIRED().after(today)) {
-            try {
-                log.info("Attempting authentication for user: " + username);
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(username, password));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                Algorithm algorithm = Algorithm.HMAC256(JwtVariables.SECRET);
 
+        try {
+            log.info("Attempting authentication for user: " + username);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            Algorithm algorithm = Algorithm.HMAC256(JwtVariables.SECRET);
+
+            // Perform the expiration check after authentication
+            Utilisateur utilisateur = utilisateurService.getUtilisateurbyLogin(username);
+            Date today = new Date();
+            Date utilisateurExpirationDate = utilisateur.getDate_EXPIRED();
+            if (utilisateurExpirationDate == null || utilisateurExpirationDate.after(today)) {
+                // Generate tokens and create AuthResponse
                 String accessToken = JWT.create()
                         .withSubject(userDetails.getUsername())
                         .withExpiresAt(new Date(System.currentTimeMillis() + JwtVariables.EXPIRE_ACCESS))
@@ -75,12 +74,15 @@ public class AuthController {
 
                 AuthResponse authResponse = new AuthResponse(userDetails.getUsername(),
                         userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
-                        accessToken, refreshToken,utilisateur.getCaisse().getNumCaise(),utilisateur.getF_ADM_CEN() );
+                        accessToken, refreshToken);
                 return ResponseEntity.ok(authResponse);
-            } catch (BadCredentialsException e) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            } else {
+                // Handle the scenario when utilisateur's date has expired
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
             }
-        }else  return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
 //    @GetMapping("/refreshtoken")

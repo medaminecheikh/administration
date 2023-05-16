@@ -12,28 +12,13 @@ public class AuthResponse {
     private List<String> roles;
     private String accessToken;
     private String refreshToken;
-    private int caisse;
-    private int f_ADM_CEN;
+
 
 
 
     // getters and setters
 
-    public int getCaisse() {
-        return caisse;
-    }
 
-    public void setCaisse(int caisse) {
-        this.caisse = caisse;
-    }
-
-    public int getF_ADM_CEN() {
-        return f_ADM_CEN;
-    }
-
-    public void setF_ADM_CEN(int f_ADM_CEN) {
-        this.f_ADM_CEN = f_ADM_CEN;
-    }
 
     public String getUsername() {
         return username;

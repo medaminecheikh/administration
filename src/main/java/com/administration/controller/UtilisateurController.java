@@ -97,11 +97,13 @@ public class UtilisateurController {
     @GetMapping(path="/searchPageUsers")
     public List<UtilisateurResponseDTO> searchPageUsers(
             @RequestParam(name = "Keyword",defaultValue = "")String kw,
+            @RequestParam(name = "nom",defaultValue = "")String nom,
+            @RequestParam(name = "prenom",defaultValue = "")String prenom,
             @RequestParam (name = "page",defaultValue = "0")int page
             ,@RequestParam(name = "size",defaultValue = "10")int size)
     {
 
-        return IUtilisateurService.findUtilisateurByLogin("%"+kw+"%",page,size);
+        return IUtilisateurService.findUtilisateurByLogin(kw,nom,prenom,page,size);
     }
 
     @GetMapping("/utilisateurlogin/{username}")

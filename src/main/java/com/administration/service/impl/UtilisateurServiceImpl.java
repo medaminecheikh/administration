@@ -172,17 +172,18 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
     @Override
-    public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, int page, int size) {
+    public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, String nom, String prenom, int page, int size) {
         Sort sort = Sort.by("idUser");
-        Page<Utilisateur> utilisateurs=utilisateurRepo.findUtilisateurByLogin(kw, PageRequest.of(page, size,sort));
-        List<UtilisateurResponseDTO> utilisateurResponseDTOList=utilisateurs
+        Page<Utilisateur> utilisateurs = utilisateurRepo.findUtilisateurByLogin("%" + kw + "%", "%" + nom + "%", "%" + prenom + "%", PageRequest.of(page, size, sort));
+        List<UtilisateurResponseDTO> utilisateurResponseDTOList = utilisateurs
                 .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
                 .getContent();
-        long count=utilisateurs.getTotalElements();
+        long count = utilisateurs.getTotalElements();
         utilisateurResponseDTOList.forEach(dto -> dto.setTotalElements(count));
 
         return utilisateurResponseDTOList;
     }
+
 
     @Override
     public UserView userviewByLogin(String username) {
