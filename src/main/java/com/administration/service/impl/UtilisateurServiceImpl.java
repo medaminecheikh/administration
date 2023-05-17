@@ -172,9 +172,9 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
     @Override
-    public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, String nom, String prenom, int page, int size) {
+    public List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw, String nom, String prenom,Integer estActif, int page, int size) {
         Sort sort = Sort.by("idUser");
-        Page<Utilisateur> utilisateurs = utilisateurRepo.findUtilisateurByLogin("%" + kw + "%", "%" + nom + "%", "%" + prenom + "%", PageRequest.of(page, size, sort));
+        Page<Utilisateur> utilisateurs = utilisateurRepo.findUtilisateurByLogin("%" + kw + "%", "%" + nom + "%", "%" + prenom + "%",estActif , PageRequest.of(page, size, sort));
         List<UtilisateurResponseDTO> utilisateurResponseDTOList = utilisateurs
                 .map(utilisateur -> userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur))
                 .getContent();

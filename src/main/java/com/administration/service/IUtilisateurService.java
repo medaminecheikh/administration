@@ -26,7 +26,7 @@ public interface IUtilisateurService {
 
     void deleteUser(String idUser);
 
-    List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw,String nom,String prenom, int page, int size);
+    List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw,String nom,String prenom,Integer estActif, int page, int size);
     Utilisateur getUtilisateurbyLogin(String username);
     UtilisateurResponseDTO getbyLogin(String username);
     UserView userviewByLogin(String username);

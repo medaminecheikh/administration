@@ -99,11 +99,12 @@ public class UtilisateurController {
             @RequestParam(name = "Keyword",defaultValue = "")String kw,
             @RequestParam(name = "nom",defaultValue = "")String nom,
             @RequestParam(name = "prenom",defaultValue = "")String prenom,
+            @RequestParam(name = "estActif",defaultValue = "")Integer estActif,
             @RequestParam (name = "page",defaultValue = "0")int page
             ,@RequestParam(name = "size",defaultValue = "10")int size)
     {
 
-        return IUtilisateurService.findUtilisateurByLogin(kw,nom,prenom,page,size);
+        return IUtilisateurService.findUtilisateurByLogin(kw,nom,prenom,estActif,page,size);
     }
 
     @GetMapping("/utilisateurlogin/{username}")
