@@ -91,11 +91,12 @@ public class ProfileController {
     @GetMapping(path="/searchPageProfils")
     public List<ProfilResponseDTO> searchPageUsers(
             @RequestParam(name = "Keyword",defaultValue = "")String kw,
+            @RequestParam(name = "desc",defaultValue = "")String desc,
             @RequestParam (name = "page",defaultValue = "0")int page
             ,@RequestParam(name = "size",defaultValue = "10")int size)
     {
 
-        return IProfilService.findProfilsByLogin("%"+kw+"%",page,size);
+        return IProfilService.findProfilsByLogin("%"+kw+"%","%"+desc+"%",page,size);
     }
 
 }

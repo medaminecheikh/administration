@@ -134,9 +134,9 @@ public class ProfilServiceImpl implements IProfilService {
     }
 
     @Override
-    public List<ProfilResponseDTO> findProfilsByLogin(String kw, int page, int size) {
+    public List<ProfilResponseDTO> findProfilsByLogin(String kw,String desc, int page, int size) {
         Sort sort = Sort.by("idProfil");
-        Page<Profil> profilPage =profileRepo.findProfilsByNomP(kw, PageRequest.of(page, size,sort));
+        Page<Profil> profilPage =profileRepo.findProfilsByNomP(kw,desc, PageRequest.of(page, size,sort));
         List<ProfilResponseDTO> profilResponseDTOList =profilPage
                 .map(profil -> profilMapper.ProfileTOProfileResponseDTO(profil))
                 .getContent();

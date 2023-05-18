@@ -19,6 +19,6 @@ public interface IProfilService {
     void removeModel(String idProfile);
     void deleteProfile(String idProfile);
     Profil getProfilbyName(String nomp);
-    List<ProfilResponseDTO> findProfilsByLogin(String kw, int page, int size);
+    List<ProfilResponseDTO> findProfilsByLogin(String kw,String desc, int page, int size);
 
 }

@@ -15,8 +15,8 @@ import java.util.Optional;
 @Repository
 public interface ProfileRepo extends JpaRepository<Profil,String> {
 
-    @Query("select a from  Profil a where a.nomP like :kw")
-    Page<Profil> findProfilsByNomP(@Param("kw")String Keyword, Pageable pageable);
+    @Query("select a from  Profil a where a.nomP like :kw AND a.Des_P LIKE :desc")
+    Page<Profil> findProfilsByNomP(@Param("kw")String Keyword,@Param("desc")String desc, Pageable pageable);
     long count();
     Profil findByNomP(String profilename);
 
