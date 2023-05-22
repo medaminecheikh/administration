@@ -33,7 +33,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     EttRepo ettRepo;
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ProfilUserRepo profilUserRepo;
-    UserViewRepo viewRepo;
+
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
         String login=RequestDTO.getLogin().toLowerCase();
@@ -185,10 +185,11 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
 
-    @Override
+    /*@Override
     public UserView userviewByLogin(String username) {
 
         return viewRepo.getByLogin(username);
+
     }
 
     @Override
@@ -199,5 +200,5 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     @Override
     public List<UserView> getUserViewByEtt(String ett) {
         return viewRepo.findByEtt(ett);
-    }
+    }*/
 }

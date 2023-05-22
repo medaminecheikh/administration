@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -76,19 +77,13 @@ public class ProfilServiceImpl implements IProfilService {
 
     @Override
     public void affecterFoncToProfile(String idFonc, String idProfile) {
-        Profil profil = profileRepo.findById(idProfile).get();
-        Fonction fonction = foncRepo.findById(idFonc).get();
+        Profil profil = profileRepo.findById(idProfile).orElseThrow(() -> new RuntimeException("Profile not found"));
+        Fonction fonction = foncRepo.findById(idFonc).orElseThrow(() -> new RuntimeException("Function not found"));
 
-        boolean fonctionExists = profil.getFonctions().stream()
-                .anyMatch(fonctionInProfil -> fonctionInProfil.getIdFonc().equals(idFonc));
-
-        if (!fonctionExists) {
-            profil.getFonctions().add(fonction);
-            profileRepo.save(profil);
-        } else {
-            throw new RuntimeException("This function already exists in the profile");
-        }
+        profil.getFonctions().add(fonction);
+        profileRepo.save(profil);
     }
+
 
 
     @Override
@@ -102,9 +97,10 @@ public class ProfilServiceImpl implements IProfilService {
 
     @Override
     public void removeFonc(String idFonc, String idProfile) {
-        Fonction fonction1 =foncRepo.findById(idFonc).get();
-        Profil profil =profileRepo.findById(idProfile).get();
-        profil.getFonctions().remove(fonction1);
+        Fonction fonction = foncRepo.findById(idFonc).orElseThrow(() -> new RuntimeException("Function not found"));
+        Profil profil = profileRepo.findById(idProfile).orElseThrow(() -> new RuntimeException("Profile not found"));
+
+        profil.getFonctions().remove(fonction);
         profileRepo.save(profil);
 
     }
@@ -134,7 +130,7 @@ public class ProfilServiceImpl implements IProfilService {
     }
 
     @Override
-    public List<ProfilResponseDTO> findProfilsByLogin(String kw,String desc, int page, int size) {
+    public List<ProfilResponseDTO> findProfilsBynames(String kw, String desc, int page, int size) {
         Sort sort = Sort.by("idProfil");
         Page<Profil> profilPage =profileRepo.findProfilsByNomP(kw,desc, PageRequest.of(page, size,sort));
         List<ProfilResponseDTO> profilResponseDTOList =profilPage

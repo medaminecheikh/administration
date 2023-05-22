@@ -29,7 +29,7 @@ public interface IUtilisateurService {
     List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw,String nom,String prenom,Integer estActif, int page, int size);
     Utilisateur getUtilisateurbyLogin(String username);
     UtilisateurResponseDTO getbyLogin(String username);
-    UserView userviewByLogin(String username);
+    /*UserView userviewByLogin(String username);
     List<UserView> getallUserView();
-    List<UserView> getUserViewByEtt(String ett);
+    List<UserView> getUserViewByEtt(String ett);*/
 }

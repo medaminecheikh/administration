@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class Profil implements Serializable {
             joinColumns = @JoinColumn(name = "idProfiles"),
             inverseJoinColumns = @JoinColumn(name = "idFoncs")
     )
-    private List<Fonction> fonctions;
+    private Set<Fonction> fonctions;
     @OneToMany(mappedBy = "profil", cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true)
     private List<ProfilUser> profilUsers;
     @ManyToOne

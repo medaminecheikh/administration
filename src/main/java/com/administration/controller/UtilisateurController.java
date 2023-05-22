@@ -117,7 +117,7 @@ public class UtilisateurController {
             return ResponseEntity.ok(utilisateur);
         }
     }
-    @GetMapping("/viewbylogin/{username}")
+   /* @GetMapping("/viewbylogin/{username}")
     public ResponseEntity<UserView> getviewByLogin(@PathVariable String username) {
         UserView utilisateur = IUtilisateurService.userviewByLogin(username);
         log.info(utilisateur.toString());
@@ -142,5 +142,5 @@ public class UtilisateurController {
         } else {
             return ResponseEntity.ok(utilisateur);
         }
-    }
+    }*/
 }

@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Getter
-@Entity
 @Immutable
 @Table(name = "user_view")
 public class UserView implements Serializable {
