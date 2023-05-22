@@ -78,7 +78,7 @@ public class AuthController {
                 return ResponseEntity.ok(authResponse);
             } else {
                 // Handle the scenario when utilisateur's date has expired
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+                return ResponseEntity.status(HttpStatus.INSUFFICIENT_SPACE_ON_RESOURCE).build();
             }
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
