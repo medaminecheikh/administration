@@ -1,5 +1,6 @@
 package com.administration.controller;
 
+import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.entity.AuthResponse;
 import com.administration.entity.Utilisateur;
 import com.administration.security.Jwt.JwtTokenUtil;
@@ -71,10 +72,14 @@ public class AuthController {
                         .withClaim("roles", userDetails.getAuthorities().stream().map(
                                 GrantedAuthority::getAuthority).collect(Collectors.toList()))
                         .sign(algorithm);
-
+                UtilisateurResponseDTO utilisateurcaise = utilisateurService.getbyLogin(userDetails.getUsername());
+                Integer caisse = null;
+                if (utilisateurcaise.getCaisse() != null) {
+                    caisse = utilisateurcaise.getCaisse().getNumCaise();
+                }
                 AuthResponse authResponse = new AuthResponse(userDetails.getUsername(),
                         userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()),
-                        accessToken, refreshToken);
+                        accessToken, refreshToken,caisse);
                 return ResponseEntity.ok(authResponse);
             } else {
                 // Handle the scenario when utilisateur's date has expired

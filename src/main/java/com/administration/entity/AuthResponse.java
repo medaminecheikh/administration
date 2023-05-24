@@ -12,10 +12,15 @@ public class AuthResponse {
     private List<String> roles;
     private String accessToken;
     private String refreshToken;
+    private Integer caisse;
 
+    public Integer getCaisse() {
+        return caisse;
+    }
 
-
-
+    public void setCaisse(Integer caisse) {
+        this.caisse = caisse;
+    }
     // getters and setters
 
 
