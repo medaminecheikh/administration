@@ -100,16 +100,11 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public void affecterProfileToUser(String idUser, String idProfile) {
-        Utilisateur utilisateur = utilisateurRepo.findById(idUser).get();
-        Profil profil = profileRepo.findById(idProfile).get();
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElseThrow(() -> new RuntimeException("User not found"));
+        Profil profil = profileRepo.findById(idProfile).orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        boolean profileExists = false;
-        for (ProfilUser profilUser : utilisateur.getProfilUser()) {
-            if (profilUser.getProfil().equals(profil)) {
-                profileExists = true;
-                break;
-            }
-        }
+        boolean profileExists = utilisateur.getProfilUser().stream()
+                .anyMatch(profilUser -> profilUser.getProfil().equals(profil));
 
         if (!profileExists) {
             ProfilUser profilUser = new ProfilUser();

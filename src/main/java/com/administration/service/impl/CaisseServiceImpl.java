@@ -58,10 +58,19 @@ public class CaisseServiceImpl implements ICaisseService {
 
     @Override
     public void affecterCaisseToUser(String idCaisse, String idUser) {
-        Caisse caisse=caisseRepo.findById(idCaisse).get();
-        Utilisateur utilisateur=utilisateurRepo.findById(idUser).get();
-        caisse.setLogin(utilisateur);
-        caisseRepo.save(caisse);
+        Caisse caisse = caisseRepo.findById(idCaisse).orElse(null);
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElse(null);
+
+        if (caisse != null && utilisateur != null) {
+            caisse.setLogin(utilisateur);
+            caisseRepo.save(caisse);
+        } else {
+            // Throw an exception or handle the error accordingly
+            throw new IllegalArgumentException("Invalid caisse or utilisateur ID");
+            // Or you can log an error message and perform alternative actions
+            // logger.error("Invalid caisse or utilisateur ID");
+            // performAlternativeAction();
+        }
     }
 
     @Override
