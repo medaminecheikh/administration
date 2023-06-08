@@ -39,7 +39,7 @@ public class CaisseController {
         return new ResponseEntity<>(caisses, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/")
     public ResponseEntity<Void> updateCaisse( @RequestBody CaisseUpdateDTO dto) {
 
         caisseService.updateCaisseDTO(dto);

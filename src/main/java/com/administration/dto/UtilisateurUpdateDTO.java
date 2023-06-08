@@ -23,4 +23,5 @@ public class UtilisateurUpdateDTO {
     private int is_EXPIRED ;
     private Date date_EXPIRED ;
     private List<ProfilUserViewUserDTO> profilUser;
+    private CaisseUpdateDTO caisse;
 }

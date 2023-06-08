@@ -1,6 +1,5 @@
 package com.administration.dto;
 
-import com.administration.entity.Ett;
 import lombok.Data;
 
 @Data
