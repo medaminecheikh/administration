@@ -40,7 +40,7 @@ public class CaisseController {
     }
 
     @PutMapping("/update/")
-    public ResponseEntity<Void> updateCaisse( @RequestBody CaisseUpdateDTO dto) {
+    public ResponseEntity<Void> updateCaisse(@RequestBody CaisseUpdateDTO dto) {
 
         caisseService.updateCaisseDTO(dto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -52,9 +52,9 @@ public class CaisseController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/utilisateurs/{idCaisse}")
-    public ResponseEntity<Void> removeUser(@PathVariable String idCaisse) {
-        caisseService.removeUser(idCaisse);
+    @DeleteMapping("/utilisateurs/{idUser}")
+    public ResponseEntity<Void> removeUser(@PathVariable String idUser) {
+        caisseService.removeUser(idUser);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

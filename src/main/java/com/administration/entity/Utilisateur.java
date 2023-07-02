@@ -61,6 +61,8 @@ public class Utilisateur implements Serializable {
     private List<ProfilUser> profilUser;
     @ManyToOne
     private Ett ett;
-    @OneToOne(mappedBy = "login")
+    @OneToOne
     private Caisse caisse;
+    @OneToMany(mappedBy = "user")
+    private List<InfoFacture> factures;
 }

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,8 +18,10 @@ public class Caisse implements Serializable {
     private String idCaisse;
     private int numCaise;
     private String f_Actif;
-    @OneToOne
+    @OneToOne(mappedBy = "caisse")
     private Utilisateur login;
     @ManyToOne
     private Ett cod_ett;
+    @OneToMany(mappedBy = "caisse")
+    private List<Encaissement> encaissements;
 }

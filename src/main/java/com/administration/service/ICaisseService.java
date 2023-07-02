@@ -12,7 +12,7 @@ public interface ICaisseService {
     List<CaisseResponseDTO> listCaisses();
     void updateCaisseDTO(CaisseUpdateDTO dto);
     void affecterCaisseToUser(String idCaisse, String idUser);
-    void removeUser(String idCaisse);
+    void removeUser(String idUser);
     void affecterCaisseToEtt(String idCaisse,String idEtt);
 
     void deleteCaisse(String idCaisse);
