@@ -41,8 +41,6 @@ public class Encaissement implements Serializable {
     @ManyToOne
     private Utilisateur user;
     @ManyToOne
-    private Ett ett;
-    @ManyToOne
     private Caisse caisse;
     @OneToOne(mappedBy = "encaissement")
     private OperationEncai operationEncai;

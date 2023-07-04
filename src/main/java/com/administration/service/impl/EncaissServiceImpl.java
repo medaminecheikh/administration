@@ -105,13 +105,7 @@ public class EncaissServiceImpl implements IEncaissService {
         encaissRepo.save(encaissement);
     }
 
-    @Override
-    public void affectEncaisseToEtt(String idEncaiss, String idEtt) {
-        Encaissement  encaissement =encaissRepo.findById(idEncaiss).get();
-        Ett ett =ettRepo.findById(idEtt).get();
-        encaissement.setEtt(ett);
-        encaissRepo.save(encaissement);
-    }
+
 
     @Override
     public void affectEncaisseToUser(String idEncaiss, String idUser) {
@@ -122,13 +116,11 @@ public class EncaissServiceImpl implements IEncaissService {
     }
 
     @Override
-    public void affectAll(String idEncaiss, String idUser, String idEtt, String idcai) {
+    public void affectAll(String idEncaiss, String idUser, String idcai) {
         Encaissement  encaissement =encaissRepo.findById(idEncaiss).get();
         Utilisateur utilisateur= utilisateurRepo.findById(idUser).get();
-        Ett ett =ettRepo.findById(idEtt).get();
         Caisse caisse=caisseRepo.findById(idcai).get();
         encaissement.setUser(utilisateur);
-        encaissement.setEtt(ett);
         encaissement.setCaisse(caisse);
         encaissRepo.save(encaissement);
     }
