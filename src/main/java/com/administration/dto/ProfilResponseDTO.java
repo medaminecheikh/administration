@@ -1,9 +1,7 @@
 package com.administration.dto;
 
-import com.administration.entity.CategProfil;
 import lombok.Data;
 
-import javax.persistence.Column;
 import java.util.List;
 import java.util.Set;
 

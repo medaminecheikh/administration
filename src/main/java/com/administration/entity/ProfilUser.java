@@ -26,12 +26,4 @@ public class ProfilUser implements Serializable {
     @JoinColumn(name = "id_user")
     private Utilisateur utilisateur;
 
-    @Column (name = "NOM_P")
-    private String nom_P;
-    private String cod_CFRX;
-    private String cod_ZONE          ;
-    private String cod_DR            ;
-    private String cod_ETT       ;
-    private String mis_P             ;
-    private String categ_PROFIL      ;
 }

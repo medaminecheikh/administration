@@ -90,7 +90,7 @@ public class EncaissServiceImpl implements IEncaissService {
     }
 
     @Override
-    public void affectEncaisseToOperation(String idEncaiss, String idOp) {
+    public void affectEncaisseToOperation(String idEncaiss, Long idOp) {
         Encaissement encaissement = encaissRepo.findById(idEncaiss).get();
         OperationEncai operationEncai=operationRepo.findById(idOp).get();
         operationEncai.setEncaissement(encaissement);

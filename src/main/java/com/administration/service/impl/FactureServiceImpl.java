@@ -1,8 +1,10 @@
 package com.administration.service.impl;
 
+import com.administration.entity.Encaissement;
 import com.administration.entity.InfoFacture;
 import com.administration.entity.OperationEncai;
 import com.administration.entity.Utilisateur;
+import com.administration.repo.EncaissRepo;
 import com.administration.repo.FactureRepo;
 import com.administration.repo.OperationRepo;
 import com.administration.repo.UtilisateurRepo;
@@ -25,6 +27,7 @@ public class FactureServiceImpl implements IFactureService {
     FactureRepo factureRepo;
     OperationRepo operationRepo;
     UtilisateurRepo utilisateurRepo;
+    EncaissRepo encaissRepo;
     @Override
     public InfoFacture addFacture(InfoFacture facture) {
         facture.setIdFacture(UUID.randomUUID().toString());
@@ -57,15 +60,25 @@ public class FactureServiceImpl implements IFactureService {
 
     @Override
     public void deleteFacture(String idFacture) {
-        factureRepo.deleteById(idFacture);
+        InfoFacture infoFacture = factureRepo.findById(idFacture).orElse(null);
+        if (infoFacture != null) {
+            factureRepo.delete(infoFacture);
+        }
     }
 
     @Override
-    public void affectOp(String idop, String idfac) {
-        InfoFacture facture=factureRepo.findById(idfac).get();
-        OperationEncai operationEncai=operationRepo.findById(idop).get();
-        operationEncai.setFacture(facture);
-        operationRepo.save(operationEncai);
+    public void affectEncaissementToFacture(String encaissementId, String factureId) {
+        Encaissement encaissement = encaissRepo.findById(encaissementId).orElse(null);
+        InfoFacture facture = factureRepo.findById(factureId).orElse(null);
+
+        if (encaissement != null && facture != null) {
+            OperationEncai operationEncai = new OperationEncai();
+            operationEncai.setEncaissement(encaissement);
+            operationEncai.setFacture(facture);
+
+            facture.getEncaissements().add(operationEncai);
+            factureRepo.save(facture);
+        }
     }
 
     @Override
@@ -74,5 +87,27 @@ public class FactureServiceImpl implements IFactureService {
         InfoFacture facture=factureRepo.findById(idfac).get();
         facture.setUser(utilisateur);
         factureRepo.save(facture);
+    }
+
+    @Override
+    public void removeEncaissementFromFacture(String encaissementId, String factureId) {
+        Encaissement encaissement = encaissRepo.findById(encaissementId).orElse(null);
+        InfoFacture facture = factureRepo.findById(factureId).orElse(null);
+
+        if (encaissement != null && facture != null) {
+            List<OperationEncai> encaissements = facture.getEncaissements();
+
+            // Remove the operation associated with the encaissement
+            encaissements.removeIf(op -> op.getEncaissement().equals(encaissement));
+
+            // Save the updated facture
+            factureRepo.save(facture);
+
+            // Check if the encaissement is not associated with any other operation
+            if (encaissement.getOperationEncai() == null) {
+                // Delete the encaissement
+                encaissRepo.delete(encaissement);
+            }
+        }
     }
 }
