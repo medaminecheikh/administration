@@ -22,4 +22,5 @@ public interface IFactureService {
 
     void removeEncaissementFromFacture(String encaissementId, String factureId);
 
+    List<InfoFacture> getAllFactures();
 }

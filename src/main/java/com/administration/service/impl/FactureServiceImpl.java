@@ -110,4 +110,10 @@ public class FactureServiceImpl implements IFactureService {
             }
         }
     }
+
+    @Override
+    public List<InfoFacture> getAllFactures() {
+
+        return factureRepo.findAll();
+    }
 }

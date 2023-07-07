@@ -20,13 +20,18 @@ public class FactureController {
         return ResponseEntity.status(HttpStatus.CREATED).body(addedFacture);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/findall")
     public ResponseEntity<List<InfoFacture>> getAllFactures(@RequestParam(name = "identifiant",defaultValue = "") String identifiant,
                                                             @RequestParam(name = "ref",defaultValue = "") String ref,
                                                             @RequestParam(name = "apl",defaultValue = "") Integer apl,
                                                             @RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size) {
         List<InfoFacture> factures = factureService.getAll("%"+identifiant+"%", "%"+ref+"%", apl, page, size);
+        return ResponseEntity.ok(factures);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<InfoFacture>> getAllFactures() {
+        List<InfoFacture> factures = factureService.getAllFactures();
         return ResponseEntity.ok(factures);
     }
 
