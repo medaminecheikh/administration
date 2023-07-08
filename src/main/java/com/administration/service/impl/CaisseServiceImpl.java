@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -92,7 +93,17 @@ public class CaisseServiceImpl implements ICaisseService {
 
     @Override
     public void deleteCaisse(String idCaisse) {
-        caisseRepo.deleteById(idCaisse);
+        Optional<Caisse> caisseOptional = caisseRepo.findById(idCaisse);
+        if (caisseOptional.isPresent()) {
+            Caisse caisse = caisseOptional.get();
+
+            // Remove the association from the associated Utilisateur entity
+            Utilisateur utilisateur = caisse.getLogin();
+            if (utilisateur != null) {
+                removeUser(utilisateur.getIdUser());
+            }
+            caisseRepo.deleteById(idCaisse);
+        }
     }
 
     @Override
