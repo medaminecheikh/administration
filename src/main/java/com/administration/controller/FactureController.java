@@ -29,6 +29,14 @@ public class FactureController {
         List<InfoFacture> factures = factureService.getAll("%"+identifiant+"%", "%"+ref+"%", apl, page, size);
         return ResponseEntity.ok(factures);
     }
+    @GetMapping("/findallfacture")
+    public ResponseEntity<List<InfoFacture>> findAllFactures(@RequestParam(name = "identifiant",defaultValue = "") String identifiant,
+                                                            @RequestParam(name = "ref",defaultValue = "") String ref,
+                                                            @RequestParam(name = "apl",defaultValue = "") Integer apl)
+                                                             {
+        List<InfoFacture> factures = factureService.getAllfacture("%"+identifiant+"%", "%"+ref+"%", apl);
+        return ResponseEntity.ok(factures);
+    }
     @GetMapping("/all")
     public ResponseEntity<List<InfoFacture>> getAllFactures() {
         List<InfoFacture> factures = factureService.getAllFactures();

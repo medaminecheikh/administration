@@ -116,4 +116,10 @@ public class FactureServiceImpl implements IFactureService {
 
         return factureRepo.findAll();
     }
+
+    @Override
+    public List<InfoFacture> getAllfacture(String id, String ref, Integer apl) {
+
+        return factureRepo.getAllFactures(id,ref,apl);
+    }
 }
