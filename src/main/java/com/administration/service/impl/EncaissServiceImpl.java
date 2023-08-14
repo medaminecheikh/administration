@@ -19,7 +19,6 @@ public class EncaissServiceImpl implements IEncaissService {
     UtilisateurRepo utilisateurRepo;
     FactureRepo factureRepo;
     CaisseRepo caisseRepo;
-    OperationRepo operationRepo;
     EttRepo ettRepo;
 
     @Override
@@ -41,11 +40,9 @@ public class EncaissServiceImpl implements IEncaissService {
         InfoFacture facture = factureRepo.findById(idFact).orElse(null);
 
         if (facture != null) {
-            List<OperationEncai> operationEncai = facture.getEncaissements();
-            if (operationEncai != null) {
-                return operationEncai.stream()
-                        .map(OperationEncai::getEncaissement)
-                        .collect(Collectors.toList());
+            List<Encaissement> encaissements = facture.getEncaissements();
+            if (encaissements != null) {
+                return encaissements;
             }
         }
 
@@ -54,20 +51,19 @@ public class EncaissServiceImpl implements IEncaissService {
 
     @Override
     public List<Encaissement> getEncaissementByUser(String idUser) {
-        Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElse(null);
+       /* Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElse(null);
         List<Encaissement> encaissements = new ArrayList<>();
 
         if (utilisateur != null) {
             List<InfoFacture> factures = utilisateur.getFactures();
             for (InfoFacture facture : factures) {
-                List<OperationEncai> operationEncais = facture.getEncaissements();
-                for (OperationEncai operationEncai : operationEncais) {
-                    encaissements.add(operationEncai.getEncaissement());
-                }
+                List<Encaissement> factureEncaissements = facture.getEncaissements();
+                encaissements.addAll(factureEncaissements);
             }
         }
 
-        return encaissements;
+        return encaissements;*/
+        return null;
     }
 
     @Override
@@ -89,13 +85,7 @@ public class EncaissServiceImpl implements IEncaissService {
         encaissRepo.deleteById(idEncaiss);
     }
 
-    @Override
-    public void affectEncaisseToOperation(String idEncaiss, Long idOp) {
-        Encaissement encaissement = encaissRepo.findById(idEncaiss).get();
-        OperationEncai operationEncai=operationRepo.findById(idOp).get();
-        operationEncai.setEncaissement(encaissement);
-        operationRepo.save(operationEncai);
-    }
+
 
     @Override
     public void affectEncaisseToCaisse(String idEncaiss, String idcai) {

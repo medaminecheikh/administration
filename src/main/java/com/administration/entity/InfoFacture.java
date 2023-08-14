@@ -29,7 +29,6 @@ public class InfoFacture implements Serializable {
     private Date datLimPai;
     private String periode;
     @OneToMany(mappedBy = "facture",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<OperationEncai> encaissements;
-    @ManyToOne
-    private Utilisateur user;
+    private List<Encaissement> encaissements;
+
 }

@@ -2,14 +2,13 @@ package com.administration.service.impl;
 
 import com.administration.entity.Encaissement;
 import com.administration.entity.InfoFacture;
-import com.administration.entity.OperationEncai;
 import com.administration.entity.Utilisateur;
 import com.administration.repo.EncaissRepo;
 import com.administration.repo.FactureRepo;
-import com.administration.repo.OperationRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.service.IFactureService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,9 +22,10 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 @Transactional
+@Slf4j
 public class FactureServiceImpl implements IFactureService {
     FactureRepo factureRepo;
-    OperationRepo operationRepo;
+
     UtilisateurRepo utilisateurRepo;
     EncaissRepo encaissRepo;
     @Override
@@ -46,7 +46,8 @@ public class FactureServiceImpl implements IFactureService {
     public List<InfoFacture> getByUser(String idUser) {
         Utilisateur utilisateur=utilisateurRepo.findById(idUser).orElse(null);
         if (utilisateur != null) {
-            return utilisateur.getFactures();
+           /* return utilisateur.getFactures();*/
+            return Collections.emptyList();
         } else {
             return Collections.emptyList();
         }
@@ -60,10 +61,9 @@ public class FactureServiceImpl implements IFactureService {
 
     @Override
     public void deleteFacture(String idFacture) {
-        InfoFacture infoFacture = factureRepo.findById(idFacture).orElse(null);
-        if (infoFacture != null) {
-            factureRepo.delete(infoFacture);
-        }
+        factureRepo.findById(idFacture).ifPresent(infoFacture -> factureRepo.delete(infoFacture));
+
+
     }
 
     @Override
@@ -72,21 +72,21 @@ public class FactureServiceImpl implements IFactureService {
         InfoFacture facture = factureRepo.findById(factureId).orElse(null);
 
         if (encaissement != null && facture != null) {
-            OperationEncai operationEncai = new OperationEncai();
-            operationEncai.setEncaissement(encaissement);
-            operationEncai.setFacture(facture);
-
-            facture.getEncaissements().add(operationEncai);
-            factureRepo.save(facture);
+            encaissement.setFacture(facture);
+            encaissRepo.save(encaissement);
+            log.info("Affectation passed for encaissementId: {} and factureId: {}", encaissementId, factureId);
+        }
+        else {
+            log.warn("Encaissement or Facture not found for encaissementId: {} and factureId: {}", encaissementId, factureId);
         }
     }
 
     @Override
     public void affectUser(String idUser, String idfac) {
-        Utilisateur utilisateur =utilisateurRepo.findById(idUser).get();
+       /* Utilisateur utilisateur =utilisateurRepo.findById(idUser).get();
         InfoFacture facture=factureRepo.findById(idfac).get();
         facture.setUser(utilisateur);
-        factureRepo.save(facture);
+        factureRepo.save(facture);*/
     }
 
     @Override
@@ -95,16 +95,16 @@ public class FactureServiceImpl implements IFactureService {
         InfoFacture facture = factureRepo.findById(factureId).orElse(null);
 
         if (encaissement != null && facture != null) {
-            List<OperationEncai> encaissements = facture.getEncaissements();
+            List<Encaissement> encaissements = facture.getEncaissements();
 
             // Remove the operation associated with the encaissement
-            encaissements.removeIf(op -> op.getEncaissement().equals(encaissement));
+            encaissements.removeIf(op -> op.equals(encaissement));
 
             // Save the updated facture
             factureRepo.save(facture);
 
             // Check if the encaissement is not associated with any other operation
-            if (encaissement.getOperationEncai() == null) {
+            if (encaissement.getFacture() == null) {
                 // Delete the encaissement
                 encaissRepo.delete(encaissement);
             }

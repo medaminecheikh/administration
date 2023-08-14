@@ -1,6 +1,6 @@
 package com.administration.entity;
 
-import com.sun.istack.Nullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,9 +30,6 @@ public class Ett implements Serializable {
     private String adr;
     @Column(name = "IS_BSCS")
     private int is_BSCS;
-    @ManyToOne
-    @JoinColumn(name = "COD_Zone")
-    private Zone zone;
     @ManyToOne
     @JoinColumn(name = "COD_DR")
     private Dregional dregional;

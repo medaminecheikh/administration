@@ -1,5 +1,6 @@
 package com.administration.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -23,7 +24,6 @@ public class Utilisateur implements Serializable {
     @NotNull
     private String login;
     @Column(name = "NOM_P")
-
     private String nomP;
     @Column(name = "NOM_U")
     @NotNull
@@ -63,6 +63,5 @@ public class Utilisateur implements Serializable {
     private Ett ett;
     @OneToOne
     private Caisse caisse;
-    @OneToMany(mappedBy = "user")
-    private List<InfoFacture> factures;
+
 }

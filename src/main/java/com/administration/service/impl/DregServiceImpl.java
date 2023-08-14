@@ -33,7 +33,6 @@ public class DregServiceImpl implements IDregService {
     @Override
     public DregionalResponseDTO addDreg(DregionalRequestDTO dregionalRequestDTO) {
         Dregional dregional= dregionaleMapper.DregionaleRequestDTODregionale(dregionalRequestDTO);
-        dregional.setIdDr(UUID.randomUUID().toString());
         Dregional dregionalsave=dregionalRepo.save(dregional);
 
         return dregionaleMapper.DregionaleTODregionaleResponseDTO(dregionalsave);
@@ -41,8 +40,12 @@ public class DregServiceImpl implements IDregService {
 
     @Override
     public DregionalResponseDTO getDregional(String id) {
-        Dregional dregional=dregionalRepo.findById(id).get();
-        return dregionaleMapper.DregionaleTODregionaleResponseDTO(dregional);
+        Dregional dregional=dregionalRepo.findById(id).orElse(null);
+        if (dregional!=null) {
+            return dregionaleMapper.DregionaleTODregionaleResponseDTO(dregional);
+        } else {
+            return null;
+        }
     }
 
     @Override

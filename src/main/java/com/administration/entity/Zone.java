@@ -23,6 +23,5 @@ public class Zone implements Serializable {
     private String DES_ZONE_AR;
     @OneToMany(mappedBy = "zone")
     private List<Dregional> dregionals;
-    @OneToMany(mappedBy = "zone")
-    private  List<Ett> etts;
+
 }

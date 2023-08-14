@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EttRequestDTO {
-
+    private String idEtt;
     private String des_SRC_ENC;
     private String COD_CFRX;
     private String prfx_SRC_ENC;

@@ -1,19 +1,14 @@
 package com.administration.service.impl;
 
-import com.administration.dto.FoncRequestDTO;
-import com.administration.dto.FoncResponseDTO;
-import com.administration.dto.ProfilRequestDTO;
-import com.administration.dto.UtilisateurRequestDTO;
-import com.administration.entity.Fonction;
+import com.administration.dto.*;
 import com.administration.entity.Profil;
 import com.administration.entity.Utilisateur;
-import com.administration.service.IFoncService;
-import com.administration.service.IProfilService;
-import com.administration.service.IUtilisateurService;
+import com.administration.service.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,11 +18,16 @@ public class InitializationService {
     private final IUtilisateurService utilisateurService;
     private final IFoncService foncService;
     private final IProfilService profilService;
-
-    public InitializationService(IUtilisateurService utilisateurService, IFoncService foncService, IProfilService profilService) {
+    private final IEttService ettService;
+    private final IZoneService zoneService;
+    private final IDregService dregService;
+    public InitializationService(IUtilisateurService utilisateurService, IFoncService foncService, IProfilService profilService, IEttService ettService, IZoneService zoneService, IDregService dregService) {
         this.utilisateurService = utilisateurService;
         this.foncService = foncService;
         this.profilService = profilService;
+        this.ettService = ettService;
+        this.zoneService = zoneService;
+        this.dregService = dregService;
     }
 
     public void initializeFonctions() {
@@ -63,7 +63,41 @@ public class InitializationService {
 
         ));
     }
+    public static List<ZoneRequestDTO> generateDummyZones() {
+        List<ZoneRequestDTO> zones = new ArrayList<>();
 
+        zones.add(new ZoneRequestDTO("Z1", "Z1", "Tunis", "منطقة تونس"));
+        zones.add(new ZoneRequestDTO("Z2","Z2", "Sousse", "منطقة سوسة"));
+        zones.add(new ZoneRequestDTO("Z3","Z3", "Sfax", "منطقة صفاقس"));
+        zones.add(new ZoneRequestDTO("Z4","Z4", "Bizerte", "منطقة بنزرت"));
+        zones.add(new ZoneRequestDTO("Z5","Z5", "Gabes", "منطقة قابس"));
+
+        return zones;
+    }
+
+    public static List<DregionalRequestDTO> generateDummyDregionals() {
+        List<DregionalRequestDTO> dregionals = new ArrayList<>();
+
+        dregionals.add(new DregionalRequestDTO("D1","DR1", "TUN-DR1", "المديرية الجهوية 1"));
+        dregionals.add(new DregionalRequestDTO("D2","DR2", "TUN-DR2", "المديرية الجهوية 2"));
+        dregionals.add(new DregionalRequestDTO("D3","DR3", "TUN-DR3", "المديرية الجهوية 3"));
+        dregionals.add(new DregionalRequestDTO("D4","DR4", "TUN-DR4", "المديرية الجهوية 4"));
+        dregionals.add(new DregionalRequestDTO("D5","DR5", "TUN-DR5", "المديرية الجهوية 5"));
+
+        return dregionals;
+    }
+
+    public static List<EttRequestDTO> generateDummyEtts() {
+        List<EttRequestDTO> etts = new ArrayList<>();
+
+        etts.add(new EttRequestDTO("E1","Ett1 SRC", "TUN-CFRX1", "SRC1", "Tunis", 1));
+        etts.add(new EttRequestDTO("E2","Ett2 SRC", "TUN-CFRX2", "SRC2", "Sousse", 1));
+        etts.add(new EttRequestDTO("E3","Ett3 SRC", "TUN-CFRX3", "SRC3", "Sfax", 1));
+        etts.add(new EttRequestDTO("E4","Ett4 SRC", "TUN-CFRX4", "SRC4", "Bizerte", 1));
+        etts.add(new EttRequestDTO("E5","Ett5 SRC", "TUN-CFRX5", "SRC5", "Gabes", 1));
+
+        return etts;
+    }
     @PostConstruct
     public void initialize() {
         initializeFonctions();
@@ -82,6 +116,57 @@ public class InitializationService {
             Profil profil = profilService.getProfilbyName("ADMIN");
             utilisateurService.affecterProfileToUser(user.getIdUser(), profil.getIdProfil());
         }
+
+        List<ZoneRequestDTO> zones = generateDummyZones();
+        List<DregionalRequestDTO> dregionals = generateDummyDregionals();
+        List<EttRequestDTO> etts = generateDummyEtts();
+        /*for (ZoneRequestDTO zoneDto : zones) {
+            if (zoneService.getZone(zoneDto.getIdZone()) == null) {
+                ZoneRequestDTO zoneEntity = new ZoneRequestDTO();
+                zoneEntity.setIdZone(zoneDto.getIdZone());
+                zoneEntity.setCOD_ZONE(zoneDto.getCOD_ZONE());
+                zoneEntity.setDES_ZONE(zoneDto.getDES_ZONE());
+                zoneEntity.setDES_ZONE_AR(zoneDto.getDES_ZONE_AR());
+
+                // Set other properties if needed
+
+                // Save the manually created Zone entity
+                zoneService.addZone(zoneEntity);
+            }
+        }
+
+        for (DregionalRequestDTO dregionalDto : dregionals) {
+            if (dregService.getDregional(dregionalDto.getIdDr()) == null) {
+                DregionalRequestDTO dregionalEntity = new DregionalRequestDTO();
+                dregionalEntity.setIdDr(dregionalDto.getIdDr());
+                dregionalEntity.setCod_DR(dregionalDto.getCod_DR());
+                dregionalEntity.setDr(dregionalDto.getDr());
+                dregionalEntity.setDrAr(dregionalDto.getDrAr());
+
+                // Set other properties if needed
+
+                // Save the manually created Dregional entity
+                dregService.addDreg(dregionalEntity);
+            }
+        }
+
+        for (EttRequestDTO ettDto : etts) {
+            if (ettService.getEtt(ettDto.getIdEtt()) == null) {
+                EttRequestDTO ettEntity = new EttRequestDTO();
+                ettEntity.setIdEtt(ettDto.getIdEtt());
+                ettEntity.setDes_SRC_ENC(ettDto.getDes_SRC_ENC());
+                ettEntity.setCOD_CFRX(ettDto.getCOD_CFRX());
+                ettEntity.setPrfx_SRC_ENC(ettDto.getPrfx_SRC_ENC());
+                ettEntity.setAdr(ettDto.getAdr());
+                ettEntity.setIs_BSCS(ettDto.getIs_BSCS());
+
+                // Set other properties if needed
+
+                // Save the manually created Ett entity
+                ettService.addEtt(ettEntity);
+            }*/
+
+
     }
 
 }

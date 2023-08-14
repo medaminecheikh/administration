@@ -36,15 +36,18 @@ public class EttServiceImpl implements IEttService {
     @Override
     public EttResponseDTO addEtt(EttRequestDTO ettRequestDTO) {
         Ett ett=ettMapper.EttRequestDTOEtt(ettRequestDTO);
-        ett.setIdEtt(UUID.randomUUID().toString());
         ettRepo.save(ett);
         return ettMapper.EttTOEttResponseDTO(ett);
     }
 
     @Override
     public EttResponseDTO getEtt(String id) {
-        Ett ett=ettRepo.findById(id).get();
-        return ettMapper.EttTOEttResponseDTO(ett);
+        Ett ett=ettRepo.findById(id).orElse(null);
+        if (ett!=null) {
+            return ettMapper.EttTOEttResponseDTO(ett);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -65,17 +68,12 @@ public class EttServiceImpl implements IEttService {
 
     @Override
     public void affecterEttToZone(String idEtt, String idZone) {
-        Zone zone =zoneRepo.findById(idZone).get();
-        Ett ett=ettRepo.findById(idEtt).get();
-        ett.setZone(zone);
-        ettRepo.save(ett);
+
     }
 
     @Override
     public void removeZone(String idEtt) {
-        Ett ett=ettRepo.findById(idEtt).get();
-        ett.setZone(null);
-        ettRepo.save(ett);
+
     }
 
     @Override
@@ -89,7 +87,7 @@ public class EttServiceImpl implements IEttService {
     @Override
     public void deleteEtt(String idEtt) {
         Ett ett=ettRepo.findById(idEtt).get();
-        if (ett.getZone()==null&&ett.getDregional()==null)
+        if (ett.getDregional()==null)
         {
             ettRepo.deleteById(idEtt);
         }else  throw  new RuntimeException("This Ett with address "+ett.getAdr()+" has associations");

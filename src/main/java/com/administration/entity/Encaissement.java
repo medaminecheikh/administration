@@ -42,6 +42,6 @@ public class Encaissement implements Serializable {
     private Utilisateur user;
     @ManyToOne
     private Caisse caisse;
-    @OneToOne(mappedBy = "encaissement", cascade = CascadeType.ALL, orphanRemoval = true)
-    private OperationEncai operationEncai;
+    @ManyToOne
+    private InfoFacture facture;
 }

@@ -29,15 +29,19 @@ public class ZoneServiceImpl implements IZoneService {
     @Override
     public ZoneResponseDTO addZone(ZoneRequestDTO RequestDTO) {
         Zone zone=zoneMapper.ZoneRequestDTOZone(RequestDTO);
-        zone.setIdZone(UUID.randomUUID().toString());
         zoneRepo.save(zone);
         return zoneMapper.ZoneTOZoneResponseDTO(zone);
     }
 
     @Override
     public ZoneResponseDTO getZone(String id) {
-        Zone zone=zoneRepo.findById(id).get();
-        return zoneMapper.ZoneTOZoneResponseDTO(zone);
+        Zone zone=zoneRepo.findById(id).orElse(null);
+        if (zone!=null) {
+            return zoneMapper.ZoneTOZoneResponseDTO(zone);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
@@ -74,7 +78,7 @@ public class ZoneServiceImpl implements IZoneService {
     @Override
     public void deleteZone(String idZone) {
         Zone zone=zoneRepo.findById(idZone).get();
-        if (zone.getDregionals()==null&&zone.getEtts()==null)
+        if (zone.getDregionals()==null)
         {
             zoneRepo.deleteById(idZone);
         }

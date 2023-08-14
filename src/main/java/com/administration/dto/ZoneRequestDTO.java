@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ZoneRequestDTO {
-
+    private String idZone ;
     private String COD_ZONE ;
     private String DES_ZONE   ;
     private String DES_ZONE_AR;
