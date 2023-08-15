@@ -1,5 +1,7 @@
 package com.administration.controller;
 
+import com.administration.dto.FactureResponseDTO;
+import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.InfoFacture;
 import com.administration.service.IFactureService;
 import lombok.AllArgsConstructor;
@@ -40,8 +42,8 @@ public class FactureController {
     }
 
     @GetMapping("/allfactures")
-    public ResponseEntity<List<InfoFacture>> getAllFactures() {
-        List<InfoFacture> factures = factureService.getAllFactures();
+    public ResponseEntity<List<FactureResponseDTO>> getAllFactures() {
+        List<FactureResponseDTO> factures = factureService.getAllFactures();
         return ResponseEntity.ok(factures);
     }
 
@@ -52,7 +54,7 @@ public class FactureController {
     }
 
     @PutMapping("/updatefacture/")
-    public ResponseEntity<Void> updateFacture(@RequestBody InfoFacture facture) {
+    public ResponseEntity<Void> updateFacture(@RequestBody FactureUpdateDTO facture) {
         factureService.updateFacture(facture);
         return ResponseEntity.noContent().build();
     }

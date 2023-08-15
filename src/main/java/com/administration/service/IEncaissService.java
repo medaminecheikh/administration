@@ -1,5 +1,6 @@
 package com.administration.service;
 
+import com.administration.dto.EncaissResponseDTO;
 import com.administration.entity.Encaissement;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface IEncaissService {
 
     Encaissement getEncaissById(String id);
 
-    List<Encaissement> getEncaissementByFacture(String idFact);
+    List<EncaissResponseDTO> getEncaissementByFacture(String idFact);
     List<Encaissement> getEncaissementByUser(String idUser);
     List<Encaissement> getEncaissementByCaisse(String idCaisse);
     void updateEncaisse(Encaissement dto);

@@ -1,5 +1,6 @@
 package com.administration.controller;
 
+import com.administration.dto.EncaissResponseDTO;
 import com.administration.entity.Encaissement;
 import com.administration.service.IEncaissService;
 import lombok.AllArgsConstructor;
@@ -29,8 +30,8 @@ public class EncaissementController {
     }
 
     @GetMapping("/Byfacture/{idFact}")
-    public ResponseEntity<List<Encaissement>> getEncaissementByFacture(@PathVariable String idFact) {
-        List<Encaissement> encaissements = encaissService.getEncaissementByFacture(idFact);
+    public ResponseEntity<List<EncaissResponseDTO>> getEncaissementByFacture(@PathVariable String idFact) {
+        List<EncaissResponseDTO> encaissements = encaissService.getEncaissementByFacture(idFact);
         return ResponseEntity.ok(encaissements);
     }
 

@@ -1,5 +1,7 @@
 package com.administration.service;
 
+import com.administration.dto.FactureResponseDTO;
+import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.InfoFacture;
 
 import java.util.List;
@@ -12,7 +14,7 @@ public interface IFactureService {
 
     List<InfoFacture> getByUser(String idUser);
 
-    void updateFacture(InfoFacture facture);
+    void updateFacture(FactureUpdateDTO facture);
 
     void deleteFacture(String idFacture);
 
@@ -22,7 +24,7 @@ public interface IFactureService {
 
     void removeEncaissementFromFacture(String encaissementId, String factureId);
 
-    List<InfoFacture> getAllFactures();
+    List<FactureResponseDTO> getAllFactures();
 
     List<InfoFacture> getAllfacture(String id, String ref, Integer apl);
 }

@@ -1,5 +1,7 @@
 package com.administration.service.impl;
 
+import com.administration.dto.FactureResponseDTO;
+import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.Encaissement;
 import com.administration.entity.InfoFacture;
 import com.administration.entity.Utilisateur;
@@ -7,6 +9,7 @@ import com.administration.repo.EncaissRepo;
 import com.administration.repo.FactureRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.service.IFactureService;
+import com.administration.service.mappers.FactureMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,9 +29,10 @@ import java.util.UUID;
 @Slf4j
 public class FactureServiceImpl implements IFactureService {
     FactureRepo factureRepo;
-
+    FactureMapper factureMapper;
     UtilisateurRepo utilisateurRepo;
     EncaissRepo encaissRepo;
+
     @Override
     public InfoFacture addFacture(InfoFacture facture) {
         facture.setIdFacture(UUID.randomUUID().toString());
@@ -36,17 +41,17 @@ public class FactureServiceImpl implements IFactureService {
     }
 
     @Override
-    public List<InfoFacture> getAll(String identifiant,String ref,int apl,int page, int size) {
+    public List<InfoFacture> getAll(String identifiant, String ref, int apl, int page, int size) {
         Sort sort = Sort.by("datLimPai");
-        Page<InfoFacture> factures=factureRepo.findAllFactures(identifiant,ref,apl, PageRequest.of(page, size,sort));
+        Page<InfoFacture> factures = factureRepo.findAllFactures(identifiant, ref, apl, PageRequest.of(page, size, sort));
         return factures.getContent();
     }
 
     @Override
     public List<InfoFacture> getByUser(String idUser) {
-        Utilisateur utilisateur=utilisateurRepo.findById(idUser).orElse(null);
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).orElse(null);
         if (utilisateur != null) {
-           /* return utilisateur.getFactures();*/
+            /* return utilisateur.getFactures();*/
             return Collections.emptyList();
         } else {
             return Collections.emptyList();
@@ -55,8 +60,12 @@ public class FactureServiceImpl implements IFactureService {
     }
 
     @Override
-    public void updateFacture(InfoFacture facture) {
-
+    public void updateFacture(FactureUpdateDTO facture) {
+        InfoFacture infoFacture = factureRepo.findById(facture.getIdFacture()).orElse(null);
+        if (infoFacture != null) {
+            factureMapper.updateFactureFromDto(facture, infoFacture);
+            factureRepo.save(infoFacture);
+        }
     }
 
     @Override
@@ -75,8 +84,7 @@ public class FactureServiceImpl implements IFactureService {
             encaissement.setFacture(facture);
             encaissRepo.save(encaissement);
             log.info("Affectation passed for encaissementId: {} and factureId: {}", encaissementId, factureId);
-        }
-        else {
+        } else {
             log.warn("Encaissement or Facture not found for encaissementId: {} and factureId: {}", encaissementId, factureId);
         }
     }
@@ -112,14 +120,15 @@ public class FactureServiceImpl implements IFactureService {
     }
 
     @Override
-    public List<InfoFacture> getAllFactures() {
-
-        return factureRepo.findAll();
+    public List<FactureResponseDTO> getAllFactures() {
+        List<InfoFacture> infoFactures = factureRepo.findAll();
+        return infoFactures.stream().map(facture ->
+                factureMapper.FactureTOFactureResponseDTO(facture)).collect(Collectors.toList());
     }
 
     @Override
     public List<InfoFacture> getAllfacture(String id, String ref, Integer apl) {
 
-        return factureRepo.getAllFactures(id,ref,apl);
+        return factureRepo.getAllFactures(id, ref, apl);
     }
 }

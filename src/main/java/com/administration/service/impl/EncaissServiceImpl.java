@@ -1,8 +1,10 @@
 package com.administration.service.impl;
 
+import com.administration.dto.EncaissResponseDTO;
 import com.administration.entity.*;
 import com.administration.repo.*;
 import com.administration.service.IEncaissService;
+import com.administration.service.mappers.EncaissMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,7 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 public class EncaissServiceImpl implements IEncaissService {
-
+    EncaissMapper encaissMapper;
     EncaissRepo encaissRepo;
     UtilisateurRepo utilisateurRepo;
     FactureRepo factureRepo;
@@ -36,13 +38,18 @@ public class EncaissServiceImpl implements IEncaissService {
     }
 
     @Override
-    public List<Encaissement> getEncaissementByFacture(String idFact) {
+    public List<EncaissResponseDTO> getEncaissementByFacture(String idFact) {
         InfoFacture facture = factureRepo.findById(idFact).orElse(null);
 
         if (facture != null) {
             List<Encaissement> encaissements = facture.getEncaissements();
             if (encaissements != null) {
-                return encaissements;
+                List<EncaissResponseDTO> encaissResponseDTOs = new ArrayList<>();
+                encaissements.forEach(encaissement -> {
+                    EncaissResponseDTO responseDTO = encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+                    encaissResponseDTOs.add(responseDTO);
+                });
+                return encaissResponseDTOs;
             }
         }
 
