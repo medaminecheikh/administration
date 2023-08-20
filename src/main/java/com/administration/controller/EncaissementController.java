@@ -24,8 +24,8 @@ public class EncaissementController {
     }
 
     @GetMapping("/encaissement/{id}")
-    public ResponseEntity<Encaissement> getEncaissById(@PathVariable String id) {
-        Encaissement encaissement = encaissService.getEncaissById(id);
+    public ResponseEntity<EncaissResponseDTO> getEncaissById(@PathVariable String id) {
+        EncaissResponseDTO encaissement = encaissService.getEncaissById(id);
         return ResponseEntity.ok(encaissement);
     }
 
@@ -42,8 +42,8 @@ public class EncaissementController {
     }
 
     @GetMapping("/Bycaisse/{idCaisse}")
-    public ResponseEntity<List<Encaissement>> getEncaissementByCaisse(@PathVariable String idCaisse) {
-        List<Encaissement> encaissements = encaissService.getEncaissementByCaisse(idCaisse);
+    public ResponseEntity<List<EncaissResponseDTO>> getEncaissementByCaisse(@PathVariable String idCaisse) {
+        List<EncaissResponseDTO> encaissements = encaissService.getEncaissementByCaisse(idCaisse);
         return ResponseEntity.ok(encaissements);
     }
 

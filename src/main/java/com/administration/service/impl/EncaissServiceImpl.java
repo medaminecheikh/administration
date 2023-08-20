@@ -1,6 +1,7 @@
 package com.administration.service.impl;
 
 import com.administration.dto.EncaissResponseDTO;
+import com.administration.dto.EncaissUpdateDTO;
 import com.administration.entity.*;
 import com.administration.repo.*;
 import com.administration.service.IEncaissService;
@@ -32,9 +33,13 @@ public class EncaissServiceImpl implements IEncaissService {
     }
 
     @Override
-    public Encaissement getEncaissById(String id) {
-
-        return encaissRepo.findById(id).get();
+    public EncaissResponseDTO getEncaissById(String id) {
+        Encaissement encaissement = encaissRepo.findById(id).orElse(null);
+        if (encaissement != null) {
+            return encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -74,17 +79,24 @@ public class EncaissServiceImpl implements IEncaissService {
     }
 
     @Override
-    public List<Encaissement> getEncaissementByCaisse(String idCaisse) {
+    public List<EncaissResponseDTO> getEncaissementByCaisse(String idCaisse) {
         Caisse caisse = caisseRepo.findById(idCaisse).orElse(null);
         if (caisse != null) {
-            return caisse.getEncaissements();
+            return caisse.getEncaissements().stream().map(
+                    encaissement -> encaissMapper.EncaissTOEncaissResponseDTO(encaissement)
+
+            ).collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
 
     @Override
-    public void updateEncaisse(Encaissement dto) {
-
+    public void updateEncaisse(EncaissUpdateDTO dto) {
+        Encaissement encaissement = encaissRepo.findById(dto.getIdEncaissement()).orElse(null);
+        if (encaissement != null) {
+            encaissMapper.updateEncaissFromDto(dto,encaissement);
+            encaissRepo.save(encaissement);
+        }
     }
 
     @Override
@@ -93,30 +105,28 @@ public class EncaissServiceImpl implements IEncaissService {
     }
 
 
-
     @Override
     public void affectEncaisseToCaisse(String idEncaiss, String idcai) {
-        Encaissement encaissement =encaissRepo.findById(idEncaiss).get();
-        Caisse caisse=caisseRepo.findById(idcai).get();
+        Encaissement encaissement = encaissRepo.findById(idEncaiss).get();
+        Caisse caisse = caisseRepo.findById(idcai).get();
         encaissement.setCaisse(caisse);
         encaissRepo.save(encaissement);
     }
 
 
-
     @Override
     public void affectEncaisseToUser(String idEncaiss, String idUser) {
-        Encaissement  encaissement =encaissRepo.findById(idEncaiss).get();
-        Utilisateur utilisateur= utilisateurRepo.findById(idUser).get();
+        Encaissement encaissement = encaissRepo.findById(idEncaiss).get();
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).get();
         encaissement.setUser(utilisateur);
         encaissRepo.save(encaissement);
     }
 
     @Override
     public void affectAll(String idEncaiss, String idUser, String idcai) {
-        Encaissement  encaissement =encaissRepo.findById(idEncaiss).get();
-        Utilisateur utilisateur= utilisateurRepo.findById(idUser).get();
-        Caisse caisse=caisseRepo.findById(idcai).get();
+        Encaissement encaissement = encaissRepo.findById(idEncaiss).get();
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser).get();
+        Caisse caisse = caisseRepo.findById(idcai).get();
         encaissement.setUser(utilisateur);
         encaissement.setCaisse(caisse);
         encaissRepo.save(encaissement);
