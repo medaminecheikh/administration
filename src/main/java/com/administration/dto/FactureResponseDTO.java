@@ -20,4 +20,5 @@ public class FactureResponseDTO {
     private Date datLimPai;
     private String periode;
     private List<EncaissUpdateDTO> encaissements;
+    private long totalElements;
 }

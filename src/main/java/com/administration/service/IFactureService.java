@@ -3,7 +3,10 @@ package com.administration.service;
 import com.administration.dto.FactureResponseDTO;
 import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.InfoFacture;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IFactureService {
@@ -27,4 +30,10 @@ public interface IFactureService {
     List<FactureResponseDTO> getAllFactures();
 
     List<InfoFacture> getAllfacture(String id, String ref, Integer apl);
+
+    List<FactureResponseDTO> searchInfoFactures(
+            String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
+           String identifiantKeyword, Pageable pageable);
 }
+
+

@@ -26,7 +26,7 @@ public class EncaissServiceImpl implements IEncaissService {
 
     @Override
     public Encaissement addEncaiss(Encaissement encaissement) {
-        encaissement.setIdEncaissement(UUID.randomUUID().toString());
+
         encaissement.setDateEnc(new Date());
         encaissRepo.save(encaissement);
         return encaissement;

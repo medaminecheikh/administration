@@ -5,10 +5,17 @@ import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.InfoFacture;
 import com.administration.service.IFactureService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -77,6 +84,24 @@ public class FactureController {
                                                               @PathVariable String factureId) {
         factureService.removeEncaissementFromFacture(encaissementId, factureId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/factures/searchPageFactures")
+    public List<FactureResponseDTO> searchPageFactures(
+            @RequestParam(name = "produit", required = false) String produitKeyword,
+            @RequestParam(name = "refFacture", required = false) String refFactureKeyword,
+            @RequestParam(name = "compteFacturation", required = false) String compteFacturationKeyword,
+            @RequestParam(name = "identifiant", required = false) String identifiantKeyword,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        Sort sort = Sort.by("datLimPai");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+
+        return factureService.searchInfoFactures(
+                produitKeyword, refFactureKeyword, compteFacturationKeyword,
+                identifiantKeyword, pageable);
     }
 
 
