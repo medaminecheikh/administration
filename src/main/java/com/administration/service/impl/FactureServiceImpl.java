@@ -137,11 +137,11 @@ public class FactureServiceImpl implements IFactureService {
     @Override
     public List<FactureResponseDTO> searchInfoFactures(
             String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
-             String identifiantKeyword, Pageable pageable) {
+             String identifiantKeyword,Double montantMax, Pageable pageable) {
 
         Page<InfoFacture> infoFactures = factureRepo.searchInfoFactures(
                 produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                identifiantKeyword, pageable);
+                identifiantKeyword,montantMax, pageable);
 
         List<FactureResponseDTO> infoFactureResponseDTOList = infoFactures.getContent()
                 .stream()

@@ -92,8 +92,9 @@ public class FactureController {
             @RequestParam(name = "refFacture", required = false) String refFactureKeyword,
             @RequestParam(name = "compteFacturation", required = false) String compteFacturationKeyword,
             @RequestParam(name = "identifiant", required = false) String identifiantKeyword,
+            @RequestParam(name = "montant", required = false) Double montantMax,
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "size", defaultValue = "10") int size
+            @RequestParam(name = "size", defaultValue = "8") int size
     ) {
         Sort sort = Sort.by("datLimPai");
         PageRequest pageable = PageRequest.of(page, size, sort);
@@ -101,7 +102,7 @@ public class FactureController {
 
         return factureService.searchInfoFactures(
                 produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                identifiantKeyword, pageable);
+                identifiantKeyword,montantMax, pageable);
     }
 
 

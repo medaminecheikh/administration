@@ -33,7 +33,7 @@ public interface IFactureService {
 
     List<FactureResponseDTO> searchInfoFactures(
             String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
-           String identifiantKeyword, Pageable pageable);
+           String identifiantKeyword,Double montantMax, Pageable pageable);
 }
 
 

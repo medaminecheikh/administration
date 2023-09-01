@@ -24,11 +24,14 @@ public interface FactureRepo extends JpaRepository<InfoFacture, String> {
             "(:produitKeyword IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produitKeyword, '%'))) " +
             "AND (:refFactureKeyword IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :refFactureKeyword, '%'))) " +
             "AND (:compteFacturationKeyword IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :compteFacturationKeyword, '%'))) " +
-            "AND (:identifiantKeyword IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :identifiantKeyword, '%')))")
+            "AND (:identifiantKeyword IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :identifiantKeyword, '%'))) " +
+            "AND (:montantMax IS NULL OR i.montant <= :montantMax)")
     Page<InfoFacture> searchInfoFactures(
             @Param("produitKeyword") String produitKeyword,
             @Param("refFactureKeyword") String refFactureKeyword,
             @Param("compteFacturationKeyword") String compteFacturationKeyword,
             @Param("identifiantKeyword") String identifiantKeyword,
+            @Param("montantMax") Double montantMax,
             Pageable pageable);
+
 }
