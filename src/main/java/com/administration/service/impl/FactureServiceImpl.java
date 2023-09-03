@@ -38,6 +38,7 @@ public class FactureServiceImpl implements IFactureService {
     @Override
     public InfoFacture addFacture(InfoFacture facture) {
         facture.setIdFacture(UUID.randomUUID().toString());
+        facture.setDatCreation(new Date());
         factureRepo.save(facture);
         return facture;
     }

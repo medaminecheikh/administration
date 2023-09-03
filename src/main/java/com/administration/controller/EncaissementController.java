@@ -52,4 +52,13 @@ public class EncaissementController {
         encaissService.deleteEncaisse(id);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/affectEncaisseToCaisse/{idEncaiss}/{idCai}")
+    public ResponseEntity<Void> affectEncaisseToCaisse(@PathVariable("idEncaiss") String idEncaiss,
+                                                    @PathVariable("idCai") String idCai) {
+
+            encaissService.affectEncaisseToCaisse(idEncaiss, idCai);
+            return ResponseEntity.noContent().build();
+
+    }
+
 }

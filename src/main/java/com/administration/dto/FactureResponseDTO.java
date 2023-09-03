@@ -18,6 +18,7 @@ public class FactureResponseDTO {
     private String typeIdent;
     private String identifiant;
     private Date datLimPai;
+    private Date datCreation;
     private String periode;
     private List<EncaissUpdateDTO> encaissements;
     private long totalElements;
