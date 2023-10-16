@@ -138,11 +138,11 @@ public class FactureServiceImpl implements IFactureService {
     @Override
     public List<FactureResponseDTO> searchInfoFactures(
             String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
-             String identifiantKeyword,Double montantMax, Pageable pageable) {
+            String identifiantKeyword, Double montantMax, Pageable pageable) {
 
         Page<InfoFacture> infoFactures = factureRepo.searchInfoFactures(
                 produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                identifiantKeyword,montantMax, pageable);
+                identifiantKeyword, montantMax, pageable);
 
         List<FactureResponseDTO> infoFactureResponseDTOList = infoFactures.getContent()
                 .stream()
@@ -153,5 +153,71 @@ public class FactureServiceImpl implements IFactureService {
         infoFactureResponseDTOList.forEach(dto -> dto.setTotalElements(count));
 
         return infoFactureResponseDTOList;
+    }
+
+    @Override
+    public double calculatePaymentAmount(InfoFacture facture, Date targetDate) {
+        double originalAmount = facture.getMontant();
+        double discountPercentage = facture.getSolde();
+
+        // Calculate the discounted amount based on the discount percentage
+        double discountedAmount = originalAmount * (1 - (discountPercentage / 100));
+
+        Date datCreation = facture.getDatCreation();
+        Date datLimPai = facture.getDatLimPai();
+        String periode = facture.getPeriode();
+
+        // Calculate the number of years between datCreation and targetDate
+        long yearsBetween = calculateYearsBetween(datCreation, targetDate);
+
+        // Calculate the number of payments (based on period) that have occurred within those years
+        int numberOfPayments = calculateNumberOfPayments(yearsBetween, periode);
+
+        // Calculate the payment amount based on the number of payments and the discounted amount
+        double paymentAmount = discountedAmount / numberOfPayments;
+
+        // Calculate the remaining unpaid amount
+        double remainingAmount = discountedAmount - (paymentAmount * numberOfPayments);
+
+        // Check if the targetDate is beyond the datLimPai
+        if (targetDate.after(datLimPai)) {
+            return 0.0; // No payment is due if the targetDate is beyond the datLimPai
+        }
+
+        // If the targetDate is before datLimPai, return the calculated payment amount
+        return paymentAmount;
+    }
+
+    @Override
+    public List<FactureResponseDTO> getMonthlyFactures() {
+        List<InfoFacture> infoFactures = factureRepo.findFacturesCreatedInCurrentMonth();
+        return infoFactures.stream().map(infoFacture -> factureMapper.FactureTOFactureResponseDTO(infoFacture))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FactureResponseDTO> getYearlyFactures() {
+        List<InfoFacture> infoFactureList = factureRepo.findFacturesCreatedInCurrentYear();
+
+        return infoFactureList.stream().map(facture -> factureMapper.FactureTOFactureResponseDTO(facture)).collect(Collectors.toList());
+    }
+
+    private long calculateYearsBetween(Date date1, Date date2) {
+        long millisecondsInYear = 365L * 24 * 60 * 60 * 1000;
+        long diffMilliseconds = date2.getTime() - date1.getTime();
+        return diffMilliseconds / millisecondsInYear;
+    }
+
+    private int calculateNumberOfPayments(long years, String periode) {
+        if ("MENSUEL".equalsIgnoreCase(periode)) {
+            return (int) (years * 12); // Assuming monthly payments
+        } else if ("SEMESTRIEL".equalsIgnoreCase(periode)) {
+            return (int) (years * 2); // Assuming semi-annual payments
+        } else if ("TRIMESTRIEL".equalsIgnoreCase(periode)) {
+            return (int) (years * 3); // Assuming quarterly payments
+        } else if ("ANNUEL".equalsIgnoreCase(periode)) {
+            return (int) years; // Assuming annual payments
+        }
+        return 0; // Unknown periode, return 0 payments
     }
 }

@@ -104,6 +104,19 @@ public class FactureController {
                 produitKeyword, refFactureKeyword, compteFacturationKeyword,
                 identifiantKeyword,montantMax, pageable);
     }
+    @GetMapping("/factures/monthlyFactures")
+    public List<FactureResponseDTO> monthlyFactures() {
+        return factureService.getMonthlyFactures();
+    }
+    @GetMapping("/factures/yearlyFactures")
+    public List<FactureResponseDTO> yearlyFactures() {
+        return factureService.getYearlyFactures();
+    }
+    @GetMapping("/factures/amountopay")
+    public double amountopay(@RequestBody InfoFacture facture,
+                                               @RequestParam Date date) {
 
+        return  factureService.calculatePaymentAmount(facture , date);
+    }
 
 }

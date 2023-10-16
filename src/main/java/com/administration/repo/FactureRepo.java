@@ -34,4 +34,14 @@ public interface FactureRepo extends JpaRepository<InfoFacture, String> {
             @Param("montantMax") Double montantMax,
             Pageable pageable);
 
+
+    @Query("SELECT f FROM InfoFacture f WHERE FUNCTION('YEAR', f.datCreation) = FUNCTION('YEAR', CURRENT_DATE) " +
+            "AND FUNCTION('MONTH', f.datCreation) = FUNCTION('MONTH', CURRENT_DATE)")
+    List<InfoFacture> findFacturesCreatedInCurrentMonth();
+
+    @Query("SELECT f FROM InfoFacture f WHERE YEAR(f.datCreation) = YEAR(CURRENT_DATE)")
+    List<InfoFacture> findFacturesCreatedInCurrentYear();
+
+
 }
+

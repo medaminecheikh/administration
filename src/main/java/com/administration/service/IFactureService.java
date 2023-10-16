@@ -34,6 +34,9 @@ public interface IFactureService {
     List<FactureResponseDTO> searchInfoFactures(
             String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
            String identifiantKeyword,Double montantMax, Pageable pageable);
+    double calculatePaymentAmount(InfoFacture facture, Date targetDate);
+    List<FactureResponseDTO> getMonthlyFactures();
+    List<FactureResponseDTO> getYearlyFactures();
 }
 
 

@@ -14,6 +14,7 @@ public interface IEncaissService {
     List<EncaissResponseDTO> getEncaissementByFacture(String idFact);
     List<Encaissement> getEncaissementByUser(String idUser);
     List<EncaissResponseDTO> getEncaissementByCaisse(String idCaisse);
+    List<EncaissResponseDTO> getEncaissementsForCaisseInCurrentMonth(String caisseId);
     void updateEncaisse(EncaissUpdateDTO dto);
     void deleteEncaisse(String idEncaiss);
 

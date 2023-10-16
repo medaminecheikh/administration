@@ -47,7 +47,7 @@ public class EncaissementController {
         return ResponseEntity.ok(encaissements);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/encaissements/delete/{id}")
     public ResponseEntity<Void> deleteEncaiss(@PathVariable String id) {
         encaissService.deleteEncaisse(id);
         return ResponseEntity.noContent().build();
@@ -59,6 +59,10 @@ public class EncaissementController {
             encaissService.affectEncaisseToCaisse(idEncaiss, idCai);
             return ResponseEntity.noContent().build();
 
+    }
+    @GetMapping("/encaissements/current-month-for-caisse")
+    public List<EncaissResponseDTO> getEncaissementsForCaisseInCurrentMonth(@RequestParam String caisseId) {
+        return encaissService.getEncaissementsForCaisseInCurrentMonth(caisseId);
     }
 
 }

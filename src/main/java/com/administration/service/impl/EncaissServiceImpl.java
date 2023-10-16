@@ -131,4 +131,18 @@ public class EncaissServiceImpl implements IEncaissService {
         encaissement.setCaisse(caisse);
         encaissRepo.save(encaissement);
     }
+    @Override
+    public List<EncaissResponseDTO> getEncaissementsForCaisseInCurrentMonth(String caisseId) {
+        // Calculate the start and end date of the current month
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date endDate = calendar.getTime();
+        List<Encaissement> encaissementList =encaissRepo.findEncaissementsForCaisseInCurrentMonth(caisseId, startDate, endDate);
+        // Fetch the list of Encaissements for the specified Caisse within the current month
+        return encaissementList.stream().map(encaissement -> encaissMapper.EncaissTOEncaissResponseDTO(encaissement)).collect(Collectors.toList());
+    }
+
 }
