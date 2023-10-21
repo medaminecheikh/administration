@@ -1,5 +1,6 @@
 package com.administration.service.impl;
 
+import com.administration.dto.EncaissResponseDTO;
 import com.administration.dto.FactureResponseDTO;
 import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.Encaissement;
@@ -9,6 +10,7 @@ import com.administration.repo.EncaissRepo;
 import com.administration.repo.FactureRepo;
 import com.administration.repo.UtilisateurRepo;
 import com.administration.service.IFactureService;
+import com.administration.service.mappers.EncaissMapper;
 import com.administration.service.mappers.FactureMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -34,10 +37,10 @@ public class FactureServiceImpl implements IFactureService {
     FactureMapper factureMapper;
     UtilisateurRepo utilisateurRepo;
     EncaissRepo encaissRepo;
+    EncaissMapper encaissMapper;
 
     @Override
     public InfoFacture addFacture(InfoFacture facture) {
-        facture.setIdFacture(UUID.randomUUID().toString());
         facture.setDatCreation(new Date());
         factureRepo.save(facture);
         return facture;
@@ -79,16 +82,27 @@ public class FactureServiceImpl implements IFactureService {
     }
 
     @Override
-    public void affectEncaissementToFacture(String encaissementId, String factureId) {
-        Encaissement encaissement = encaissRepo.findById(encaissementId).orElse(null);
-        InfoFacture facture = factureRepo.findById(factureId).orElse(null);
+    public FactureResponseDTO affectEncaissementToFacture(String encaissementId, String factureId) {
+        try {
+            Encaissement encaissement = encaissRepo.findById(encaissementId)
+                    .orElseThrow(() -> new EntityNotFoundException("Encaissement not found with id: " + encaissementId));
+            InfoFacture facture = factureRepo.findById(factureId)
+                    .orElseThrow(() -> new EntityNotFoundException("Facture not found with id: " + factureId));
 
-        if (encaissement != null && facture != null) {
             encaissement.setFacture(facture);
             encaissRepo.save(encaissement);
+
             log.info("Affectation passed for encaissementId: {} and factureId: {}", encaissementId, factureId);
-        } else {
-            log.warn("Encaissement or Facture not found for encaissementId: {} and factureId: {}", encaissementId, factureId);
+            return factureMapper.FactureTOFactureResponseDTO(factureRepo.findById(factureId).get());
+
+        } catch (EntityNotFoundException e) {
+            // Entity not found, return 404 Not Found status
+            throw e;
+        } catch (Exception e) {
+            // Log the error for debugging purposes
+            log.error("Failed to affect encaissement to facture: {}", e.getMessage());
+            // You might want to throw a custom exception here or handle it in another way.
+            throw new RuntimeException("Failed to affect encaissement to facture: " + e.getMessage());
         }
     }
 
@@ -197,7 +211,7 @@ public class FactureServiceImpl implements IFactureService {
 
     @Override
     public List<FactureResponseDTO> getYearlyFactures() {
-        List<InfoFacture> infoFactureList = factureRepo.findFacturesCreatedInCurrentYear();
+        List<InfoFacture> infoFactureList = factureRepo.findFacturesEndInCurrentYear();
 
         return infoFactureList.stream().map(facture -> factureMapper.FactureTOFactureResponseDTO(facture)).collect(Collectors.toList());
     }

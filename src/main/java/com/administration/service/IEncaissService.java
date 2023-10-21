@@ -18,7 +18,7 @@ public interface IEncaissService {
     void updateEncaisse(EncaissUpdateDTO dto);
     void deleteEncaisse(String idEncaiss);
 
-    void affectEncaisseToCaisse(String idEncaiss,String idcai);
+    EncaissResponseDTO affectEncaisseToCaisse(String idEncaiss, String idcai);
     void affectEncaisseToUser(String idEncaiss,String idUser);
     void affectAll(String idEncaiss,String idUser,String idcai);
 

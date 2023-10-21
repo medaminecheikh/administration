@@ -1,10 +1,12 @@
 package com.administration.controller;
 
+import com.administration.dto.EncaissResponseDTO;
 import com.administration.dto.FactureResponseDTO;
 import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.InfoFacture;
 import com.administration.service.IFactureService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,14 +16,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class FactureController {
-    private final IFactureService factureService;
+    private  IFactureService factureService;
 
     @PostMapping("/facture")
     public ResponseEntity<InfoFacture> addFacture(@RequestBody InfoFacture facture) {
@@ -73,11 +78,19 @@ public class FactureController {
     }
 
     @PostMapping("/affectencaissement/tofacture/{factureId}/{encaissementId}")
-    public ResponseEntity<Void> affectEncaissementToFacture(@PathVariable String factureId, @PathVariable String encaissementId
-    ) {
-        factureService.affectEncaissementToFacture(encaissementId, factureId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> affectEncaissementToFacture(@PathVariable String factureId, @PathVariable String encaissementId) {
+        try {
+            FactureResponseDTO factureResponseDTO = factureService.affectEncaissementToFacture(encaissementId, factureId);
+            return ResponseEntity.ok(factureResponseDTO);
+        } catch (EntityNotFoundException e) {
+            // Entity not found, return 404 Not Found status
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            // Other errors, return 500 Internal Server Error status
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     @DeleteMapping("/removencaissement/{factureId}/{encaissementId}")
     public ResponseEntity<Void> removeEncaissementFromFacture(@PathVariable String encaissementId,

@@ -42,6 +42,13 @@ public interface FactureRepo extends JpaRepository<InfoFacture, String> {
     @Query("SELECT f FROM InfoFacture f WHERE YEAR(f.datCreation) = YEAR(CURRENT_DATE)")
     List<InfoFacture> findFacturesCreatedInCurrentYear();
 
+    @Query("SELECT f FROM InfoFacture f WHERE FUNCTION('YEAR', f.datLimPai) = FUNCTION('YEAR', CURRENT_DATE) " +
+            "AND FUNCTION('MONTH', f.datLimPai) = FUNCTION('MONTH', CURRENT_DATE)")
+    List<InfoFacture> findFacturesEndInCurrentMonth();
+
+    @Query("SELECT f FROM InfoFacture f WHERE YEAR(f.datLimPai) = YEAR(CURRENT_DATE)")
+    List<InfoFacture> findFacturesEndInCurrentYear();
+
 
 }
 

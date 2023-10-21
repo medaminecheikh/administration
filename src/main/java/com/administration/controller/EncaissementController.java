@@ -9,13 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-@PreAuthorize("hasAuthority('FO')")
+
 public class EncaissementController {
-    private final IEncaissService encaissService;
+    private  IEncaissService encaissService;
 
     @PostMapping("/encaissement")
     public ResponseEntity<Encaissement> addEncaiss(@RequestBody Encaissement encaissement) {
@@ -53,11 +55,19 @@ public class EncaissementController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/affectEncaisseToCaisse/{idEncaiss}/{idCai}")
-    public ResponseEntity<Void> affectEncaisseToCaisse(@PathVariable("idEncaiss") String idEncaiss,
+    public ResponseEntity<?> affectEncaisseToCaisse(@PathVariable("idEncaiss") String idEncaiss,
                                                     @PathVariable("idCai") String idCai) {
 
-            encaissService.affectEncaisseToCaisse(idEncaiss, idCai);
-            return ResponseEntity.noContent().build();
+        try {
+            EncaissResponseDTO encaissResponseDTO = encaissService.affectEncaisseToCaisse(idEncaiss, idCai);
+            return ResponseEntity.ok(encaissResponseDTO);
+        } catch (EntityNotFoundException e) {
+            // Entity not found, return 404 Not Found status
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            // Other errors, return 500 Internal Server Error status
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
 
     }
     @GetMapping("/encaissements/current-month-for-caisse")

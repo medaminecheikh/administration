@@ -7,15 +7,18 @@ import com.administration.repo.*;
 import com.administration.service.IEncaissService;
 import com.administration.service.mappers.EncaissMapper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class EncaissServiceImpl implements IEncaissService {
     EncaissMapper encaissMapper;
     EncaissRepo encaissRepo;
@@ -106,11 +109,24 @@ public class EncaissServiceImpl implements IEncaissService {
 
 
     @Override
-    public void affectEncaisseToCaisse(String idEncaiss, String idcai) {
-        Encaissement encaissement = encaissRepo.findById(idEncaiss).get();
-        Caisse caisse = caisseRepo.findById(idcai).get();
-        encaissement.setCaisse(caisse);
-        encaissRepo.save(encaissement);
+    public EncaissResponseDTO affectEncaisseToCaisse(String idEncaiss,String idCai) {
+        try {
+            Encaissement encaissement = encaissRepo.findById(idEncaiss)
+                    .orElseThrow(() -> new EntityNotFoundException("Encaissement not found with id: " + idEncaiss));
+            Caisse caisse = caisseRepo.findById(idCai)
+                    .orElseThrow(() -> new EntityNotFoundException("Caisse not found with id: " + idCai));
+
+            encaissement.setCaisse(caisse);
+            encaissRepo.save(encaissement);
+
+            return encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+        } catch (Exception e) {
+            // Log the error for debugging purposes
+            log.error("Failed to affect caisse to encaissement: {}", e.getMessage());
+            // You might want to throw a custom exception here or handle it in another way.
+            throw new RuntimeException("Failed to affect caisse to encaissement: " + e.getMessage());
+        }
+
     }
 
 
