@@ -106,16 +106,16 @@ public class FactureController {
             @RequestParam(name = "compteFacturation", required = false) String compteFacturationKeyword,
             @RequestParam(name = "identifiant", required = false) String identifiantKeyword,
             @RequestParam(name = "montant", required = false) Double montantMax,
+            @RequestParam(name = "solde", required = false) Double solde,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "8") int size
     ) {
         Sort sort = Sort.by("datLimPai");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-
         return factureService.searchInfoFactures(
                 produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                identifiantKeyword,montantMax, pageable);
+                identifiantKeyword,montantMax,solde, pageable);
     }
     @GetMapping("/factures/monthlyFactures")
     public List<FactureResponseDTO> monthlyFactures() {
