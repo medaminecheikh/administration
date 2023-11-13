@@ -5,6 +5,7 @@ import com.administration.dto.FactureResponseDTO;
 import com.administration.dto.FactureUpdateDTO;
 import com.administration.entity.InfoFacture;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
@@ -34,10 +35,21 @@ public interface IFactureService {
 
     List<FactureResponseDTO> searchInfoFactures(
             String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
-           String identifiantKeyword,Double montantMax,Double solde, Pageable pageable);
+            String identifiantKeyword, Double montantMax, Double solde, Pageable pageable);
+
     double calculatePaymentAmount(InfoFacture facture, Date targetDate);
+
     List<FactureResponseDTO> getMonthlyFactures();
+
     List<FactureResponseDTO> getYearlyFactures();
+
+    List<FactureResponseDTO> getFinishedFactures(String produitKeyword, String refFactureKeyword,
+                                                 String compteFacturationKeyword, String identifiantKeyword,
+                                                 Double montantMax, Double solde, PageRequest pageable);
+
+    List<FactureResponseDTO> searchCoursFactures(String produitKeyword, String refFactureKeyword, String compteFacturationKeyword, String identifiantKeyword, Double montantMax, Double solde, PageRequest pageable);
+
+    List<FactureResponseDTO> searchRetardFactures(String produitKeyword, String refFactureKeyword, String compteFacturationKeyword, String identifiantKeyword, Double montantMax, Double solde);
 }
 
 

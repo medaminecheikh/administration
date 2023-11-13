@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -107,15 +108,30 @@ public class FactureController {
             @RequestParam(name = "identifiant", required = false) String identifiantKeyword,
             @RequestParam(name = "montant", required = false) Double montantMax,
             @RequestParam(name = "solde", required = false) Double solde,
+            @RequestParam(name = "status", required = false) String status,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "8") int size
     ) {
         Sort sort = Sort.by("datLimPai");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-        return factureService.searchInfoFactures(
-                produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                identifiantKeyword,montantMax,solde, pageable);
+        if (Objects.equals(status, "TERMINER")) {
+            return factureService.getFinishedFactures(
+                    produitKeyword, refFactureKeyword, compteFacturationKeyword,
+                    identifiantKeyword,montantMax,solde, pageable);
+        } else if (Objects.equals(status, "COURS")) {
+            return factureService.searchCoursFactures(
+                    produitKeyword, refFactureKeyword, compteFacturationKeyword,
+                    identifiantKeyword,montantMax,solde, pageable);
+        }else if (Objects.equals(status, "RETARD")) {
+            return factureService.searchRetardFactures(
+                    produitKeyword, refFactureKeyword, compteFacturationKeyword,
+                    identifiantKeyword,montantMax,solde);
+        }else {
+            return factureService.searchInfoFactures(
+                    produitKeyword, refFactureKeyword, compteFacturationKeyword,
+                    identifiantKeyword,montantMax,solde, pageable);
+        }
     }
     @GetMapping("/factures/monthlyFactures")
     public List<FactureResponseDTO> monthlyFactures() {
