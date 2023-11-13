@@ -239,14 +239,20 @@ public class FactureServiceImpl implements IFactureService {
 
              // Calculate the current period
              int currentPeriod = (int) Math.ceil((double) daysFromCreation / (daysBetween / numberOfPayments));
-
+             var totalPaye = facture.getEncaissements()
+                     .stream()
+                     .mapToDouble(Encaissement::getMontantEnc)
+                     .sum();
              log.info("calculateNumberOfPayments: {}", numberOfPayments);
              log.info("Total Amount: {}", totalAmount);
+             log.info("total Paye: {}", totalPaye);
              log.info("Tranche: {}", tranche);
              log.info("Current Period: {}", currentPeriod);
+
+             return totalPaye < tranche * currentPeriod;
          }
 
-        return true;
+         return true;
     }
 
 
