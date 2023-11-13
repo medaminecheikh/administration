@@ -248,7 +248,9 @@ public class FactureServiceImpl implements IFactureService {
              log.info("total Paye: {}", totalPaye);
              log.info("Tranche: {}", tranche);
              log.info("Current Period: {}", currentPeriod);
-
+             if (currentPeriod==0) {
+                 currentPeriod+=1;
+             }
              return totalPaye < tranche * currentPeriod;
          }
 
