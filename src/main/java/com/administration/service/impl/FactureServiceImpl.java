@@ -226,9 +226,24 @@ public class FactureServiceImpl implements IFactureService {
 
              long daysBetween = ChronoUnit.DAYS.between(localDatCreation, localDatLimPai);
              long yearsBetween = ChronoUnit.YEARS.between(localDatCreation, localDatLimPai);
-             log.info("Days between datCreation and datLimPai: {}, {}", daysBetween,yearsBetween);
-                 calculateNumberOfPayments(yearsBetween,facture.getPeriode());
-             log.info("calculateNumberOfPayments: {}", calculateNumberOfPayments(yearsBetween,facture.getPeriode()));
+             log.info("Days between datCreation and datLimPai: {}, {}", daysBetween, yearsBetween);
+
+             int numberOfPayments = calculateNumberOfPayments(yearsBetween, facture.getPeriode());
+
+             var totalAmount = (facture.getMontant() - (facture.getMontant() * facture.getSolde() / 100));
+             var tranche = totalAmount / numberOfPayments;
+
+             // Assuming currentDate is the current date
+             LocalDate currentDate = LocalDate.now();
+             long daysFromCreation = ChronoUnit.DAYS.between(localDatCreation, currentDate);
+
+             // Calculate the current period
+             int currentPeriod = (int) Math.ceil((double) daysFromCreation / (daysBetween / numberOfPayments));
+
+             log.info("calculateNumberOfPayments: {}", numberOfPayments);
+             log.info("Total Amount: {}", totalAmount);
+             log.info("Tranche: {}", tranche);
+             log.info("Current Period: {}", currentPeriod);
          }
 
         return true;
