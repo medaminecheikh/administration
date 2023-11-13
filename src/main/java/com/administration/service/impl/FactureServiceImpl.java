@@ -225,7 +225,10 @@ public class FactureServiceImpl implements IFactureService {
              LocalDate localDatLimPai = LocalDate.parse(datLimPai.toString(), formatter);
 
              long daysBetween = ChronoUnit.DAYS.between(localDatCreation, localDatLimPai);
-             log.info("Days between datCreation and datLimPai: {}", daysBetween);
+             long yearsBetween = ChronoUnit.YEARS.between(localDatCreation, localDatLimPai);
+             log.info("Days between datCreation and datLimPai: {}, {}", daysBetween,yearsBetween);
+                 calculateNumberOfPayments(yearsBetween,facture.getPeriode());
+             log.info("calculateNumberOfPayments: {}", calculateNumberOfPayments(yearsBetween,facture.getPeriode()));
          }
 
         return true;
