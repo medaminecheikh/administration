@@ -58,7 +58,7 @@ public class EncaissementController {
         return ResponseEntity.ok(encaissements);
     }
     @GetMapping("/encaissement/searchPageEncaissement")
-    public List<EncaissResponseDTO> searchPageFactures(
+    public List<EncaissResponseDTO> searchPageEncaiss(
             @RequestParam(name = "produit", required = false) String produit,
             @RequestParam(name = "identifiant", required = false) String identifiant,
             @RequestParam(name = "modePaiement", required = false) String modePaiement,
@@ -71,8 +71,61 @@ public class EncaissementController {
         Sort sort = Sort.by("dateEnc");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-
             return encaissService.searchEncaiss(
+                    produit, identifiant, modePaiement,
+                    typeIdent,montantEnc,refFacture, pageable);
+    }
+    @GetMapping("/encaissement/searchYearEncaissement")
+    public List<EncaissResponseDTO> searchYearEncaiss(
+            @RequestParam(name = "produit", required = false) String produit,
+            @RequestParam(name = "identifiant", required = false) String identifiant,
+            @RequestParam(name = "modePaiement", required = false) String modePaiement,
+            @RequestParam(name = "typeIdent", required = false) String typeIdent,
+            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
+            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        Sort sort = Sort.by("dateEnc");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+            return encaissService.searchEncaissYear(
+                    produit, identifiant, modePaiement,
+                    typeIdent,montantEnc,refFacture, pageable);
+    }
+    @GetMapping("/encaissement/searchMonthEncaissement")
+    public List<EncaissResponseDTO> searchMonthEncaiss(
+            @RequestParam(name = "produit", required = false) String produit,
+            @RequestParam(name = "identifiant", required = false) String identifiant,
+            @RequestParam(name = "modePaiement", required = false) String modePaiement,
+            @RequestParam(name = "typeIdent", required = false) String typeIdent,
+            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
+            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        Sort sort = Sort.by("dateEnc");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+            return encaissService.searchEncaissMonth(
+                    produit, identifiant, modePaiement,
+                    typeIdent,montantEnc,refFacture, pageable);
+    }
+    @GetMapping("/encaissement/searchWeekEncaissement")
+    public List<EncaissResponseDTO> searchWeekEncaiss(
+            @RequestParam(name = "produit", required = false) String produit,
+            @RequestParam(name = "identifiant", required = false) String identifiant,
+            @RequestParam(name = "modePaiement", required = false) String modePaiement,
+            @RequestParam(name = "typeIdent", required = false) String typeIdent,
+            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
+            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        Sort sort = Sort.by("dateEnc");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+            return encaissService.searchEncaissWeek(
                     produit, identifiant, modePaiement,
                     typeIdent,montantEnc,refFacture, pageable);
     }

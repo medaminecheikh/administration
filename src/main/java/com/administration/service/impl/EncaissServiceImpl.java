@@ -184,4 +184,43 @@ public class EncaissServiceImpl implements IEncaissService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<EncaissResponseDTO> searchEncaissWeek(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable) {
+        Page<Encaissement> encaissements = encaissRepo.searchEncaissThisWeek(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, pageable);
+        long count = encaissements.getTotalElements();
+        return encaissements.stream()
+                .map(encaissement -> {
+                    EncaissResponseDTO dto = encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+                    dto.setTotalElements(count);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EncaissResponseDTO> searchEncaissMonth(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable) {
+        Page<Encaissement> encaissements = encaissRepo.searchEncaissThisMonth(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, pageable);
+        long count = encaissements.getTotalElements();
+        return encaissements.stream()
+                .map(encaissement -> {
+                    EncaissResponseDTO dto = encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+                    dto.setTotalElements(count);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EncaissResponseDTO> searchEncaissYear(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable) {
+        Page<Encaissement> encaissements = encaissRepo.searchEncaissThisYear(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, pageable);
+        long count = encaissements.getTotalElements();
+        return encaissements.stream()
+                .map(encaissement -> {
+                    EncaissResponseDTO dto = encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+                    dto.setTotalElements(count);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 }
