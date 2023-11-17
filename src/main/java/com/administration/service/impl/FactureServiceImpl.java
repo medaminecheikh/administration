@@ -155,11 +155,11 @@ public class FactureServiceImpl implements IFactureService {
     @Override
     public List<FactureResponseDTO> searchInfoFactures(
             String produitKeyword, String refFactureKeyword, String compteFacturationKeyword,
-            String identifiantKeyword, Double montantMax,Double solde, Pageable pageable) {
+            String identifiantKeyword, Double montantMax, Double solde, Pageable pageable) {
 
         Page<InfoFacture> infoFactures = factureRepo.searchInfoFactures(
                 produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                identifiantKeyword, montantMax,solde, pageable);
+                identifiantKeyword, montantMax, solde, pageable);
 
         List<FactureResponseDTO> infoFactureResponseDTOList = infoFactures.getContent()
                 .stream()
@@ -174,31 +174,29 @@ public class FactureServiceImpl implements IFactureService {
 
     @Override
     public List<FactureResponseDTO> getFinishedFactures(String produitKeyword, String refFactureKeyword,
-                                                      String compteFacturationKeyword, String identifiantKeyword,
-                                                      Double montantMax, Double solde, PageRequest pageable)
-    {
+                                                        String compteFacturationKeyword, String identifiantKeyword,
+                                                        Double montantMax, Double solde, PageRequest pageable) {
         Page<InfoFacture> infoFacturePage = factureRepo.searchFinishedFactures(produitKeyword, refFactureKeyword,
-                compteFacturationKeyword,identifiantKeyword,montantMax,solde,pageable );
-        long count =infoFacturePage.getTotalElements();
-        List<FactureResponseDTO> factureResponseDTOS=infoFacturePage.getContent().stream()
+                compteFacturationKeyword, identifiantKeyword, montantMax, solde, pageable);
+        long count = infoFacturePage.getTotalElements();
+        List<FactureResponseDTO> factureResponseDTOS = infoFacturePage.getContent().stream()
                 .map(infoFacture -> factureMapper.FactureTOFactureResponseDTO(infoFacture))
                 .collect(Collectors.toList());
-        factureResponseDTOS.forEach(factureResponseDTO ->factureResponseDTO.setTotalElements(count) );
+        factureResponseDTOS.forEach(factureResponseDTO -> factureResponseDTO.setTotalElements(count));
         return factureResponseDTOS;
     }
 
     @Override
     public List<FactureResponseDTO> searchCoursFactures(String produitKeyword, String refFactureKeyword, String compteFacturationKeyword, String identifiantKeyword, Double montantMax, Double solde, PageRequest pageable) {
 
-        Date currentDate = new Date();
-        log.info("Current Date: {}", currentDate);
+
         Page<InfoFacture> infoFacturePage = factureRepo.searchCoursFactures(produitKeyword, refFactureKeyword,
-                compteFacturationKeyword,identifiantKeyword,montantMax,solde,pageable);
-        long count =infoFacturePage.getTotalElements();
-        List<FactureResponseDTO> factureResponseDTOS=infoFacturePage.getContent().stream()
+                compteFacturationKeyword, identifiantKeyword, montantMax, solde, pageable);
+        long count = infoFacturePage.getTotalElements();
+        List<FactureResponseDTO> factureResponseDTOS = infoFacturePage.getContent().stream()
                 .map(infoFacture -> factureMapper.FactureTOFactureResponseDTO(infoFacture))
                 .collect(Collectors.toList());
-        factureResponseDTOS.forEach(factureResponseDTO ->factureResponseDTO.setTotalElements(count) );
+        factureResponseDTOS.forEach(factureResponseDTO -> factureResponseDTO.setTotalElements(count));
         log.info(factureResponseDTOS.toString());
         return factureResponseDTOS;
     }
@@ -210,51 +208,68 @@ public class FactureServiceImpl implements IFactureService {
         List<InfoFacture> facturesRetard = infoFactures.stream()
                 .filter(this::factureRetard)
                 .toList();
+        int totalCount = facturesRetard.size();
 
-        return facturesRetard.stream().map(facture -> factureMapper.FactureTOFactureResponseDTO(facture)).collect(Collectors.toList());
+        return facturesRetard.stream()
+                .map(facture -> {
+                    FactureResponseDTO dto = factureMapper.FactureTOFactureResponseDTO(facture);
+                    dto.setTotalElements(totalCount);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
-     boolean factureRetard( InfoFacture facture){
-         Date datCreation = facture.getDatCreation();
-         Date datLimPai = facture.getDatLimPai();
 
-         if (datCreation != null && datLimPai != null) {
-             // Assuming that the dates are stored as strings in 'yyyy-MM-dd' format
-             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    boolean factureRetard(InfoFacture facture) {
+        if ("COMPLET".equalsIgnoreCase(facture.getPeriode())) {
+            var paied = facture.getEncaissements()
+                    .stream()
+                    .mapToDouble(Encaissement::getMontantEnc)
+                    .sum();
+            return (facture.getMontant() - (facture.getMontant() * facture.getSolde() / 100)) > paied;
+        } else {
+            Date datCreation = facture.getDatCreation();
+            Date datLimPai = facture.getDatLimPai();
 
-             LocalDate localDatCreation = LocalDate.parse(datCreation.toString(), formatter);
-             LocalDate localDatLimPai = LocalDate.parse(datLimPai.toString(), formatter);
+            if (datCreation != null && datLimPai != null) {
+                // Assuming that the dates are stored as strings in 'yyyy-MM-dd' format
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-             long daysBetween = ChronoUnit.DAYS.between(localDatCreation, localDatLimPai);
-             long yearsBetween = ChronoUnit.YEARS.between(localDatCreation, localDatLimPai);
-             log.info("Days between datCreation and datLimPai: {}, {}", daysBetween, yearsBetween);
+                LocalDate localDatCreation = LocalDate.parse(datCreation.toString(), formatter);
+                LocalDate localDatLimPai = LocalDate.parse(datLimPai.toString(), formatter);
 
-             int numberOfPayments = calculateNumberOfPayments(yearsBetween, facture.getPeriode());
+                long daysBetween = ChronoUnit.DAYS.between(localDatCreation, localDatLimPai);
+                long yearsBetween = ChronoUnit.YEARS.between(localDatCreation, localDatLimPai);
+                log.info("Days between datCreation and datLimPai: {}, {}", daysBetween, yearsBetween);
 
-             var totalAmount = (facture.getMontant() - (facture.getMontant() * facture.getSolde() / 100));
-             var tranche = totalAmount / numberOfPayments;
+                int numberOfPayments = calculateNumberOfPayments(yearsBetween, facture.getPeriode());
 
-             // Assuming currentDate is the current date
-             LocalDate currentDate = LocalDate.now();
-             long daysFromCreation = ChronoUnit.DAYS.between(localDatCreation, currentDate);
+                var totalAmount = (facture.getMontant() - (facture.getMontant() * facture.getSolde() / 100));
+                var tranche = totalAmount / numberOfPayments;
 
-             // Calculate the current period
-             int currentPeriod = (int) Math.ceil((double) daysFromCreation / (daysBetween / numberOfPayments));
-             var totalPaye = facture.getEncaissements()
-                     .stream()
-                     .mapToDouble(Encaissement::getMontantEnc)
-                     .sum();
-             log.info("calculateNumberOfPayments: {}", numberOfPayments);
-             log.info("Total Amount: {}", totalAmount);
-             log.info("total Paye: {}", totalPaye);
-             log.info("Tranche: {}", tranche);
-             log.info("Current Period: {}", currentPeriod);
-             if (currentPeriod==0) {
-                 currentPeriod+=1;
-             }
-             return totalPaye < tranche * currentPeriod;
-         }
+                // Assuming currentDate is the current date
+                LocalDate currentDate = LocalDate.now();
+                long daysFromCreation = ChronoUnit.DAYS.between(localDatCreation, currentDate);
 
-         return true;
+                // Calculate the current period
+                int currentPeriod = (int) Math.ceil((double) daysFromCreation / (daysBetween / numberOfPayments));
+                var totalPaye = facture.getEncaissements()
+                        .stream()
+                        .mapToDouble(Encaissement::getMontantEnc)
+                        .sum();
+                log.info("calculateNumberOfPayments: {}", numberOfPayments);
+                log.info("Total Amount: {}", totalAmount);
+                log.info("total Paye: {}", totalPaye);
+                log.info("Tranche: {}", tranche);
+                log.info("Current Period: {}", currentPeriod);
+                if (currentPeriod == 0) {
+                    currentPeriod += 1;
+                }
+                return totalPaye < tranche * currentPeriod;
+            }
+
+            return true;
+        }
+
     }
 
 
@@ -304,7 +319,6 @@ public class FactureServiceImpl implements IFactureService {
 
         return infoFactureList.stream().map(facture -> factureMapper.FactureTOFactureResponseDTO(facture)).collect(Collectors.toList());
     }
-
 
 
     private long calculateYearsBetween(Date date1, Date date2) {

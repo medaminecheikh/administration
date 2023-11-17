@@ -2,12 +2,15 @@ package com.administration.service.impl;
 
 import com.administration.dto.EncaissResponseDTO;
 import com.administration.dto.EncaissUpdateDTO;
+import com.administration.dto.FactureResponseDTO;
 import com.administration.entity.*;
 import com.administration.repo.*;
 import com.administration.service.IEncaissService;
 import com.administration.service.mappers.EncaissMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -147,6 +150,15 @@ public class EncaissServiceImpl implements IEncaissService {
         encaissement.setCaisse(caisse);
         encaissRepo.save(encaissement);
     }
+
+    @Override
+    public List<EncaissResponseDTO> getAllEncaissement() {
+        List<Encaissement> encaissementList= encaissRepo.findAll();
+        return encaissementList.stream().map(encaissement -> encaissMapper.EncaissTOEncaissResponseDTO(encaissement)).collect(Collectors.toList());
+    }
+
+
+
     @Override
     public List<EncaissResponseDTO> getEncaissementsForCaisseInCurrentMonth(String caisseId) {
         // Calculate the start and end date of the current month
@@ -160,5 +172,16 @@ public class EncaissServiceImpl implements IEncaissService {
         // Fetch the list of Encaissements for the specified Caisse within the current month
         return encaissementList.stream().map(encaissement -> encaissMapper.EncaissTOEncaissResponseDTO(encaissement)).collect(Collectors.toList());
     }
-
+    @Override
+    public List<EncaissResponseDTO> searchEncaiss(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable) {
+        Page<Encaissement> encaissements = encaissRepo.searchEncaiss(produit, identifiant, modePaiement, typeIdent, montantEnc, refFacture, pageable);
+        long count = encaissements.getTotalElements();
+        return encaissements.stream()
+                .map(encaissement -> {
+                    EncaissResponseDTO dto = encaissMapper.EncaissTOEncaissResponseDTO(encaissement);
+                    dto.setTotalElements(count);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 }

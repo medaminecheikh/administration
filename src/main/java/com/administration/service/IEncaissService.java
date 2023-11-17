@@ -2,7 +2,9 @@ package com.administration.service;
 
 import com.administration.dto.EncaissResponseDTO;
 import com.administration.dto.EncaissUpdateDTO;
+import com.administration.dto.FactureResponseDTO;
 import com.administration.entity.Encaissement;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -21,5 +23,9 @@ public interface IEncaissService {
     EncaissResponseDTO affectEncaisseToCaisse(String idEncaiss, String idcai);
     void affectEncaisseToUser(String idEncaiss,String idUser);
     void affectAll(String idEncaiss,String idUser,String idcai);
+
+    List<EncaissResponseDTO> getAllEncaissement();
+
+    List<EncaissResponseDTO> searchEncaiss(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
 
 }

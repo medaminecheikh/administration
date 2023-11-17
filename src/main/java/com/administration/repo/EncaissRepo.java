@@ -1,6 +1,8 @@
 package com.administration.repo;
 
 import com.administration.entity.Encaissement;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +22,72 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate
     );
+
+    @Query("SELECT i FROM Encaissement i WHERE " +
+            "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
+            "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
+            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
+            "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
+            "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) ")
+    Page<Encaissement> searchEncaiss(
+            @Param("produit") String produit,
+            @Param("identifiant") String identifiant,
+            @Param("modePaiement") String modePaiement,
+            @Param("typeIdent") String typeIdent,
+            @Param("montantEnc") Double montantEnc,
+            @Param("refFacture") String refFacture,
+            Pageable pageable);
+    @Query("SELECT i FROM Encaissement i WHERE " +
+            "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
+            "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
+            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
+            "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
+            "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) " +
+            "AND YEAR(i.dateEnc) = YEAR(CURRENT_DATE) " )      // Filter for the current year
+    Page<Encaissement> searchEncaissThisYear(
+            @Param("produit") String produit,
+            @Param("identifiant") String identifiant,
+            @Param("modePaiement") String modePaiement,
+            @Param("typeIdent") String typeIdent,
+            @Param("montantEnc") Double montantEnc,
+            @Param("refFacture") String refFacture,
+            Pageable pageable);
+    @Query("SELECT i FROM Encaissement i WHERE " +
+            "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
+            "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
+            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
+            "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
+            "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) " +
+            "AND MONTH(i.dateEnc) = MONTH(CURRENT_DATE) " +  // Filter for the current month
+            "AND YEAR(i.dateEnc) = YEAR(CURRENT_DATE) " +    // Filter for the current year
+            "AND WEEK(i.dateEnc) = WEEK(CURRENT_DATE)")      // Filter for the current week
+    Page<Encaissement> searchEncaissThisWeek(
+            @Param("produit") String produit,
+            @Param("identifiant") String identifiant,
+            @Param("modePaiement") String modePaiement,
+            @Param("typeIdent") String typeIdent,
+            @Param("montantEnc") Double montantEnc,
+            @Param("refFacture") String refFacture,
+            Pageable pageable);
+    @Query("SELECT i FROM Encaissement i WHERE " +
+            "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
+            "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
+            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
+            "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
+            "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) " +
+            "AND MONTH(i.dateEnc) = MONTH(CURRENT_DATE) " +  // Filter for the current month
+            "AND YEAR(i.dateEnc) = YEAR(CURRENT_DATE)")      // Filter for the current week
+    Page<Encaissement> searchEncaissThisMonth(
+            @Param("produit") String produit,
+            @Param("identifiant") String identifiant,
+            @Param("modePaiement") String modePaiement,
+            @Param("typeIdent") String typeIdent,
+            @Param("montantEnc") Double montantEnc,
+            @Param("refFacture") String refFacture,
+            Pageable pageable);
+
 }

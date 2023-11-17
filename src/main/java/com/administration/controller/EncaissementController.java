@@ -1,9 +1,12 @@
 package com.administration.controller;
 
 import com.administration.dto.EncaissResponseDTO;
+import com.administration.dto.FactureResponseDTO;
 import com.administration.entity.Encaissement;
 import com.administration.service.IEncaissService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -48,6 +52,31 @@ public class EncaissementController {
         List<EncaissResponseDTO> encaissements = encaissService.getEncaissementByCaisse(idCaisse);
         return ResponseEntity.ok(encaissements);
     }
+    @GetMapping("/Allencaissement")
+    public ResponseEntity<List<EncaissResponseDTO>> getAllEncaissement() {
+        List<EncaissResponseDTO> encaissements = encaissService.getAllEncaissement();
+        return ResponseEntity.ok(encaissements);
+    }
+    @GetMapping("/encaissement/searchPageEncaissement")
+    public List<EncaissResponseDTO> searchPageFactures(
+            @RequestParam(name = "produit", required = false) String produit,
+            @RequestParam(name = "identifiant", required = false) String identifiant,
+            @RequestParam(name = "modePaiement", required = false) String modePaiement,
+            @RequestParam(name = "typeIdent", required = false) String typeIdent,
+            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
+            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        Sort sort = Sort.by("dateEnc");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+
+            return encaissService.searchEncaiss(
+                    produit, identifiant, modePaiement,
+                    typeIdent,montantEnc,refFacture, pageable);
+    }
+
 
     @DeleteMapping("/encaissements/delete/{id}")
     public ResponseEntity<Void> deleteEncaiss(@PathVariable String id) {
