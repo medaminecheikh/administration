@@ -19,6 +19,6 @@ public class EttResponseDTO {
     private int is_BSCS;
     private List<UtilisateurUpdateDTO> utilisateurs;
     private List<CaisseUpdateDTO> caisses;
-    private DregionalUpdateDTO dregional;
+    private DregionalResponseDTO dregional;
     private long totalElements;
 }
