@@ -15,6 +15,41 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur,String> {
 
     long count();
 
+    @Query("select u from Utilisateur u WHERE " +
+            "(:login IS null OR lower(u.login) LIKE lower(concat('%', :login, '%'))) " +
+            "AND (:prenU IS null OR lower(u.prenU) LIKE lower(concat('%', :prenU, '%'))) " +
+            "AND (:nomU IS null OR lower(u.nomU) LIKE lower(concat('%', :nomU, '%'))) " +
+            "AND (:matricule IS null OR lower(u.matricule) LIKE lower(concat('%', :matricule, '%'))) " +
+            "AND (:zoneId IS null OR u.ett.dregional.zone.idZone LIKE lower(concat('%', :zoneId, '%'))) " +
+            "AND (:estActif IS null OR u.estActif = :estActif) " +
+            "AND (:is_EXPIRED IS null OR u.is_EXPIRED = :is_EXPIRED)" +
+            "AND current_date >= u.date_EXPIRED")
+    Page<Utilisateur> findUtilisateurExpired(@Param("login")String login,
+                                           @Param("prenU")String prenU,
+                                           @Param("nomU")String nomU,
+                                           @Param("matricule")String matricule,
+                                           @Param("estActif")Integer estActif,
+                                           @Param("is_EXPIRED")Integer is_EXPIRED,
+                                             @Param("zoneId")String zoneId,
+                                           Pageable pageable);
+    @Query("select u from Utilisateur u WHERE " +
+            "(:login IS null OR lower(u.login) LIKE lower(concat('%', :login, '%'))) " +
+            "AND (:prenU IS null OR lower(u.prenU) LIKE lower(concat('%', :prenU, '%'))) " +
+            "AND (:nomU IS null OR lower(u.nomU) LIKE lower(concat('%', :nomU, '%'))) " +
+            "AND (:matricule IS null OR lower(u.matricule) LIKE lower(concat('%', :matricule, '%'))) " +
+            "AND (:zoneId IS null OR u.ett.dregional.zone.idZone LIKE lower(concat('%', :zoneId, '%'))) " +
+            "AND (:estActif IS null OR u.estActif = :estActif) " +
+            "AND (:is_EXPIRED IS null OR u.is_EXPIRED = :is_EXPIRED)" +
+            "AND current_date < u.date_EXPIRED")
+    Page<Utilisateur> findUtilisateurValid(@Param("login")String login,
+                                           @Param("prenU")String prenU,
+                                           @Param("nomU")String nomU,
+                                           @Param("matricule")String matricule,
+                                           @Param("estActif")Integer estActif,
+                                           @Param("is_EXPIRED")Integer is_EXPIRED,
+                                           @Param("zoneId")String zoneId,
+                                           Pageable pageable);
+
     Utilisateur findByLogin(String username);
 
 
