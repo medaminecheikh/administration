@@ -70,6 +70,17 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
     }
 
+    @Override
+    public List<UtilisateurResponseDTO> findUtilisateurExpired(String login, String prenU, String nomU, String matricule, Integer estActif, Integer isExpired, String zoneId, PageRequest pageable) {
+        Page<Utilisateur> utilisateurPage = utilisateurRepo.findUtilisateurExpired(login, prenU, nomU, matricule, estActif, isExpired, zoneId, pageable);
+        long count = utilisateurPage.getTotalElements();
+
+        return utilisateurPage.getContent().stream().map(utilisateur -> {
+            UtilisateurResponseDTO responseDTO = userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
+            responseDTO.setTotalElements(count);
+            return responseDTO;
+        }).collect(Collectors.toList());
+    }
 
 
     @Override

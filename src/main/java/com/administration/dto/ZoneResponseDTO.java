@@ -14,6 +14,6 @@ public class ZoneResponseDTO {
     private String COD_ZONE ;
     private String DES_ZONE   ;
     private String DES_ZONE_AR;
-    private List<DregionalUpdateDTO> dregionals;
+    private List<DregionalResponseDTO> dregionals;
     private long totalElements;
 }

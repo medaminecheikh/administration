@@ -6,6 +6,7 @@ import com.administration.dto.UtilisateurUpdateDTO;
 import com.administration.entity.UserView;
 import com.administration.entity.Utilisateur;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
@@ -29,6 +30,10 @@ public interface IUtilisateurService {
     List<UtilisateurResponseDTO> findUtilisateurByLogin(String kw,String nom,String prenom,Integer estActif, int page, int size);
     Utilisateur getUtilisateurbyLogin(String username);
     UtilisateurResponseDTO getbyLogin(String username);
+
+    List<UtilisateurResponseDTO> findUtilisateurExpired(String login, String prenU, String nomU, String matricule, Integer estActif, Integer isExpired, String zoneId, PageRequest pageable);
+
+
     /*UserView userviewByLogin(String username);
     List<UserView> getallUserView();
     List<UserView> getUserViewByEtt(String ett);*/

@@ -9,6 +9,8 @@ import com.administration.service.IUtilisateurService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -106,7 +108,21 @@ public class UtilisateurController {
 
         return IUtilisateurService.findUtilisateurByLogin(kw,nom,prenom,estActif,page,size);
     }
-
+    @GetMapping("/expiredUserBy")
+    public List<UtilisateurResponseDTO> findUtilisateurExpired(
+            @RequestParam(name = "login", required = false) String login,
+            @RequestParam(name = "prenU", required = false) String prenU,
+            @RequestParam(name = "nomU", required = false) String nomU,
+            @RequestParam(name = "matricule", required = false) String matricule,
+            @RequestParam(name = "estActif", required = false) Integer estActif,
+            @RequestParam(name = "is_EXPIRED", required = false) Integer is_EXPIRED,
+            @RequestParam(name = "zoneId", required = false) String zoneId,
+            @RequestParam (name = "page",defaultValue = "0")int page
+            ,@RequestParam(name = "size",defaultValue = "10")int size) {
+        Sort sort = Sort.by("date_EXPIRED");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+        return IUtilisateurService.findUtilisateurExpired(login, prenU, nomU, matricule, estActif, is_EXPIRED, zoneId, pageable);
+    }
     @GetMapping("/utilisateurlogin/{username}")
     public ResponseEntity<UtilisateurResponseDTO> getUtilisateurByLogin(@PathVariable String username) {
         UtilisateurResponseDTO utilisateur = IUtilisateurService.getbyLogin(username);
