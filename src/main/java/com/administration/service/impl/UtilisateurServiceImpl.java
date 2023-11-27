@@ -26,6 +26,8 @@ import javax.persistence.criteria.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static antlr.build.ANTLR.root;
+
 @Slf4j
 @Service
 @Transactional
@@ -141,56 +143,41 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         List<Predicate> predicates = new ArrayList<>();
 
         if (ettId != null && !ettId.isEmpty()) {
-            Join<Utilisateur, Ett> ettJoin = root.join("ett");
-            predicates.add(criteriaBuilder.equal(ettJoin.get("idEtt"), ettId));
-
-            if (profilId != null && !profilId.isEmpty()) {
-                Join<Ett, ProfilUser> profilJoin = ettJoin.join("users").join("profilUser");
-                Join<ProfilUser, Profil> pJoin = profilJoin.join("profil");
-                predicates.add(criteriaBuilder.equal(pJoin.get("idProfil"), profilId));
-            }
-
-            // Add other attribute filters for Ett users
+            predicates.add(criteriaBuilder.equal(root.join("ett").get("idEtt"), ettId));
         } else if (drId != null && !drId.isEmpty()) {
-            Join<Utilisateur, Dregional> drJoin = root.join("ett").join("dregional");
-            predicates.add(criteriaBuilder.equal(drJoin.get("idDr"), drId));
-
-            if (profilId != null && !profilId.isEmpty()) {
-                Join<Dregional, Ett> ettJoin = drJoin.join("etts");
-                Join<Ett, ProfilUser> profilJoin = ettJoin.join("users").join("profilUser");
-                Join<ProfilUser, Profil> pJoin = profilJoin.join("profil");
-                predicates.add(criteriaBuilder.equal(pJoin.get("idProfil"), profilId));
-            }
-
-            // Add other attribute filters for Dr users
+            predicates.add(criteriaBuilder.equal(root.join("ett").join("dregional").get("idDr"), drId));
         } else if (zoneId != null && !zoneId.isEmpty()) {
-            Join<Utilisateur, Dregional> drJoin = root.join("ett").join("dregional");
-            Join<Dregional, Zone> zoneJoin = drJoin.join("zone");
-            predicates.add(criteriaBuilder.equal(zoneJoin.get("idZone"), zoneId));
-
-            if (profilId != null && !profilId.isEmpty()) {
-                Join<Dregional, Ett> ettJoin = drJoin.join("etts");
-                Join<Ett, ProfilUser> profilJoin = ettJoin.join("users").join("profilUser");
-                Join<ProfilUser, Profil> pJoin = profilJoin.join("profil");
-                predicates.add(criteriaBuilder.equal(pJoin.get("idProfil"), profilId));
-            }
-
-            // Add other attribute filters for Zone users
-        } else {
-            if (profilId != null && !profilId.isEmpty()) {
-                Join<Utilisateur, ProfilUser> profilJoin = root.join("profilUser");
-                Join<ProfilUser, Profil> pJoin = profilJoin.join("profil");
-                predicates.add(criteriaBuilder.equal(pJoin.get("idProfil"), profilId));
-            }
-
-            // Add other attribute filters for all users
+            predicates.add(criteriaBuilder.equal(root.join("ett").join("dregional").join("zone").get("idZone"), zoneId));
         }
 
         // Add other attribute filters common to all cases
+        addAttributeFilter(predicates, criteriaBuilder, "login", login, root);
+        addAttributeFilter(predicates, criteriaBuilder, "prenU", prenU, root);
+        addAttributeFilter(predicates, criteriaBuilder, "nomU", nomU, root);
+        addAttributeFilter(predicates, criteriaBuilder, "matricule", matricule, root);
 
+        // Add estActif filter if not null
+        if (estActif != null) {
+            predicates.add(criteriaBuilder.equal(root.get("estActif"), estActif));        }
+
+        // Add profil filter if not null
+        if (profilId != null && !profilId.isEmpty()) {
+            predicates.add(criteriaBuilder.equal(root.join("profilUser").join("profil").get("idProfil"), profilId));
+        }
 
         return predicates;
     }
+
+    private void addAttributeFilter(
+            List<Predicate> predicates, CriteriaBuilder criteriaBuilder, String attribute, Object value, Root<Utilisateur> root) {
+        if (value != null && !value.toString().isEmpty()) {
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get(attribute).as(String.class)), "%" + value.toString().toLowerCase() + "%"));
+        }
+    }
+
+
+
+
     private List<Utilisateur> executeQuery(TypedQuery<Utilisateur> query, PageRequest pageable) {
         query.setFirstResult((int) pageable.getOffset());
         query.setMaxResults(pageable.getPageSize());
