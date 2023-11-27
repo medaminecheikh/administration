@@ -31,7 +31,11 @@ public interface IUtilisateurService {
     Utilisateur getUtilisateurbyLogin(String username);
     UtilisateurResponseDTO getbyLogin(String username);
 
-    List<UtilisateurResponseDTO> findUtilisateurExpired(String login, String prenU, String nomU, String matricule, Integer estActif, Integer isExpired, String zoneId, PageRequest pageable);
+    List<UtilisateurResponseDTO> findUtilisateurExpired(String login, String prenU, String nomU, String matricule, Integer estActif, Integer isExpired, String zoneId,String drId,String ettId,String profilId, PageRequest pageable);
+
+    List<UtilisateurResponseDTO> findUtilisateurValid(String login, String prenU, String nomU, String matricule, Integer estActif, Integer isExpired, String zoneId,String drId,String ettId,String profilId, PageRequest pageable);
+
+    List<UtilisateurResponseDTO> findUtilisateurAll(String login, String prenU, String nomU, String matricule, Integer estActif, String zoneId,String drId,String ettId,String profilId, PageRequest pageable);
 
 
     /*UserView userviewByLogin(String username);

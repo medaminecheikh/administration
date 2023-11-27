@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")
@@ -108,8 +109,8 @@ public class UtilisateurController {
 
         return IUtilisateurService.findUtilisateurByLogin(kw,nom,prenom,estActif,page,size);
     }
-    @GetMapping("/expiredUserBy")
-    public List<UtilisateurResponseDTO> findUtilisateurExpired(
+    @GetMapping("/searchUserBy")
+    public List<UtilisateurResponseDTO> findUtilisateurByAll(
             @RequestParam(name = "login", required = false) String login,
             @RequestParam(name = "prenU", required = false) String prenU,
             @RequestParam(name = "nomU", required = false) String nomU,
@@ -117,11 +118,24 @@ public class UtilisateurController {
             @RequestParam(name = "estActif", required = false) Integer estActif,
             @RequestParam(name = "is_EXPIRED", required = false) Integer is_EXPIRED,
             @RequestParam(name = "zoneId", required = false) String zoneId,
+            @RequestParam(name = "drId", required = false) String drId,
+            @RequestParam(name = "ettId", required = false) String ettId,
+            @RequestParam(name = "profilId", required = false) String profilId,
             @RequestParam (name = "page",defaultValue = "0")int page
             ,@RequestParam(name = "size",defaultValue = "10")int size) {
         Sort sort = Sort.by("date_EXPIRED");
         PageRequest pageable = PageRequest.of(page, size, sort);
-        return IUtilisateurService.findUtilisateurExpired(login, prenU, nomU, matricule, estActif, is_EXPIRED, zoneId, pageable);
+
+        if (is_EXPIRED != null && Objects.equals(is_EXPIRED, 1)) {
+            // Handle the case where is_EXPIRED is not null and equals 1
+            return IUtilisateurService.findUtilisateurExpired(login, prenU, nomU, matricule, estActif, is_EXPIRED, zoneId,drId,ettId,profilId, pageable);
+        } else if (is_EXPIRED != null && Objects.equals(is_EXPIRED, 0)) {
+            // Handle other cases, including when is_EXPIRED is null and  equal to 0
+            return IUtilisateurService.findUtilisateurValid(login, prenU, nomU, matricule, estActif, is_EXPIRED, zoneId,drId,ettId,profilId, pageable);
+        } else {
+            return IUtilisateurService.findUtilisateurAll(login, prenU, nomU, matricule, estActif, zoneId,drId,ettId,profilId, pageable);
+
+        }
     }
     @GetMapping("/utilisateurlogin/{username}")
     public ResponseEntity<UtilisateurResponseDTO> getUtilisateurByLogin(@PathVariable String username) {
