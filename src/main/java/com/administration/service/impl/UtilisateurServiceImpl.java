@@ -105,8 +105,8 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public List<UtilisateurResponseDTO> findUtilisateurAll(String login, String prenU, String nomU, String matricule,
-                                                           Integer estActif, String zoneId, String drId, String ettId, String profilId, PageRequest pageable) {
-        TypedQuery<Utilisateur> query = buildTypedQuery(login, prenU, nomU, matricule, estActif, zoneId, drId, ettId, profilId);
+                                                           Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED, PageRequest pageable) {
+        TypedQuery<Utilisateur> query = buildTypedQuery(login, prenU, nomU, matricule, estActif, zoneId, drId, ettId, profilId, is_EXPIRED);
         List<Utilisateur> resultList = executeQuery(query, pageable);
 
         long totalResults = countTotalResults(query);
@@ -122,13 +122,13 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
     private TypedQuery<Utilisateur> buildTypedQuery(
             String login, String prenU, String nomU, String matricule,
-            Integer estActif, String zoneId, String drId, String ettId, String profilId) {
+            Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Utilisateur> criteriaQuery = criteriaBuilder.createQuery(Utilisateur.class);
         Root<Utilisateur> root = criteriaQuery.from(Utilisateur.class);
 
-        List<Predicate> predicates = buildPredicates(criteriaBuilder, root, login, prenU, nomU, matricule, estActif, zoneId, drId, ettId, profilId);
+        List<Predicate> predicates = buildPredicates(criteriaBuilder, root, login, prenU, nomU, matricule, estActif, zoneId, drId, ettId, profilId, is_EXPIRED);
 
         criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
 
@@ -138,7 +138,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     private List<Predicate> buildPredicates(
             CriteriaBuilder criteriaBuilder, Root<Utilisateur> root,
             String login, String prenU, String nomU, String matricule,
-            Integer estActif, String zoneId, String drId, String ettId, String profilId) {
+            Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED) {
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -159,6 +159,28 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         // Add estActif filter if not null
         if (estActif != null) {
             predicates.add(criteriaBuilder.equal(root.get("estActif"), estActif));        }
+        // Add is_EXPIRED filter if not null
+        if (is_EXPIRED != null) {
+            if (Objects.equals(is_EXPIRED, 0)) {
+                // If is_EXPIRED is 0, check if current date is before u.date_EXPIRED
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.isNull(root.get("is_EXPIRED")),
+                        criteriaBuilder.and(
+                                criteriaBuilder.equal(root.get("is_EXPIRED"), is_EXPIRED),
+                                criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.currentDate(), root.get("date_EXPIRED"))
+                        )
+                ));
+            } else if (Objects.equals(is_EXPIRED, 1)) {
+                // If is_EXPIRED is 1, check if current date is after u.date_EXPIRED
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.isNull(root.get("is_EXPIRED")),
+                        criteriaBuilder.and(
+                                criteriaBuilder.equal(root.get("is_EXPIRED"), is_EXPIRED),
+                                criteriaBuilder.lessThan(criteriaBuilder.currentDate(), root.get("date_EXPIRED"))
+                        )
+                ));
+            }
+        }
 
         // Add profil filter if not null
         if (profilId != null && !profilId.isEmpty()) {

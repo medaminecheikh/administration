@@ -126,16 +126,16 @@ public class UtilisateurController {
         Sort sort = Sort.by("date_EXPIRED");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-        if (is_EXPIRED != null && Objects.equals(is_EXPIRED, 1)) {
+      /*  if (is_EXPIRED != null && Objects.equals(is_EXPIRED, 1)) {
             // Handle the case where is_EXPIRED is not null and equals 1
             return IUtilisateurService.findUtilisateurExpired(login, prenU, nomU, matricule, estActif, is_EXPIRED, zoneId,drId,ettId,profilId, pageable);
         } else if (is_EXPIRED != null && Objects.equals(is_EXPIRED, 0)) {
             // Handle other cases, including when is_EXPIRED is null and  equal to 0
             return IUtilisateurService.findUtilisateurValid(login, prenU, nomU, matricule, estActif, is_EXPIRED, zoneId,drId,ettId,profilId, pageable);
-        } else {
-            return IUtilisateurService.findUtilisateurAll(login, prenU, nomU, matricule, estActif, zoneId,drId,ettId,profilId, pageable);
+        } else {*/
+            return IUtilisateurService.findUtilisateurAll(login, prenU, nomU, matricule, estActif, zoneId,drId,ettId,profilId,is_EXPIRED, pageable);
 
-        }
+
     }
     @GetMapping("/utilisateurlogin/{username}")
     public ResponseEntity<UtilisateurResponseDTO> getUtilisateurByLogin(@PathVariable String username) {
