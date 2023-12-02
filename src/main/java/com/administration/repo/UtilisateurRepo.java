@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UtilisateurRepo extends JpaRepository<Utilisateur, String> {
     @Query("SELECT a FROM Utilisateur a WHERE a.login LIKE %:kw% AND a.nomU LIKE %:nom% AND a.prenU LIKE %:pren% AND a.estActif = COALESCE(:estActif, a.estActif)")
@@ -70,6 +72,10 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur, String> {
                                            @Param("ettId") String ettId,
                                            @Param("profilId") String profilId,
                                            Pageable pageable);
+
+    @Query("SELECT u FROM Utilisateur u WHERE LOWER(COALESCE(u.ett.dregional.zone.idZone, '')) LIKE LOWER(CONCAT('%', :zoneId, '%'))")
+    List<Utilisateur> findUtilisateurByZoneId(@Param("zoneId") String zoneId);
+
 
     @Query("SELECT DISTINCT u FROM Utilisateur u " +
             "LEFT JOIN u.profilUser pu " +

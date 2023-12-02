@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -120,6 +121,14 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<UtilisateurResponseDTO> getUtilisateurbyZone(String zoneId) {
+        List<Utilisateur> utilisateurs = utilisateurRepo.findUtilisateurByZoneId(zoneId);
+        return utilisateurs.stream().map(utilisateur -> {
+           return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);}).collect(Collectors.toList());
+    }
+
     private TypedQuery<Utilisateur> buildTypedQuery(
             String login, String prenU, String nomU, String matricule,
             Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED) {

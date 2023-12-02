@@ -147,30 +147,8 @@ public class UtilisateurController {
             return ResponseEntity.ok(utilisateur);
         }
     }
-   /* @GetMapping("/viewbylogin/{username}")
-    public ResponseEntity<UserView> getviewByLogin(@PathVariable String username) {
-        UserView utilisateur = IUtilisateurService.userviewByLogin(username);
-        log.info(utilisateur.toString());
-
-            return ResponseEntity.ok(utilisateur);
-
+    @GetMapping("/utilisateurbyzone/{zoneId}")
+    public ResponseEntity<List<UtilisateurResponseDTO>> getUtilisateurByZone(@PathVariable String zoneId) {
+        return ResponseEntity.ok(IUtilisateurService.getUtilisateurbyZone(zoneId));
     }
-    @GetMapping("/viewbyett/{ett}")
-    public ResponseEntity<List<UserView>> getviewByett(@PathVariable String ett) {
-        List<UserView> utilisateur = IUtilisateurService.getUserViewByEtt(ett);
-        if (utilisateur.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(utilisateur);
-        }
-    }
-    @GetMapping("/allview")
-    public ResponseEntity<List<UserView>> getviews() {
-        List<UserView> utilisateur = IUtilisateurService.getallUserView();
-        if (utilisateur.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(utilisateur);
-        }
-    }*/
 }
