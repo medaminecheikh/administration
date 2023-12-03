@@ -26,7 +26,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     @Query("SELECT i FROM Encaissement i WHERE " +
             "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
             "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
-            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:modePaiement IS NULL OR LOWER(i.modePaiement) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
             "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
             "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
             "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) ")
@@ -41,7 +41,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     @Query("SELECT i FROM Encaissement i WHERE " +
             "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
             "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
-            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:etatEncaissement IS NULL OR LOWER(i.etatEncaissement) LIKE LOWER(CONCAT('%', :etatEncaissement, '%'))) " +
             "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
             "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
             "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) " +
@@ -49,7 +49,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     Page<Encaissement> searchEncaissThisYear(
             @Param("produit") String produit,
             @Param("identifiant") String identifiant,
-            @Param("modePaiement") String modePaiement,
+            @Param("etatEncaissement") String etatEncaissement,
             @Param("typeIdent") String typeIdent,
             @Param("montantEnc") Double montantEnc,
             @Param("refFacture") String refFacture,
@@ -57,7 +57,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     @Query("SELECT i FROM Encaissement i WHERE " +
             "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
             "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
-            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:etatEncaissement IS NULL OR LOWER(i.etatEncaissement) LIKE LOWER(CONCAT('%', :etatEncaissement, '%'))) " +
             "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
             "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
             "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) " +
@@ -67,7 +67,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     Page<Encaissement> searchEncaissThisWeek(
             @Param("produit") String produit,
             @Param("identifiant") String identifiant,
-            @Param("modePaiement") String modePaiement,
+            @Param("etatEncaissement") String etatEncaissement,
             @Param("typeIdent") String typeIdent,
             @Param("montantEnc") Double montantEnc,
             @Param("refFacture") String refFacture,
@@ -75,7 +75,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     @Query("SELECT i FROM Encaissement i WHERE " +
             "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
             "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
-            "AND (:modePaiement IS NULL OR LOWER(i.compteFacturation) LIKE LOWER(CONCAT('%', :modePaiement, '%'))) " +
+            "AND (:etatEncaissement IS NULL OR LOWER(i.etatEncaissement) LIKE LOWER(CONCAT('%', :etatEncaissement, '%'))) " +
             "AND (:typeIdent IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :typeIdent, '%'))) " +
             "AND (:refFacture IS NULL OR LOWER(i.identifiant) LIKE LOWER(CONCAT('%', :refFacture, '%'))) " +
             "AND (:montantEnc IS NULL OR i.montantEnc <= :montantEnc) " +
@@ -84,7 +84,7 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
     Page<Encaissement> searchEncaissThisMonth(
             @Param("produit") String produit,
             @Param("identifiant") String identifiant,
-            @Param("modePaiement") String modePaiement,
+            @Param("etatEncaissement") String etatEncaissement,
             @Param("typeIdent") String typeIdent,
             @Param("montantEnc") Double montantEnc,
             @Param("refFacture") String refFacture,

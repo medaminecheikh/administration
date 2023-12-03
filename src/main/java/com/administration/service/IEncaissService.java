@@ -27,8 +27,8 @@ public interface IEncaissService {
     List<EncaissResponseDTO> getAllEncaissement();
 
     List<EncaissResponseDTO> searchEncaiss(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
-    List<EncaissResponseDTO> searchEncaissWeek(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
-    List<EncaissResponseDTO> searchEncaissMonth(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
-    List<EncaissResponseDTO> searchEncaissYear(String produit, String identifiant, String modePaiement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
+    List<EncaissResponseDTO> searchEncaissWeek(String produit, String identifiant, String etatEncaissement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
+    List<EncaissResponseDTO> searchEncaissMonth(String produit, String identifiant, String etatEncaissement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
+    List<EncaissResponseDTO> searchEncaissYear(String produit, String identifiant, String etatEncaissement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
 
 }

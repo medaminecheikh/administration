@@ -1,6 +1,7 @@
 package com.administration.controller;
 
 import com.administration.dto.EncaissResponseDTO;
+import com.administration.dto.EncaissUpdateDTO;
 import com.administration.dto.FactureResponseDTO;
 import com.administration.entity.Encaissement;
 import com.administration.service.IEncaissService;
@@ -59,12 +60,12 @@ public class EncaissementController {
     }
     @GetMapping("/encaissement/searchPageEncaissement")
     public List<EncaissResponseDTO> searchPageEncaiss(
-            @RequestParam(name = "produit", required = false) String produit,
-            @RequestParam(name = "identifiant", required = false) String identifiant,
-            @RequestParam(name = "modePaiement", required = false) String modePaiement,
-            @RequestParam(name = "typeIdent", required = false) String typeIdent,
-            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
-            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
+            @RequestParam(name = "identifiant", required = false, defaultValue = "") String identifiant,
+            @RequestParam(name = "modePaiement", required = false, defaultValue = "") String modePaiement,
+            @RequestParam(name = "typeIdent", required = false, defaultValue = "") String typeIdent,
+            @RequestParam(name = "montantEnc", required = false, defaultValue = "") Double montantEnc,
+            @RequestParam(name = "refFacture", required = false, defaultValue = "") String refFacture,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
@@ -77,12 +78,12 @@ public class EncaissementController {
     }
     @GetMapping("/encaissement/searchYearEncaissement")
     public List<EncaissResponseDTO> searchYearEncaiss(
-            @RequestParam(name = "produit", required = false) String produit,
-            @RequestParam(name = "identifiant", required = false) String identifiant,
-            @RequestParam(name = "modePaiement", required = false) String modePaiement,
-            @RequestParam(name = "typeIdent", required = false) String typeIdent,
-            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
-            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
+            @RequestParam(name = "identifiant", required = false, defaultValue = "") String identifiant,
+            @RequestParam(name = "etatEncaissement", required = false, defaultValue = "") String etatEncaissement,
+            @RequestParam(name = "typeIdent", required = false, defaultValue = "") String typeIdent,
+            @RequestParam(name = "montantEnc", required = false, defaultValue = "") Double montantEnc,
+            @RequestParam(name = "refFacture", required = false, defaultValue = "") String refFacture,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
@@ -90,17 +91,17 @@ public class EncaissementController {
         PageRequest pageable = PageRequest.of(page, size, sort);
 
             return encaissService.searchEncaissYear(
-                    produit, identifiant, modePaiement,
+                    produit, identifiant, etatEncaissement,
                     typeIdent,montantEnc,refFacture, pageable);
     }
     @GetMapping("/encaissement/searchMonthEncaissement")
     public List<EncaissResponseDTO> searchMonthEncaiss(
-            @RequestParam(name = "produit", required = false) String produit,
-            @RequestParam(name = "identifiant", required = false) String identifiant,
-            @RequestParam(name = "modePaiement", required = false) String modePaiement,
-            @RequestParam(name = "typeIdent", required = false) String typeIdent,
-            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
-            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
+            @RequestParam(name = "identifiant", required = false, defaultValue = "") String identifiant,
+            @RequestParam(name = "etatEncaissement", required = false, defaultValue = "") String etatEncaissement,
+            @RequestParam(name = "typeIdent", required = false, defaultValue = "") String typeIdent,
+            @RequestParam(name = "montantEnc", required = false, defaultValue = "") Double montantEnc,
+            @RequestParam(name = "refFacture", required = false, defaultValue = "") String refFacture,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
@@ -108,17 +109,17 @@ public class EncaissementController {
         PageRequest pageable = PageRequest.of(page, size, sort);
 
             return encaissService.searchEncaissMonth(
-                    produit, identifiant, modePaiement,
+                    produit, identifiant, etatEncaissement,
                     typeIdent,montantEnc,refFacture, pageable);
     }
     @GetMapping("/encaissement/searchWeekEncaissement")
     public List<EncaissResponseDTO> searchWeekEncaiss(
-            @RequestParam(name = "produit", required = false) String produit,
-            @RequestParam(name = "identifiant", required = false) String identifiant,
-            @RequestParam(name = "modePaiement", required = false) String modePaiement,
-            @RequestParam(name = "typeIdent", required = false) String typeIdent,
-            @RequestParam(name = "montantEnc", required = false) Double montantEnc,
-            @RequestParam(name = "refFacture", required = false) String refFacture,
+            @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
+            @RequestParam(name = "identifiant", required = false, defaultValue = "") String identifiant,
+            @RequestParam(name = "etatEncaissement", required = false, defaultValue = "") String etatEncaissement,
+            @RequestParam(name = "typeIdent", required = false, defaultValue = "") String typeIdent,
+            @RequestParam(name = "montantEnc", required = false, defaultValue = "") Double montantEnc,
+            @RequestParam(name = "refFacture", required = false, defaultValue = "") String refFacture,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
     ) {
@@ -126,7 +127,7 @@ public class EncaissementController {
         PageRequest pageable = PageRequest.of(page, size, sort);
 
             return encaissService.searchEncaissWeek(
-                    produit, identifiant, modePaiement,
+                    produit, identifiant, etatEncaissement,
                     typeIdent,montantEnc,refFacture, pageable);
     }
 
@@ -155,6 +156,17 @@ public class EncaissementController {
     @GetMapping("/encaissements/current-month-for-caisse")
     public List<EncaissResponseDTO> getEncaissementsForCaisseInCurrentMonth(@RequestParam String caisseId) {
         return encaissService.getEncaissementsForCaisseInCurrentMonth(caisseId);
+    }
+    @PutMapping("/encaissementupdate")
+    public ResponseEntity<?> updateEncaiss(@RequestBody EncaissUpdateDTO encaissement) {
+        try {
+            encaissService.updateEncaisse(encaissement);
+            // Return a JSON object with a success message
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Update successful"));
+        } catch (EntityNotFoundException e) {
+            // Entity not found, return 404 Not Found status
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 }
