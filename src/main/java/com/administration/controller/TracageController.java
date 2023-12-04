@@ -38,6 +38,17 @@ public class TracageController {
 
         tracageService.addTrace(tracage);
     }
-
+    @GetMapping("/tracagesencaisssement")
+    public List<TracageResponse> getTraceByencaissement() {
+        return tracageService.getByencaissement();
+    }
+    @GetMapping("/tracagesfacture")
+    public List<TracageResponse> getTraceByfacture() {
+        return tracageService.getByfacture();
+    }
+    @GetMapping("/tracagescaisse")
+    public List<TracageResponse> getTraceByCaisse() {
+        return tracageService.getBycaisse();
+    }
 
 }

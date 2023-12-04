@@ -23,6 +23,7 @@ public class Tracage implements Serializable {
     @OneToOne
     private Utilisateur utilisateur;
     private String typeOp;
+    private String object;
     private String ip;
     private String browser;
     @Temporal(TemporalType.TIMESTAMP)

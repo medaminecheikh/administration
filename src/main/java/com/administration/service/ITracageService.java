@@ -13,4 +13,10 @@ public interface ITracageService {
     List<Tracage> getTraceByPage(String idUser, Timestamp time, String ip, String browser, String op, Pageable pageable);
 
     void addTrace(Tracage tracage);
+
+    List<TracageResponse> getByencaissement();
+
+    List<TracageResponse> getByfacture();
+
+    List<TracageResponse> getBycaisse();
 }

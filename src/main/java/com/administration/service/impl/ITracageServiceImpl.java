@@ -57,4 +57,28 @@ public class ITracageServiceImpl implements ITracageService {
 
         tracageRepo.save(tracage);
     }
+
+    @Override
+    public List<TracageResponse> getByencaissement() {
+        List<Tracage> tracages = tracageRepo.findByObjectIgnoreCase("ENCAISSEMENT");
+        return tracages.stream().map(tracage -> {
+            return tracageMapper.TracageTOTracageResponseDTO(tracage);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TracageResponse> getByfacture() {
+        List<Tracage> tracages = tracageRepo.findByObjectIgnoreCase("FACTURE");
+        return tracages.stream().map(tracage -> {
+            return tracageMapper.TracageTOTracageResponseDTO(tracage);
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TracageResponse> getBycaisse() {
+        List<Tracage> tracages = tracageRepo.findByObjectIgnoreCase("CAISSE");
+        return tracages.stream().map(tracage -> {
+            return tracageMapper.TracageTOTracageResponseDTO(tracage);
+        }).collect(Collectors.toList());
+    }
 }

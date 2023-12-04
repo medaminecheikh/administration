@@ -47,4 +47,5 @@ public interface TracageRepo extends JpaRepository<Tracage,Long> {
             @Param("op") String op, Pageable pageable
     );
 
+    List<Tracage> findByObjectIgnoreCase(String object);
 }
