@@ -308,15 +308,19 @@ public class FactureServiceImpl implements IFactureService {
 
     @Override
     public List<FactureResponseDTO> getMonthlyFactures() {
-        List<InfoFacture> infoFactures = factureRepo.findFacturesCreatedInCurrentMonth();
-        return infoFactures.stream().map(infoFacture -> factureMapper.FactureTOFactureResponseDTO(infoFacture))
+        List<InfoFacture> creatFactures = factureRepo.findFacturesCreatedInCurrentMonth();
+       
+        return creatFactures.stream().map(infoFacture -> factureMapper.FactureTOFactureResponseDTO(infoFacture))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<FactureResponseDTO> getYearlyFactures() {
-        List<InfoFacture> infoFactureList = factureRepo.findFacturesEndInCurrentYear();
-
+        List<InfoFacture> infoFactureend= factureRepo.findFacturesEndInCurrentYear();
+        List<InfoFacture> infoFacturecreat = factureRepo.findFacturesCreatedInCurrentYear();
+        List<InfoFacture> infoFactureList = new ArrayList<>();
+        infoFactureList.addAll(infoFacturecreat);
+        infoFactureList.addAll(infoFactureend);
         return infoFactureList.stream().map(facture -> factureMapper.FactureTOFactureResponseDTO(facture)).collect(Collectors.toList());
     }
 
