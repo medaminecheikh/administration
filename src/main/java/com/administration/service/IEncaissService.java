@@ -31,4 +31,6 @@ public interface IEncaissService {
     List<EncaissResponseDTO> searchEncaissMonth(String produit, String identifiant, String etatEncaissement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
     List<EncaissResponseDTO> searchEncaissYear(String produit, String identifiant, String etatEncaissement, String typeIdent, Double montantEnc, String refFacture, PageRequest pageable);
 
+    List<EncaissResponseDTO> encaissYear();
+
 }

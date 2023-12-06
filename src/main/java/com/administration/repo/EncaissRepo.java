@@ -55,6 +55,9 @@ public interface EncaissRepo extends JpaRepository<Encaissement,String> {
             @Param("refFacture") String refFacture,
             Pageable pageable);
     @Query("SELECT i FROM Encaissement i WHERE " +
+            " YEAR(i.dateEnc) = YEAR(CURRENT_DATE) " )
+    List<Encaissement> getEncaissementYearly();
+    @Query("SELECT i FROM Encaissement i WHERE " +
             "(:produit IS NULL OR LOWER(i.produit) LIKE LOWER(CONCAT('%', :produit, '%'))) " +
             "AND (:identifiant IS NULL OR LOWER(i.refFacture) LIKE LOWER(CONCAT('%', :identifiant, '%'))) " +
             "AND (:etatEncaissement IS NULL OR LOWER(i.etatEncaissement) LIKE LOWER(CONCAT('%', :etatEncaissement, '%'))) " +

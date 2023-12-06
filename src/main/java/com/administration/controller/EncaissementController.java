@@ -168,5 +168,9 @@ public class EncaissementController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    @GetMapping("/encaissement/thisyear")
+    public List<EncaissResponseDTO> searchMonthEncaiss() {
+        return encaissService.encaissYear();
+    }
 
 }

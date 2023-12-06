@@ -309,7 +309,7 @@ public class FactureServiceImpl implements IFactureService {
     @Override
     public List<FactureResponseDTO> getMonthlyFactures() {
         List<InfoFacture> creatFactures = factureRepo.findFacturesCreatedInCurrentMonth();
-       
+
         return creatFactures.stream().map(infoFacture -> factureMapper.FactureTOFactureResponseDTO(infoFacture))
                 .collect(Collectors.toList());
     }

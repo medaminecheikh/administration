@@ -223,4 +223,12 @@ public class EncaissServiceImpl implements IEncaissService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<EncaissResponseDTO> encaissYear() {
+        List<Encaissement> encaissements = encaissRepo.getEncaissementYearly();
+        return encaissements.stream()
+                .map(encaissement -> encaissMapper.EncaissTOEncaissResponseDTO(encaissement))
+                .collect(Collectors.toList());
+    }
 }
