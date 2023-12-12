@@ -83,13 +83,12 @@ public class UtilisateurController {
         IUtilisateurService.removeEtt(idUser);
     }
     @ApiOperation(value = "Remove Profile")
-    @PutMapping("/removeProfile/{idUser}/{idProfil}")
+    @DeleteMapping("/removeProfile/{idUser}/{idProfil}")
     public void removeProfile(@PathVariable String idUser,@PathVariable String idProfil){
         IUtilisateurService.removeProfile(idUser,idProfil);
     }
     
     @ApiOperation(value = "Delete User")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/deleteUser/{idUser}")
     public void deleteUser(@PathVariable String idUser){
         IUtilisateurService.deleteUser(idUser);

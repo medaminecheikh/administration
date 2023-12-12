@@ -48,4 +48,6 @@ public interface TracageRepo extends JpaRepository<Tracage,Long> {
     );
 
     List<Tracage> findByObjectIgnoreCase(String object);
+    @Query("SELECT t FROM Tracage t WHERE  t.utilisateur.idUser = :idUser" )
+    List<Tracage> findTracageByIdUser(@Param("idUser") String idUser);
 }

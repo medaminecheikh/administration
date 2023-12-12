@@ -4,6 +4,7 @@ import com.administration.entity.Utilisateur;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,9 @@ public interface UtilisateurRepo extends JpaRepository<Utilisateur, String> {
     Page<Utilisateur> findUtilisateurByLogin(@Param("kw") String keyword, @Param("nom") String nom, @Param("pren") String prenom, @Param("estActif") Integer estActif, Pageable pageable);
 
     long count();
+    @Modifying
+    @Query("DELETE FROM ProfilUser pu WHERE pu.utilisateur.idUser = :idUser")
+    void deleteByUtilisateurId(@Param("idUser") String idUser);
 
     @Query("SELECT DISTINCT  u FROM Utilisateur u " +
             "LEFT JOIN u.profilUser pu " +

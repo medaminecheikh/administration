@@ -3,14 +3,8 @@ package com.administration.service.impl;
 import com.administration.dto.UtilisateurRequestDTO;
 import com.administration.dto.UtilisateurResponseDTO;
 import com.administration.dto.UtilisateurUpdateDTO;
-import com.administration.entity.Ett;
-import com.administration.entity.Profil;
-import com.administration.entity.ProfilUser;
-import com.administration.entity.Utilisateur;
-import com.administration.repo.EttRepo;
-import com.administration.repo.ProfilUserRepo;
-import com.administration.repo.ProfileRepo;
-import com.administration.repo.UtilisateurRepo;
+import com.administration.entity.*;
+import com.administration.repo.*;
 import com.administration.service.IUtilisateurService;
 import com.administration.service.mappers.UserMapper;
 import lombok.AllArgsConstructor;
@@ -43,8 +37,10 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     EttRepo ettRepo;
     BCryptPasswordEncoder bCryptPasswordEncoder;
     ProfilUserRepo profilUserRepo;
+    TracageRepo tracageRepo;
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public UtilisateurResponseDTO addUtilisateur(UtilisateurRequestDTO RequestDTO) {
         String login = RequestDTO.getLogin().toLowerCase();
@@ -109,7 +105,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public List<UtilisateurResponseDTO> findUtilisateurAll(String login, String prenU, String nomU, String matricule,
-                                                           Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED, PageRequest pageable) {
+                                                           Integer estActif, String zoneId, String drId, String ettId, String profilId, Integer is_EXPIRED, PageRequest pageable) {
         TypedQuery<Utilisateur> query = buildTypedQuery(login, prenU, nomU, matricule, estActif, zoneId, drId, ettId, profilId, is_EXPIRED);
         List<Utilisateur> resultList = executeQuery(query, pageable);
 
@@ -129,12 +125,13 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     public List<UtilisateurResponseDTO> getUtilisateurbyZone(String zoneId) {
         List<Utilisateur> utilisateurs = utilisateurRepo.findUtilisateurByZoneId(zoneId);
         return utilisateurs.stream().map(utilisateur -> {
-           return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);}).collect(Collectors.toList());
+            return userMapper.UtilisateurTOUtilisateurResponseDTO(utilisateur);
+        }).collect(Collectors.toList());
     }
 
     private TypedQuery<Utilisateur> buildTypedQuery(
             String login, String prenU, String nomU, String matricule,
-            Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED) {
+            Integer estActif, String zoneId, String drId, String ettId, String profilId, Integer is_EXPIRED) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Utilisateur> criteriaQuery = criteriaBuilder.createQuery(Utilisateur.class);
@@ -150,7 +147,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     private List<Predicate> buildPredicates(
             CriteriaBuilder criteriaBuilder, Root<Utilisateur> root,
             String login, String prenU, String nomU, String matricule,
-            Integer estActif, String zoneId, String drId, String ettId, String profilId,Integer is_EXPIRED) {
+            Integer estActif, String zoneId, String drId, String ettId, String profilId, Integer is_EXPIRED) {
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -170,7 +167,8 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
         // Add estActif filter if not null
         if (estActif != null) {
-            predicates.add(criteriaBuilder.equal(root.get("estActif"), estActif));        }
+            predicates.add(criteriaBuilder.equal(root.get("estActif"), estActif));
+        }
         // Add is_EXPIRED filter if not null
         if (is_EXPIRED != null) {
             if (Objects.equals(is_EXPIRED, 0)) {
@@ -210,16 +208,16 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     }
 
 
-
-
     private List<Utilisateur> executeQuery(TypedQuery<Utilisateur> query, PageRequest pageable) {
         query.setFirstResult((int) pageable.getOffset());
         query.setMaxResults(pageable.getPageSize());
         return query.getResultList();
     }
+
     private long countTotalResults(TypedQuery<Utilisateur> query) {
         return query.getResultList().size();
     }
+
     @Override
     public List<UtilisateurResponseDTO> listUtilisateurs() {
         List<Utilisateur> utilisateurs = utilisateurRepo.findAll();
@@ -280,37 +278,32 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         Profil profilToRemove = profileRepo.findById(profilId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid profil id"));
 
-        List<ProfilUser> profilUsers = utilisateur.getProfilUser();
-        if (profilUsers != null) {
-            Iterator<ProfilUser> iterator = profilUsers.iterator();
-            while (iterator.hasNext()) {
-                ProfilUser profilUser = iterator.next();
-                if (profilUser.getProfil().getIdProfil().equals(profilId)) {
-                    // Set the user and profil to null
-                    profilUser.setUtilisateur(null);
-                    profilUser.setProfil(null);
-
-                    // Delete the association from the database
-                    profilUserRepo.deleteById(profilUser.getId());
-
-                    // Remove the profil user from the list
-                    iterator.remove();
-                }
+        List<ProfilUser> profilUsers = new ArrayList<>(utilisateur.getProfilUser());
+        for (ProfilUser profilUser : profilUsers) {
+            if (profilUser.getProfil().getIdProfil().equals(profilId)) {
+                // Set the user and profil to null
+                profilUser.setUtilisateur(null);
+                profilUser.setProfil(null);
+                // Delete the association from the database
+                profilUserRepo.deleteByUserIdAndProfilId(userId,profilId);
+                log.info("profil removed");
             }
-
-            // Update the utilisateur with the new list of profil users
-            utilisateur.setProfilUser(profilUsers);
-            utilisateurRepo.save(utilisateur);
         }
     }
 
 
     @Override
     public void deleteUser(String idUser) {
-        Utilisateur utilisateur = utilisateurRepo.findById(idUser).get();
-        if (utilisateur.getEtt() == null && utilisateur.getProfilUser() == null) {
+
+        Utilisateur utilisateur = utilisateurRepo.findById(idUser)
+                .orElseThrow(() -> new RuntimeException("User with ID " + idUser + " not found"));
+        List<Tracage> tracage = tracageRepo.findTracageByIdUser(idUser);
+        if (tracage.isEmpty()) {
+            utilisateurRepo.deleteByUtilisateurId(idUser);
             utilisateurRepo.deleteById(idUser);
-        } else throw new RuntimeException("This user " + utilisateur.getNomU() + " has associations");
+        } else {
+            throw new RuntimeException("This user " + utilisateur.getNomU() + " has operations");
+        }
     }
 
     @Override
