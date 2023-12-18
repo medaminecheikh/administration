@@ -6,6 +6,7 @@ import com.administration.dto.FactureResponseDTO;
 import com.administration.entity.Encaissement;
 import com.administration.service.IEncaissService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -14,20 +15,39 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
-
+@Slf4j
 public class EncaissementController {
-    private  IEncaissService encaissService;
+    private IEncaissService encaissService;
 
     @PostMapping("/encaissement")
     public ResponseEntity<Encaissement> addEncaiss(@RequestBody Encaissement encaissement) {
         Encaissement addedEncaissement = encaissService.addEncaiss(encaissement);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedEncaissement);
+    }
+
+    @PostMapping("/addlistencaissement")
+    public ResponseEntity<?> addlistEncaiss(@RequestBody List<Encaissement> encaissements) {
+        try {
+            List<Encaissement> encaissResponseDTOS=new ArrayList<>();
+            for (Encaissement encaissement : encaissements) {
+               var x= encaissService.addEncaiss(encaissement);
+                encaissResponseDTOS.add(x);
+            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(encaissResponseDTOS);
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            // Handle the exception appropriately, for example, log the error
+            // and return a ResponseEntity with an appropriate status code and message
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error: " + e.getMessage());
+        }
+
     }
 
     @GetMapping("/encaissement/{id}")
@@ -53,11 +73,13 @@ public class EncaissementController {
         List<EncaissResponseDTO> encaissements = encaissService.getEncaissementByCaisse(idCaisse);
         return ResponseEntity.ok(encaissements);
     }
+
     @GetMapping("/Allencaissement")
     public ResponseEntity<List<EncaissResponseDTO>> getAllEncaissement() {
         List<EncaissResponseDTO> encaissements = encaissService.getAllEncaissement();
         return ResponseEntity.ok(encaissements);
     }
+
     @GetMapping("/encaissement/searchPageEncaissement")
     public List<EncaissResponseDTO> searchPageEncaiss(
             @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
@@ -72,10 +94,11 @@ public class EncaissementController {
         Sort sort = Sort.by("dateEnc");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-            return encaissService.searchEncaiss(
-                    produit, identifiant, modePaiement,
-                    typeIdent,montantEnc,refFacture, pageable);
+        return encaissService.searchEncaiss(
+                produit, identifiant, modePaiement,
+                typeIdent, montantEnc, refFacture, pageable);
     }
+
     @GetMapping("/encaissement/searchYearEncaissement")
     public List<EncaissResponseDTO> searchYearEncaiss(
             @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
@@ -90,10 +113,11 @@ public class EncaissementController {
         Sort sort = Sort.by("dateEnc");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-            return encaissService.searchEncaissYear(
-                    produit, identifiant, etatEncaissement,
-                    typeIdent,montantEnc,refFacture, pageable);
+        return encaissService.searchEncaissYear(
+                produit, identifiant, etatEncaissement,
+                typeIdent, montantEnc, refFacture, pageable);
     }
+
     @GetMapping("/encaissement/searchMonthEncaissement")
     public List<EncaissResponseDTO> searchMonthEncaiss(
             @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
@@ -108,10 +132,11 @@ public class EncaissementController {
         Sort sort = Sort.by("dateEnc");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-            return encaissService.searchEncaissMonth(
-                    produit, identifiant, etatEncaissement,
-                    typeIdent,montantEnc,refFacture, pageable);
+        return encaissService.searchEncaissMonth(
+                produit, identifiant, etatEncaissement,
+                typeIdent, montantEnc, refFacture, pageable);
     }
+
     @GetMapping("/encaissement/searchWeekEncaissement")
     public List<EncaissResponseDTO> searchWeekEncaiss(
             @RequestParam(name = "produit", required = false, defaultValue = "") String produit,
@@ -126,9 +151,9 @@ public class EncaissementController {
         Sort sort = Sort.by("dateEnc");
         PageRequest pageable = PageRequest.of(page, size, sort);
 
-            return encaissService.searchEncaissWeek(
-                    produit, identifiant, etatEncaissement,
-                    typeIdent,montantEnc,refFacture, pageable);
+        return encaissService.searchEncaissWeek(
+                produit, identifiant, etatEncaissement,
+                typeIdent, montantEnc, refFacture, pageable);
     }
 
 
@@ -137,6 +162,7 @@ public class EncaissementController {
         encaissService.deleteEncaisse(id);
         return ResponseEntity.noContent().build();
     }
+
     @PostMapping("/affectEncaisseToCaisse/{idEncaiss}/{idCai}")
     public ResponseEntity<?> affectEncaisseToCaisse(@PathVariable("idEncaiss") String idEncaiss,
                                                     @PathVariable("idCai") String idCai) {
@@ -153,10 +179,12 @@ public class EncaissementController {
         }
 
     }
+
     @GetMapping("/encaissements/current-month-for-caisse")
     public List<EncaissResponseDTO> getEncaissementsForCaisseInCurrentMonth(@RequestParam String caisseId) {
         return encaissService.getEncaissementsForCaisseInCurrentMonth(caisseId);
     }
+
     @PutMapping("/encaissementupdate")
     public ResponseEntity<?> updateEncaiss(@RequestBody EncaissUpdateDTO encaissement) {
         try {
@@ -168,6 +196,7 @@ public class EncaissementController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
     @GetMapping("/encaissement/thisyear")
     public List<EncaissResponseDTO> searchMonthEncaiss() {
         return encaissService.encaissYear();

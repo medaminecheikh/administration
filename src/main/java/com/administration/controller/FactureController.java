@@ -1,39 +1,43 @@
 package com.administration.controller;
 
-import com.administration.dto.EncaissResponseDTO;
 import com.administration.dto.FactureResponseDTO;
 import com.administration.dto.FactureUpdateDTO;
+import com.administration.entity.Encaissement;
 import com.administration.entity.InfoFacture;
 import com.administration.service.IFactureService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
 @Slf4j
 public class FactureController {
-    private  IFactureService factureService;
+    private final IFactureService factureService;
 
     @PostMapping("/facture")
-    public ResponseEntity<InfoFacture> addFacture(@RequestBody InfoFacture facture) {
-        InfoFacture addedFacture = factureService.addFacture(facture);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedFacture);
+    public ResponseEntity<FactureResponseDTO> addFacture(@RequestBody InfoFacture facture) {
+        try {
+            FactureResponseDTO addedFacture = factureService.addFacture(facture);
+            return ResponseEntity.status(HttpStatus.CREATED).body(addedFacture);
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            // Handle the exception appropriately, for example, log the error
+            // and return a ResponseEntity with an appropriate status code and message
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
 
     @GetMapping("/findall")
     public ResponseEntity<List<InfoFacture>> getAllFactures(@RequestParam(name = "identifiant", defaultValue = "") String identifiant,
@@ -92,6 +96,23 @@ public class FactureController {
         }
     }
 
+    @PostMapping("/affectlistencaissement/tofacture/{factureId}")
+    public ResponseEntity<?> affectlistEncaissementToFacture(@PathVariable String factureId, @RequestBody List<Encaissement> encaissements) {
+        try {
+            List<FactureResponseDTO> factureResponseDTO = new ArrayList<>();
+            for (Encaissement encaissement : encaissements) {
+                factureResponseDTO.add(factureService.affectEncaissementToFacture(encaissement.getIdEncaissement(), factureId));
+            }
+            return ResponseEntity.ok().body(factureResponseDTO);
+        } catch (EntityNotFoundException e) {
+            log.error("Facture not found for id: {}", factureId, e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            log.error("Error processing encaissements for factureId: {}", factureId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 
     @DeleteMapping("/removencaissement/{factureId}/{encaissementId}")
     public ResponseEntity<Void> removeEncaissementFromFacture(@PathVariable String encaissementId,
@@ -118,34 +139,56 @@ public class FactureController {
         if (Objects.equals(status, "TERMINER")) {
             return factureService.getFinishedFactures(
                     produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                    identifiantKeyword,montantMax,solde, pageable);
+                    identifiantKeyword, montantMax, solde, pageable);
         } else if (Objects.equals(status, "COURS")) {
             return factureService.searchCoursFactures(
                     produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                    identifiantKeyword,montantMax,solde, pageable);
-        }else if (Objects.equals(status, "RETARD")) {
+                    identifiantKeyword, montantMax, solde, pageable);
+        } else if (Objects.equals(status, "RETARD")) {
             return factureService.searchRetardFactures(
                     produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                    identifiantKeyword,montantMax,solde);
-        }else {
+                    identifiantKeyword, montantMax, solde);
+        } else {
             return factureService.searchInfoFactures(
                     produitKeyword, refFactureKeyword, compteFacturationKeyword,
-                    identifiantKeyword,montantMax,solde, pageable);
+                    identifiantKeyword, montantMax, solde, pageable);
         }
     }
+
+    @GetMapping("/factures/getallbypageFactures")
+    public List<FactureResponseDTO> getallbypageFactures(@RequestParam(name = "produit",defaultValue = "", required = false) String produitKeyword,
+                                                         @RequestParam(name = "refFacture",defaultValue = "", required = false) String refFactureKeyword,
+                                                         @RequestParam(name = "compteFacturation",defaultValue = "", required = false) String compteFacturationKeyword,
+                                                         @RequestParam(name = "identifiant",defaultValue = "", required = false) String identifiantKeyword,
+                                                         @RequestParam(name = "montant",defaultValue = "", required = false) Double montantMax,
+                                                         @RequestParam(name = "solde", required = false) Double solde,
+                                                         @RequestParam(name = "status", required = false) String status,
+                                                         @RequestParam(name = "page", defaultValue = "0") int page,
+                                                         @RequestParam(name = "size", defaultValue = "8") int size) {
+        Sort sort = Sort.by("datLimPai");
+        PageRequest pageable = PageRequest.of(page, size, sort);
+        List<FactureResponseDTO> responseDTOS=factureService.searchInfoFactures(
+                produitKeyword, refFactureKeyword, compteFacturationKeyword,
+                identifiantKeyword, montantMax, solde, pageable);
+        log.info(responseDTOS.toString());
+        return responseDTOS;
+    }
+
     @GetMapping("/factures/monthlyFactures")
     public List<FactureResponseDTO> monthlyFactures() {
         return factureService.getMonthlyFactures();
     }
+
     @GetMapping("/factures/yearlyFactures")
     public List<FactureResponseDTO> yearlyFactures() {
         return factureService.getYearlyFactures();
     }
+
     @GetMapping("/factures/amountopay")
     public double amountopay(@RequestBody InfoFacture facture,
-                                               @RequestParam Date date) {
+                             @RequestParam Date date) {
 
-        return  factureService.calculatePaymentAmount(facture , date);
+        return factureService.calculatePaymentAmount(facture, date);
     }
 
 }

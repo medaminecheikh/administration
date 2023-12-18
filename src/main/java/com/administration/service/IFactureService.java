@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface IFactureService {
 
-    InfoFacture addFacture(InfoFacture facture);
+    FactureResponseDTO addFacture(InfoFacture facture);
 
     List<InfoFacture> getAll(String identifiant, String ref, int apl, int page, int size);
 

@@ -116,11 +116,14 @@ public class ProfilServiceImpl implements IProfilService {
 
     @Override
     public void deleteProfile(String idProfile) {
-        Profil profil =profileRepo.findById(idProfile).get();
-        if (profil.getProfilUsers().isEmpty()&& profil.getFonctions().isEmpty()&& profil.getModel()==null)
-        {
-            profileRepo.deleteById(idProfile);
-        }else  throw new RuntimeException("This profile has associations !!");
+        Profil profil = profileRepo.findById(idProfile)
+                .orElseThrow(() -> new RuntimeException("Profile with ID " + idProfile + " not found"));
+
+        // Remove associations with Fonction
+        profil.getFonctions().clear();
+
+        profileRepo.deleteById(idProfile);
+
     }
 
     @Override

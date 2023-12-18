@@ -43,10 +43,20 @@ public class FactureServiceImpl implements IFactureService {
     EncaissMapper encaissMapper;
 
     @Override
-    public InfoFacture addFacture(InfoFacture facture) {
-        facture.setDatCreation(new Date());
-        factureRepo.save(facture);
-        return facture;
+    public FactureResponseDTO addFacture(InfoFacture facture) {
+        try {
+            facture.setDatCreation(new Date());
+            factureRepo.save(facture);
+
+            // Retrieve the saved facture by its ID
+            InfoFacture savedFacture = factureRepo.findById(facture.getIdFacture())
+                    .orElseThrow(() -> new RuntimeException("Failed to retrieve saved facture"));
+
+            // Convert the saved facture to FactureResponseDTO
+            return factureMapper.FactureTOFactureResponseDTO(savedFacture);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while adding facture", e);
+        }
     }
 
     @Override
